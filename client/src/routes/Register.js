@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar"
 import ReCAPTCHA from "react-google-recaptcha";
 import './Register.css';
+import './RegisterInformation.js';
+import { Link } from "react-router-dom";
 
 const imagen = require.context("../img/");
 
@@ -73,7 +75,7 @@ function Register (){
                                         />
                                     </div>
                                     <span className="error-message">{errorMensaje}</span>
-                                    <button type="submit" className="btn">Enviar</button>
+                                    <Link to="/registerinformation"><button type="submit" className="btn">Enviar</button></Link>
                                 </form>
                             </div>
                             
