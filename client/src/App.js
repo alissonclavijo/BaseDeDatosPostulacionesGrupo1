@@ -1,5 +1,5 @@
 import './App.css';
-import Navbar from "./components/Navbar";
+//import Navbar from "./components/Navbar";
 import {Route, Routes} from "react-router-dom";
 import Home from "./routes/Home"
 import Information from "./routes/Information"
@@ -7,6 +7,9 @@ import Register from "./routes/Register"
 import Contact from "./routes/Contact"
 import RegisterInformation from './routes/RegisterInformation';
 import Login from './routes/Login';
+import Postulacion from './routes/Postulacion';
+
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
         <Route path ="/contact" element={<Contact/>}/>
         <Route path ="/registerinformation" element={<RegisterInformation/>}/>
         <Route path ="/login" element={<Login/>}/>
+        <Route path ="/postulacion" element={<Postulacion/>}/>
+      
       </Routes>    
     </div>
   );

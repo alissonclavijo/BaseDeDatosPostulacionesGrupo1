@@ -1,0 +1,98 @@
+.contenedor {
+  padding-top: 50px;
+  background-image: url("../img/espe.jpg"); /* Ruta de la imagen de fondo */
+  background-size: cover; /* Ajustar la imagen al tamaño del contenedor */
+  background-position: center; /* Centrar la imagen de fondo */
+  opacity: 0.8; /* Opacidad de la imagen de fondo */
+}
+
+/* Estilos para el contenedor principal */
+.postulacion {
+  max-width: 800px;
+  margin: auto;
+  padding: 50px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8); /* Transparencia */
+  margin-top: 60px;
+
+}
+
+/* Estilos para los títulos */
+h1 {
+  color: #000000; /* Color del texto de los títulos */
+  font-size: 24px; /* Tamaño de fuente de los títulos */
+  margin-bottom: 10px; /* Espacio entre los títulos y los elementos siguientes */
+  font-family: Verdana;
+}
+
+h2 {
+  color: #000; /* Color del texto de los subtítulos */
+  font-size: 20px; /* Tamaño de fuente de los subtítulos */
+  margin-top: 20px; /* Espacio entre los subtítulos y los elementos anteriores */
+}
+
+/* Estilos para los cuadros de texto */
+input[type="text"].cuadro-texto {
+  width: 200px; /* Ancho del cuadro de texto */
+  height: 30px; /* Altura del cuadro de texto */
+  border: 1px solid #ccc; /* Borde del cuadro de texto */
+  padding: 5px; /* Espacio interno del cuadro de texto */
+}
+
+/* Estilos para los botones no seleccionables */
+button {
+  background-color: #008080; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  padding: 8px 16px; /* Espacio interno del botón (arriba/abajo izquierda/derecha) */
+  border: none; /* Quitar el borde del botón */
+  cursor: pointer; /* Cambiar el cursor cuando se pasa sobre el botón */
+  margin-right: 10px; /* Espacio entre los botones */
+}
+
+button:hover {
+  background-color: #005454; /* Color de fondo del botón cuando se pasa el cursor sobre él */
+}
+
+/* Deplegable de formato de archivos */
+/* Estilos para el menú desplegable personalizado */
+.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-select select {
+  display: none; /* Ocultar el menú desplegable original */
+}
+
+.custom-select .file-icon {
+  width: 20px; /* Ancho de la imagen del ícono */
+  height: 20px; /* Altura de la imagen del ícono */
+  margin-right: 5px; /* Espacio entre la imagen y el texto */
+  vertical-align: middle;
+}
+
+/* Estilos para las opciones del menú desplegable */
+.custom-select select option {
+  padding: 5px; /* Espacio interno de la opción */
+}
+
+/* Estilos adicionales para dar estilo a la apariencia del menú desplegable */
+.custom-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-select select:hover {
+  background-color: #f1f1f1;
+}
+
+.custom-select select:focus {
+  box-shadow: 0 0 5px rgba(0, 128, 128, 0.5);
+}
