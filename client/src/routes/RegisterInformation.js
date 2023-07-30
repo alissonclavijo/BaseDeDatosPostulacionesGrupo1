@@ -23,6 +23,8 @@ const RegisterInformation = () => {
     window.location.href = '/login';
   };
 
+  
+
   return(
     <>
     <Navbar/>
@@ -31,7 +33,7 @@ const RegisterInformation = () => {
       <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="nombres">NOMBRES COMPLETOS:</label>
+          <label htmlFor="nombres">NOMBRE COMPLETO:</label>
           <input
             type="text"
             id="nombres"

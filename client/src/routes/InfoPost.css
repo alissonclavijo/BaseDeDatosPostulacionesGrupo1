@@ -1,0 +1,74 @@
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0 0 0 0;
+    padding: 0 0 20px 0;
+    background: linear-gradient(135deg, #71b7e6, #00ff00);
+}
+
+.container-inf {
+    max-width: 600px;
+    height: 695px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #cccccc;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container-inf h5{
+    text-align: end;
+    padding-right: 18px;
+    padding-bottom: 10px;
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-container label {
+    flex: 1;
+    font-weight: bold;
+}
+
+
+.dropzone {
+    flex: 3;
+    border: 2px dashed #aaaaaa;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.dropzone p {
+    margin: 0;
+}
+
+.input-container input[type='text'] {
+    flex: 1;
+    padding: 8px;
+    margin-left: 10px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+}
+
+.input-container input[type='text']:read-only {
+    background-color: #f9f9f9;
+}
+
+.hojas input{
+    width: 50px;
+text-align: center;
+}
+
+.archivo {
+    width: 200px;
+    height: 45px;
+    text-align: center;
+}
+
+.label{
+    text-align: center;
+    padding-right: 20px;
+}
+

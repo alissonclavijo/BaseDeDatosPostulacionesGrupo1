@@ -3,64 +3,46 @@ import Navpost from '../components/Navpost';
 import "./Postulacion.css";
 
 function Postulacion() {
-  const [postulacionOption, setPostulacionOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Postulacion
-  const [contratacionOption, setContratacionOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Contratación
-  const [personalOption, setPersonalOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Personal Académico
+  const [selectedOption, setSelectedOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box
 
-  const handlePostulacionChange = (event) => {
-    setPostulacionOption(event.target.value);
-  };
-
-  const handleContratacionChange = (event) => {
-    setContratacionOption(event.target.value);
-  };
-
-  const handlePersonalChange = (event) => {
-    setPersonalOption(event.target.value);
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
   const handleButtonClick = () => {
-    // Aquí puedes agregar la lógica para confirmar los campos
-    if (postulacionOption && contratacionOption && personalOption) {
-      const message = `Verifique los datos:\n\nTipo de contratación: ${contratacionOption}\nTipo de personal: ${personalOption}\n\nSolo puede postular una vez por concurso, verifique los datos antes de enviar.`;
-      window.alert(message);
-    } else {
-      alert("Por favor, completa todos los campos antes de confirmar.");
-    }
+    // Aquí puedes agregar la lógica que desees para el botón
+    // Por ejemplo, cambiar el color o realizar alguna acción específica
+    // En este ejemplo, solo cambiaremos el color del botón.
   };
-
-  // Función que verifica si todos los campos están llenos
-  const areFieldsFilled = () => {
-    return postulacionOption && contratacionOption && personalOption;
-  };  
 
   return (
     <>
+    <div className="body">
       <Navpost />
 
       <div className="contenedor">
         <div className="postulacion">
           <h1>Bienvenido a la Plataforma ESPE Docentes</h1>
-          <br />
-          <h1>Postulación</h1>
-          <select className="custom-select" value={postulacionOption} onChange={handlePostulacionChange}>
-            <option value="">Seleccionar Postulación</option>
+          <br/>
+          <h1>Postulacion</h1>
+          <select value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Seleccionar Postulacion</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
           </select>
 
-          <h1>Tipo de Contratación</h1>
-          <select className="custom-select" value={contratacionOption} onChange={handleContratacionChange}>
-            <option value="">Seleccionar tipo de contratación</option>
+          <h1>Tipo de Contratacion</h1>
+          <select value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Selecciona tipo de contratacion</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
           </select>
 
-          <h1>Tipo de Personal Académico</h1>
-          <select className="custom-select" value={personalOption} onChange={handlePersonalChange}>
-            <option value="">Seleccionar tipo de personal académico</option>
+          <h1>Tipo de Personal Academico</h1>
+          <select value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Selecciona tipo de personal academico</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
@@ -72,7 +54,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
           <div>
@@ -81,7 +63,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
           <div>
@@ -90,7 +72,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
           <div>
@@ -99,7 +81,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
           <div>
@@ -108,7 +90,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
           <div>
@@ -117,13 +99,13 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              className="cuadro-texto"
+              class="cuadro-texto"
             />
           </div>
 
           <button onClick={handleButtonClick}>Actividad Docencia</button>
-          <button onClick={handleButtonClick}>Actividad Investigación</button>
-          <button onClick={handleButtonClick}>Actividad Vinculación</button><br/>
+          <button onClick={handleButtonClick}>Actividad Investigacion</button>
+          <button onClick={handleButtonClick}>Actividad Vinculacion</button>
 
           {/*
           <h2>Botón desplegable para formatos de documentos</h2>
@@ -144,11 +126,8 @@ function Postulacion() {
             </select>
           </div>
          */}
-         <br/>
-          <button onClick={handleButtonClick} disabled={!areFieldsFilled()}>
-            Confirmar
-          </button>
         </div>
+      </div>
       </div>
     </>
   );

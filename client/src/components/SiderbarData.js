@@ -24,7 +24,7 @@ export const SidebarData = [
         cName:'nav-text'
     },
     {
-        title:'Cerras Sesión',
+        title:'Cerrar Sesión',
         path:'/',
         icon: <BiICons.BiExit/>,
         cName:'nav-text'

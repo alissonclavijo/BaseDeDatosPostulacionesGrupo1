@@ -1,3 +1,4 @@
+
 .navbarpost{
     background-color: #060b26;
     height: 80px;
@@ -12,7 +13,7 @@
     background: none;
 }
 
-.nav-menu1{
+.nav-menu1 {
     background-color: #060b26;
     width: 250px;
     height: 100vh;
@@ -22,12 +23,14 @@
     top: 0;
     left: -100%;
     transition: 850ms;
-}
-
-.nav-menu1.active{
+    z-index: 1; /* Agregar un z-index para que el menú esté por encima de otros elementos */
+  }
+  
+  .nav-menu1.active {
     left: 0;
     transition: 350ms;
-}
+    z-index: 2; /* Asegurarse de que el menú activo esté por debajo del contenido */
+  }
 
 .nav-text{
     display: flex;
