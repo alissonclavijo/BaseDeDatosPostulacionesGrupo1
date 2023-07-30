@@ -3,10 +3,20 @@ import Navbar from "../components/Navbar2";
 import "./Postulacion.css";
 
 function Postulacion() {
-  const [selectedOption, setSelectedOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box
+  const [postulacionOption, setPostulacionOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Postulacion
+  const [contratacionOption, setContratacionOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Contratación
+  const [personalOption, setPersonalOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box de Personal Académico
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handlePostulacionChange = (event) => {
+    setPostulacionOption(event.target.value);
+  };
+
+  const handleContratacionChange = (event) => {
+    setContratacionOption(event.target.value);
+  };
+
+  const handlePersonalChange = (event) => {
+    setPersonalOption(event.target.value);
   };
 
   const handleButtonClick = () => {
@@ -24,7 +34,7 @@ function Postulacion() {
           <h1>Bienvenido a la Plataforma ESPE Docentes</h1>
           <br />
           <h1>Postulación</h1>
-          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+          <select className="custom-select" value={postulacionOption} onChange={handlePostulacionChange}>
             <option value="">Seleccionar Postulación</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
@@ -32,7 +42,7 @@ function Postulacion() {
           </select>
 
           <h1>Tipo de Contratación</h1>
-          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+          <select className="custom-select" value={contratacionOption} onChange={handleContratacionChange}>
             <option value="">Seleccionar tipo de contratación</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
@@ -40,7 +50,7 @@ function Postulacion() {
           </select>
 
           <h1>Tipo de Personal Académico</h1>
-          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+          <select className="custom-select" value={personalOption} onChange={handlePersonalChange}>
             <option value="">Seleccionar tipo de personal académico</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
