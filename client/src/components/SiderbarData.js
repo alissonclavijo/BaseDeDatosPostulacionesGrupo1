@@ -12,8 +12,8 @@ export const SidebarData = [
         cName:'nav-text'
     },
     {
-        title:'Información',
-        path:'/homepost',
+        title:'Información del Postulante',
+        path:'/InforPost',
         icon: <RiICons.RiFileUserFill/>,
         cName:'nav-text'
     },

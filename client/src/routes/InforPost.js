@@ -56,7 +56,10 @@ function InforPost() {
               <ArchivoInput label="Experiencia profesional" onArchivoSeleccionado={handleArchivoSeleccionado} />
               <NumeroHojasInput archivo={archivoSeleccionado} />
             </div>
-
+            <div>
+            <button type="submit" className="submit-btn">Enviar</button>
+            </div>
+            
           </div>
       </div>
     </>

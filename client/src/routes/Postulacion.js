@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navpost from '../components/Navpost';
 import "./Postulacion.css";
+import { Link } from "react-router-dom";
 
 function Postulacion() {
   const [selectedOption, setSelectedOption] = useState(""); // Estado para controlar la opción seleccionada en el combo box
@@ -102,7 +103,7 @@ function Postulacion() {
               class="cuadro-texto"
             />
           </div>
-
+          
           <button onClick={handleButtonClick}>Actividad Docencia</button>
           <button onClick={handleButtonClick}>Actividad Investigacion</button>
           <button onClick={handleButtonClick}>Actividad Vinculacion</button>
@@ -126,7 +127,11 @@ function Postulacion() {
             </select>
           </div>
          */}
+         <br/>
+         <br/>
+         <button type="submit" className="submit-btn">Postular</button>
         </div>
+
       </div>
       </div>
     </>
