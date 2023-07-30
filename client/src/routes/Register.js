@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
-import './Register.css';
-import './RegisterInformation.js';
 import { Link } from "react-router-dom";
+import './Register.css';
 
 const imagen = require.context("../img/");
 
@@ -12,6 +11,9 @@ function Register() {
     const [errorMensaje, setErrorMensaje] = useState('');
     const [captchaResuelto, setCaptchaResuelto] = useState(false);
     const [tipoIdentificacion, setTipoIdentificacion] = useState('');
+    const [tipoIdentificacionError, setTipoIdentificacionError] = useState('');
+    const [intentoEnvio, setIntentoEnvio] = useState(false);
+    const [camposFaltantes, setCamposFaltantes] = useState([]);
 
     const handleChange = (e) => {
         const { value } = e.target;
@@ -19,7 +21,7 @@ function Register() {
             setCedula(value);
             setErrorMensaje('');
         } else {
-            setErrorMensaje('El espacio no debe quedar vacio');
+            setErrorMensaje('El espacio no debe quedar vacío');
         }
     };
 
@@ -35,16 +37,47 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (cedula.length !== 10) {
-            setErrorMensaje('Compruebe que su cédula este escrita correctamente');
-        } else if (!captchaResuelto) {
-            setErrorMensaje('Por favor, resuelve el captcha.');
+        const camposFaltantesTemp = [];
+        
+        if (!tipoIdentificacion) {
+            camposFaltantesTemp.push('tipo de identificación');
+            setTipoIdentificacionError('Seleccione un tipo de identificación');
         } else {
-            // Aquí puedes realizar las acciones que desees con la cédula ingresada
-            console.log('Cédula válida:', cedula);
+            setTipoIdentificacionError('');
+        }
+        
+        if (cedula.length !== 10) {
+            camposFaltantesTemp.push('cédula');
+            setErrorMensaje('Compruebe que su cédula esté escrita correctamente');
+        } else {
             setErrorMensaje('');
         }
+
+        if (!captchaResuelto) {
+            camposFaltantesTemp.push('captcha');
+            setErrorMensaje('Por favor, resuelve el captcha.');
+        }
+
+        // Si hay campos faltantes, mostramos el mensaje y marcamos que se intentó enviar el formulario
+        if (camposFaltantesTemp.length > 0) {
+            setErrorMensaje('Faltan llenar los siguientes campos: ' + camposFaltantesTemp.join(', '));
+            setCamposFaltantes(camposFaltantesTemp);
+            setIntentoEnvio(true);
+            return;
+        }
+
+        // Aquí puedes realizar las acciones que desees con la cédula ingresada
+        console.log('Cédula válida:', cedula);
+        setErrorMensaje('');
+        setTipoIdentificacionError('');
+        setCamposFaltantes([]);
+        setIntentoEnvio(false); // Reiniciamos el estado de intentoEnvio
+
+        // Aquí puedes enviar el formulario o realizar cualquier otra acción necesaria
     };
+
+    // Habilitar el botón de "Enviar" solo si todos los campos están llenos y el captcha está resuelto
+    const isSubmitButtonDisabled = !tipoIdentificacion || cedula.length !== 10 || !captchaResuelto;
 
     return (
         <>
@@ -70,6 +103,7 @@ function Register() {
                                             <option value="pasaporte">Pasaporte</option>
                                             <option value="otro">Otro</option>
                                         </select>
+                                        <span className="error-message">{tipoIdentificacionError}</span>
                                     </div>
                                     <label htmlFor="cedula">Número de identificación:</label>
                                     <input
@@ -80,7 +114,7 @@ function Register() {
                                         onChange={handleChange}
                                         maxLength="10"
                                         pattern="[0-9]*"
-                                        title="Verifique que el número de cédula ha sido escrito correctamente"
+                                        title="Verifique que el número de cédula haya sido escrito correctamente"
                                         required
                                     />
                                     <div className="captcha">
@@ -90,16 +124,30 @@ function Register() {
                                         />
                                     </div>
                                     <span className="error-message">{errorMensaje}</span>
-                                    <Link to="/registerinformation"><button type="submit" className="btn">Enviar</button></Link>
+
+                                    {/* Mostrar mensaje de campos faltantes solo si se intentó enviar el formulario */}
+                                    {intentoEnvio && camposFaltantes.length > 0 && (
+                                        <div className="campos-faltantes">
+                                            <p>Faltan llenar los siguientes campos:</p>
+                                            <ul>
+                                                {camposFaltantes.map((campo) => (
+                                                    <li key={campo}>{campo}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    <Link to="/registerinformation">
+                                        <button type="submit" className="btn" disabled={isSubmitButtonDisabled}>
+                                            Enviar
+                                        </button>
+                                    </Link>
                                 </form>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </>
     )
 }
