@@ -6,7 +6,6 @@ import './RegisterInformation.css'; // Importa el archivo de estilos CSS especí
 
 const RegisterInformation = () => {
   const [nombres, setNombres] = useState('');
-  const [tipoIdentificacion, setTipoIdentificacion] = useState('');
   const [tituloSenecyt, setTituloSenecyt] = useState('');
   const [sexo, setSexo] = useState('');
   const [email, setEmail] = useState('');
@@ -15,7 +14,7 @@ const RegisterInformation = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos enviados:', { nombres, tipoIdentificacion, tituloSenecyt, sexo, email, password });
+    console.log('Datos enviados:', { nombres, tituloSenecyt, sexo, email});
     setShowAlert(true);
   };
 
@@ -37,28 +36,14 @@ const RegisterInformation = () => {
             type="text"
             id="nombres"
             value={nombres}
+            placeholder="APELLIDOS NOMBRES"
             onChange={(e) => setNombres(e.target.value)}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="tipoIdentificacion">Tipo de identificación:</label>
-          <select
-            id="tipoIdentificacion"
-            value={tipoIdentificacion}
-            onChange={(e) => setTipoIdentificacion(e.target.value)}
-            required
-          >
-            <option value="">Seleccione...</option>
-            <option value="cédula">Cédula</option>
-            <option value="pasaporte">Pasaporte</option>
-            <option value="otro">Otro</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="titulosenecyt">Selecciona tu titulo senecyt:</label>
+          <label htmlFor="titulosenecyt">SELECCIONE EL TÍTULO DE SENECYT PARA POSTULAR:</label>
           <select
             id="titulosenecyt"
             value={tituloSenecyt}
@@ -74,7 +59,7 @@ const RegisterInformation = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="sexo">Sexo:</label>
+          <label htmlFor="sexo">SEXO:</label>
           <select
             id="sexo"
             value={sexo}
@@ -89,7 +74,7 @@ const RegisterInformation = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">CORREO:</label>
           <input
             type="email"
             id="email"
@@ -99,7 +84,7 @@ const RegisterInformation = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
@@ -108,7 +93,7 @@ const RegisterInformation = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
+        </div> */}
 
         <div className="advertencia">Utilizar solo cuentas de gmail, hotmail, outlook.</div>
 

@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 
 const imagen = require.context("../img/");
 
-function Register (){
+function Register() {
     const [cedula, setCedula] = useState('');
     const [errorMensaje, setErrorMensaje] = useState('');
     const [captchaResuelto, setCaptchaResuelto] = useState(false);
+    const [tipoIdentificacion, setTipoIdentificacion] = useState('');
 
     const handleChange = (e) => {
         const { value } = e.target;
@@ -39,24 +40,38 @@ function Register (){
         } else if (!captchaResuelto) {
             setErrorMensaje('Por favor, resuelve el captcha.');
         } else {
-        // Aquí puedes realizar las acciones que desees con la cédula ingresada
-        console.log('Cédula válida:', cedula);
-        setErrorMensaje('');
+            // Aquí puedes realizar las acciones que desees con la cédula ingresada
+            console.log('Cédula válida:', cedula);
+            setErrorMensaje('');
         }
     };
 
-    return(
+    return (
         <>
-        <Navbar/>
-        <div className="conregister">
-            <img className="banner" src={(imagen("./banner_profesores.jpg"))} alt="Universidad" />
+            <Navbar />
+            <div className="conregister">
+                <img className="banner" src={(imagen("./banner_profesores.jpg"))} alt="Universidad" />
                 <div className="register">
                     <div className="containere">
                         <div className="centredeDiv">
                             <h1>Registro de Postulantes a Docentes</h1>
                             <div className="form-container">
                                 <form onSubmit={handleSubmit} className="cedula-form">
-                                    <label htmlFor="cedula">Cédula de Identidad:</label>
+                                    <div className="form-group">
+                                        <label htmlFor="tipoIdentificacion">TIPO DE IDENTIFICACIÓN:</label>
+                                        <select
+                                            id="tipoIdentificacion"
+                                            value={tipoIdentificacion}
+                                            onChange={(e) => setTipoIdentificacion(e.target.value)}
+                                            required
+                                        >
+                                            <option value="">Seleccione...</option>
+                                            <option value="cédula">Cédula</option>
+                                            <option value="pasaporte">Pasaporte</option>
+                                            <option value="otro">Otro</option>
+                                        </select>
+                                    </div>
+                                    <label htmlFor="cedula">Número de identificación:</label>
                                     <input
                                         type="text"
                                         id="cedula"
@@ -70,21 +85,21 @@ function Register (){
                                     />
                                     <div className="captcha">
                                         <ReCAPTCHA
-                                        sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
-                                        onChange={handleCaptchaChange}
+                                            sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
+                                            onChange={handleCaptchaChange}
                                         />
                                     </div>
                                     <span className="error-message">{errorMensaje}</span>
                                     <Link to="/registerinformation"><button type="submit" className="btn">Enviar</button></Link>
                                 </form>
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
                 </div>
-        </div>
-        
+            </div>
+
         </>
     )
 }
