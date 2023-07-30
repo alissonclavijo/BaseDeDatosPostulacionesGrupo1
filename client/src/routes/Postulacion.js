@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar2";
+import Navpost from '../components/Navpost';
 import "./Postulacion.css";
 
 function Postulacion() {
@@ -36,7 +36,7 @@ function Postulacion() {
 
   return (
     <>
-      <Navbar />
+      <Navpost />
 
       <div className="contenedor">
         <div className="postulacion">

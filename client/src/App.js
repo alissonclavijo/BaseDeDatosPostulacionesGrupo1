@@ -8,7 +8,7 @@ import Contact from "./routes/Contact"
 import RegisterInformation from './routes/RegisterInformation';
 import Login from './routes/Login';
 import Postulacion from './routes/Postulacion';
-
+import HomePost from './routes/HomePost';
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Route path ="/registerinformation" element={<RegisterInformation/>}/>
         <Route path ="/login" element={<Login/>}/>
         <Route path ="/postulacion" element={<Postulacion/>}/>
-      
+        <Route path ="/homepost" element={<HomePost/>}/>
       </Routes>    
     </div>
   );
