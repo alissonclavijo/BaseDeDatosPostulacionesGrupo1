@@ -22,26 +22,26 @@ function Postulacion() {
       <div className="contenedor">
         <div className="postulacion">
           <h1>Bienvenido a la Plataforma ESPE Docentes</h1>
-          <br/>
-          <h1>Postulacion</h1>
-          <select value={selectedOption} onChange={handleOptionChange}>
-            <option value="">Seleccionar Postulacion</option>
+          <br />
+          <h1>Postulación</h1>
+          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Seleccionar Postulación</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
           </select>
 
-          <h1>Tipo de Contratacion</h1>
-          <select value={selectedOption} onChange={handleOptionChange}>
-            <option value="">Selecciona tipo de contratacion</option>
+          <h1>Tipo de Contratación</h1>
+          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Seleccionar tipo de contratación</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
           </select>
 
-          <h1>Tipo de Personal Academico</h1>
-          <select value={selectedOption} onChange={handleOptionChange}>
-            <option value="">Selecciona tipo de personal academico</option>
+          <h1>Tipo de Personal Académico</h1>
+          <select className="custom-select" value={selectedOption} onChange={handleOptionChange}>
+            <option value="">Seleccionar tipo de personal académico</option>
             <option value="opcion1">Opción 1</option>
             <option value="opcion2">Opción 2</option>
             <option value="opcion3">Opción 3</option>
@@ -53,7 +53,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
           <div>
@@ -62,7 +62,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
           <div>
@@ -71,7 +71,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
           <div>
@@ -80,7 +80,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
           <div>
@@ -89,7 +89,7 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
           <div>
@@ -98,13 +98,13 @@ function Postulacion() {
               type="text"
               value=""
               readOnly
-              class="cuadro-texto"
+              className="cuadro-texto"
             />
           </div>
 
           <button onClick={handleButtonClick}>Actividad Docencia</button>
-          <button onClick={handleButtonClick}>Actividad Investigacion</button>
-          <button onClick={handleButtonClick}>Actividad Vinculacion</button>
+          <button onClick={handleButtonClick}>Actividad Investigación</button>
+          <button onClick={handleButtonClick}>Actividad Vinculación</button>
 
           {/*
           <h2>Botón desplegable para formatos de documentos</h2>
