@@ -20,10 +20,19 @@ function Postulacion() {
   };
 
   const handleButtonClick = () => {
-    // Aquí puedes agregar la lógica que desees para el botón
-    // Por ejemplo, cambiar el color o realizar alguna acción específica
-    // En este ejemplo, solo cambiaremos el color del botón.
+    // Aquí puedes agregar la lógica para confirmar los campos
+    if (postulacionOption && contratacionOption && personalOption) {
+      const message = `Verifique los datos:\n\nTipo de contratación: ${contratacionOption}\nTipo de personal: ${personalOption}\n\nSolo puede postular una vez por concurso, verifique los datos antes de enviar.`;
+      window.alert(message);
+    } else {
+      alert("Por favor, completa todos los campos antes de confirmar.");
+    }
   };
+
+  // Función que verifica si todos los campos están llenos
+  const areFieldsFilled = () => {
+    return postulacionOption && contratacionOption && personalOption;
+  };  
 
   return (
     <>
@@ -114,7 +123,7 @@ function Postulacion() {
 
           <button onClick={handleButtonClick}>Actividad Docencia</button>
           <button onClick={handleButtonClick}>Actividad Investigación</button>
-          <button onClick={handleButtonClick}>Actividad Vinculación</button>
+          <button onClick={handleButtonClick}>Actividad Vinculación</button><br/>
 
           {/*
           <h2>Botón desplegable para formatos de documentos</h2>
@@ -135,6 +144,10 @@ function Postulacion() {
             </select>
           </div>
          */}
+         <br/>
+          <button onClick={handleButtonClick} disabled={!areFieldsFilled()}>
+            Confirmar
+          </button>
         </div>
       </div>
     </>
