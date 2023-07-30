@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.css";
+import {Link} from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -84,9 +85,9 @@ const Login = () => {
       {showCustomAlert && (
         <div className="custom-alert">
           <p>Tu información será manipulada conforme a la necesidad de la institución sin lugar a reclamos, conforme a la ley de protección de datos del Ecuador.</p>
-          <button className="custom-alert-btn" onClick={handleCloseCustomAlert}>
+          <Link to="/homepost"><button className="custom-alert-btn" onClick={handleCloseCustomAlert}>
             Aceptar
-          </button>
+          </button></Link>
         </div>
       )}
     </>

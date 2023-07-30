@@ -1,0 +1,91 @@
+.intro{
+    padding-left: 250px;
+    display: flex;
+    height: 77vh;
+    margin-top: 6rem;
+}
+
+.i-left{
+    display: flex;
+    position: relative;
+    flex:1;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.i-name{
+    display: flex;
+    flex-direction: column;
+    margin-top: -50px;
+}
+
+.i-name .welcome{
+    text-align: center;
+}
+
+.i-name>:nth-child(1){
+    color: #30695F;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.i-name>:nth-child(2){
+    font-weight: 500;
+    font-size: 14px;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.i-documents{
+    text-align: center;
+}
+
+.i-documents h1{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+.i-documents img{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+
+.i-right{
+    flex: 1.5;
+    position: relative;
+}
+
+.i-right>*{
+    position: absolute;
+    z-index: 1;
+}
+
+.i-right>:nth-child(1){
+    transform: scale(0.69);
+    top: -9%;
+    left: -10%;
+}
+
+.i-right>:nth-child(2){
+    transform: scale(1.4);
+    left: 28%;
+    top: 10%;
+}
+
+.vector img{
+    width: 750px;
+}
+
+.docente img {
+    width: 250px;
+}
+
+
+/*    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 10px;*/

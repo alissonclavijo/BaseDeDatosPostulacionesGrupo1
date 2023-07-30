@@ -1,3 +1,5 @@
+
+const pool = require('./db.js');
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -47,5 +49,17 @@ app.use((err, req, res, next) => {
     })
 })
 
-app.listen(3000)
-console.log("Servidor en el puerto 3000")
+//Comprobación de conexión de la base de datos
+pool.connect((err) => {
+  if (err) {
+    console.error(
+      "Error en la conexión a la base de datos, error numero:",
+      err
+    );
+    return;
+  }
+  console.log("Conexión exitosa a la base de datos!");
+});
+
+app.listen(5000)
+console.log("Servidor en el puerto 5000")
