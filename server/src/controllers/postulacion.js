@@ -30,6 +30,19 @@ const getPostulacionById = async (req, res) => {
 
   try {
     const result = await pool.query('SELECT * FROM public.postulacion WHERE post_id = $1', [post_id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Postulación no encontrada' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la postulación' });
+  }
+};
+const getPostulacionesNombre = async (req, res) => {
+
+  try {
+    const result = await pool.query('SELECT post_periodo FROM public.postulacion');
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Postulación no encontrada' });
@@ -83,4 +96,5 @@ module.exports = {
   getPostulacionById,
   updatePostulacion,
   deletePostulacion,
+  getPostulacionesNombre,
 };

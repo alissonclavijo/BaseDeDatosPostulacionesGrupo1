@@ -4,6 +4,7 @@ import './Register.css';
 import './RegisterInformation.css';
 import axios from "axios";
 
+const imagen = require.context("../img/");
 const RegisterInformation = () => {
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [tituloSenecyt, setTituloSenecyt] = useState('');
@@ -13,6 +14,7 @@ const RegisterInformation = () => {
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [formError, setFormError] = useState({});
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -25,6 +27,25 @@ const RegisterInformation = () => {
         break;
     }
   };
+  const validarCedula = (cedula) => {
+    if (!/^\d{10}$/.test(cedula)) {
+        return false;
+    }
+
+    const provincia = parseInt(cedula.substr(0, 2));
+
+    if (provincia < 0 || provincia > 24) {
+        return false;
+    }
+
+    const tercerDigito = parseInt(cedula[2]);
+
+    if (tercerDigito > 5) {
+        return false;
+    }
+
+    return true;
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,8 +54,8 @@ const RegisterInformation = () => {
     const apellido2 = apellidoArray.join(" ");
 
     const data = {
-      cand_tipo_identificacion: "Pasaporte",
-      cand_num_identificacion: "1721354262",
+      cand_tipo_identificacion: "",
+      cand_num_identificacion: "",
       cand_sexo: sexo,
       cand_titulo: tituloSenecyt,
       cand_fecha_nacimiento: fechaNacimiento,

@@ -26,6 +26,21 @@ function Register() {
         }
     };
 
+    const validarCedula = (cedula) => {
+        if (!/^\d{10}$/.test(cedula)) {
+            return false;
+        }
+        const provincia = parseInt(cedula.substr(0, 2));
+        if (provincia < 0 || provincia > 24) {
+            return false;
+        }
+        const tercerDigito = parseInt(cedula[2]);
+        if (tercerDigito > 5) {
+            return false;
+        }
+        return true;
+    };
+    
     const handleCaptchaChange = (value) => {
         if (value) {
             setErrorMensaje('');
@@ -51,7 +66,13 @@ function Register() {
             camposFaltantesTemp.push('cédula');
             setErrorMensaje('Compruebe que su cédula esté escrita correctamente');
         } else {
-            setErrorMensaje('');
+            // Validar la cédula con la función validarCedula
+            const cedulaValida = validarCedula(cedula);
+            if (!cedulaValida) {
+                setErrorMensaje('Cédula no es correcta');
+            } else {
+                setErrorMensaje('');
+            }
         }
 
         if (!captchaResuelto) {
@@ -92,7 +113,7 @@ function Register() {
             console.error("Error al registrar candidato:", error.message);
         }
     };
-    const isSubmitButtonDisabled = !tipoIdentificacion || cedula.length !== 10 || !captchaResuelto;
+    const isSubmitButtonDisabled = !tipoIdentificacion || cedula.length !== 10 || !captchaResuelto || !validarCedula(cedula);
 
     return (
         <>
