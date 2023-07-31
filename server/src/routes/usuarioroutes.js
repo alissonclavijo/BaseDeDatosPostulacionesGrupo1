@@ -1,18 +1,21 @@
-const { Router } = require("express");
-const {
-  getAllCandidatos,
-  createCandidato,
-  getCandidatoById,
-  updateCandidato,
-  deleteCandidato,
-} = require('../controllers/candidato');
+const express = require('express');
+const router = express.Router();
 
-const router = Router();
+const candidatoController = require('../controllers/candidato');
 
-router.get('/candidatos', getAllCandidatos);
-router.post('/candidatos', createCandidato);
-router.get('/candidatos/:id', getCandidatoById);
-router.put('/candidatos/:id', updateCandidato);
-router.delete('/candidatos/:id', deleteCandidato);
+// Ruta para obtener todos los candidatos
+router.get('/candidatos', candidatoController.getAllCandidatos);
+
+// Ruta para obtener un candidato por su ID
+router.get('/candidatos/:id', candidatoController.getCandidatoById);
+
+// Ruta para registrar un nuevo candidato
+router.post('/candidatos', candidatoController.createCandidato);
+
+// Ruta para actualizar un candidato por su ID
+router.put('/candidatos/:id', candidatoController.updateCandidato);
+
+// Ruta para eliminar un candidato por su ID
+router.delete('/candidatos/:id', candidatoController.deleteCandidato);
 
 module.exports = router;

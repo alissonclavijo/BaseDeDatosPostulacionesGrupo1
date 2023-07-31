@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { read } from 'xlsx';
 
-const NumeroHojasInput = ({ archivo, etiqueta }) => {
+const NumeroHojasInput = ({ archivo }) => {
   const [numeroHojas, setNumeroHojas] = useState(0);
 
   useEffect(() => {
@@ -35,10 +35,8 @@ const NumeroHojasInput = ({ archivo, etiqueta }) => {
   return (
     <div className='hojas'>
       <input type="text" value={numeroHojas >= 0 ? numeroHojas : 'Error al cargar el archivo'} readOnly />
-
     </div>
   );
 };
 
 export default NumeroHojasInput;
-

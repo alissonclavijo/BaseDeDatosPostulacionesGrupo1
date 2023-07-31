@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import './Register.css';
 
 const imagen = require.context("../img/");
@@ -35,7 +36,7 @@ function Register() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const camposFaltantesTemp = [];
         
@@ -66,17 +67,31 @@ function Register() {
             return;
         }
 
-        // Aquí puedes realizar las acciones que desees con la cédula ingresada
-        console.log('Cédula válida:', cedula);
-        setErrorMensaje('');
-        setTipoIdentificacionError('');
-        setCamposFaltantes([]);
-        setIntentoEnvio(false); // Reiniciamos el estado de intentoEnvio
+        try {
+            // Envía los datos al backend utilizando axios
+            const data = {
+                cand_tipo_identificacion: tipoIdentificacion,
+                cand_num_identificacion: cedula,
+                // Agrega aquí los otros campos necesarios para el registro del candidato
+            };
+            const response = await axios.post("http://localhost:5000/candidatos", data);
 
-        // Aquí puedes enviar el formulario o realizar cualquier otra acción necesaria
+            // Aquí puedes realizar cualquier acción necesaria con la respuesta del backend
+            console.log("Candidato registrado:", response.data);
+
+            // Reinicia los estados del formulario después de un registro exitoso
+            setTipoIdentificacion("");
+            setCedula("");
+            setCaptchaResuelto(false);
+            setErrorMensaje("");
+            setTipoIdentificacionError("");
+            setCamposFaltantes([]);
+            setIntentoEnvio(false); // Reiniciamos el estado de intentoEnvio
+        } catch (error) {
+            // Si ocurre un error al enviar los datos al backend, muestra un mensaje de error
+            console.error("Error al registrar candidato:", error.message);
+        }
     };
-
-    // Habilitar el botón de "Enviar" solo si todos los campos están llenos y el captcha está resuelto
     const isSubmitButtonDisabled = !tipoIdentificacion || cedula.length !== 10 || !captchaResuelto;
 
     return (
@@ -150,6 +165,7 @@ function Register() {
             </div>
         </>
     )
+
 }
 
 export default Register;

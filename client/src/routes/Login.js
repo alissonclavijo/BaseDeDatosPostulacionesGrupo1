@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import axios from "axios"; // Importa la biblioteca axios
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,19 +18,34 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Aquí puedes agregar la lógica de autenticación, por ejemplo, enviar los datos al servidor y verificar las credenciales.
-    // En este ejemplo, solo mostramos un mensaje si los campos están vacíos.
+    // Verifica si los campos están vacíos
     if (!email || !password) {
       setErrorMessage("Por favor, ingresa tu email y contraseña.");
-    } else {
-      setErrorMessage("");
-      // Aquí podrías hacer la lógica de autenticación real.
+      return;
+    }
+
+    try {
+      // Envía los datos al backend utilizando axios
+      const response = await axios.post("/login", {
+        email,
+        password,
+      });
+
+      // Aquí puedes realizar cualquier acción necesaria con la respuesta del backend
+      console.log("Respuesta del servidor:", response.data);
 
       // Mostrar la alerta personalizada al iniciar sesión
       setShowCustomAlert(true);
+    } catch (error) {
+      // Si ocurre un error al autenticar, muestra un mensaje de error
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Credenciales inválidas. Por favor, verifica tu email y contraseña.");
+      } else {
+        setErrorMessage("Error al iniciar sesión. Por favor, intenta nuevamente más tarde.");
+      }
     }
   };
 

@@ -9,6 +9,20 @@ const getAllCandidatos = async (req, res) => {
   }
 };
 
+const getCandidatoById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM public.candidato WHERE cand_id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Candidato no encontrado' });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el candidato' });
+  }
+};
+
 const createCandidato = async (req, res) => {
   const {
     cand_tipo_identificacion,
@@ -25,7 +39,6 @@ const createCandidato = async (req, res) => {
   } = req.body;
 
   try {
-    // Realiza la inserción en la base de datos sin incluir el campo cand_id
     const result = await pool.query(
       'INSERT INTO public.candidato (cand_tipo_identificacion, cand_num_identificacion, cand_sexo, cand_titulo, cand_fecha_nacimiento, cand_correo, cand_password, cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
       [
@@ -50,19 +63,6 @@ const createCandidato = async (req, res) => {
   }
 };
 
-const getCandidatoById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const result = await pool.query('SELECT * FROM public.candidato WHERE cand_id = $1', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Candidato no encontrado' });
-    }
-    res.status(200).json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener el candidato' });
-  }
-};
 
 const updateCandidato = async (req, res) => {
   const { id } = req.params;
@@ -102,8 +102,10 @@ const updateCandidato = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Candidato no encontrado' });
     }
+
     res.status(200).json(result.rows[0]);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Error al actualizar el candidato' });
   }
 };
@@ -117,16 +119,18 @@ const deleteCandidato = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Candidato no encontrado' });
     }
+
     res.status(200).json({ message: 'Candidato eliminado correctamente' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Error al eliminar el candidato' });
   }
 };
 
 module.exports = {
   getAllCandidatos,
-  createCandidato,
   getCandidatoById,
+  createCandidato,
   updateCandidato,
   deleteCandidato,
 };
