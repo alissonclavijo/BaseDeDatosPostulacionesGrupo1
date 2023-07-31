@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.css";
-import { Link } from "react-router-dom";
-import axios from "axios"; // Importa la biblioteca axios
+import {Link} from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showCustomAlert, setShowCustomAlert] = useState(false);
+ 
+  const { login } = useAuth();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -18,34 +20,18 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Verifica si los campos están vacíos
     if (!email || !password) {
       setErrorMessage("Por favor, ingresa tu email y contraseña.");
-      return;
-    }
-
-    try {
-      // Envía los datos al backend utilizando axios
-      const response = await axios.post("/login", {
-        email,
-        password,
-      });
-
-      // Aquí puedes realizar cualquier acción necesaria con la respuesta del backend
-      console.log("Respuesta del servidor:", response.data);
-
-      // Mostrar la alerta personalizada al iniciar sesión
-      setShowCustomAlert(true);
-    } catch (error) {
-      // Si ocurre un error al autenticar, muestra un mensaje de error
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Credenciales inválidas. Por favor, verifica tu email y contraseña.");
-      } else {
-        setErrorMessage("Error al iniciar sesión. Por favor, intenta nuevamente más tarde.");
-      }
+    } else {
+      setErrorMessage("");
+      // En una implementación real, aquí enviarías los datos al servidor para autenticar al usuario.
+      // Si las credenciales son válidas, llama a la función login del contexto para marcar el inicio de sesión exitoso.
+      login();
+      // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
+      window.location.href =("/homepost");
     }
   };
 

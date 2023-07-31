@@ -8,24 +8,26 @@ import RegisterInformation from './routes/RegisterInformation';
 import Login from './routes/Login';
 import HomePost from './routes/HomePost';
 import Postulacion from './routes/Postulacion';
+import AuthProvider from "./routes/AuthContext";
 
 
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path ="/" element={<Home/>}/>
-        <Route path ="/information" element={<Information/>}/>
-        <Route path ="/register" element={<Register/>}/>
-        <Route path ="/inforpost" element={<InforPost/>}/>
-        <Route path ="/registerinformation" element={<RegisterInformation/>}/>
-        <Route path ="/login" element={<Login/>}/>
-        <Route path ="/homepost" element={<HomePost/>}/>
-        <Route path ="/postulacion" element={<Postulacion/>}/>
-
-      </Routes>    
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <Routes>
+          <Route path ="/" element={<Home/>}/>
+          <Route path ="/information" element={<Information/>}/>
+          <Route path ="/register" element={<Register/>}/>
+          <Route path ="/inforpost" element={<InforPost/>}/>
+          <Route path ="/registerinformation" element={<RegisterInformation/>}/>
+          <Route path ="/login" element={<Login/>}/>
+          <Route path ="/homepost" element={<HomePost/>}/>
+          <Route path ="/postulacion" element={<Postulacion/>}/>
+        </Routes>    
+      </div>
+    </AuthProvider>  
   );
 }
 

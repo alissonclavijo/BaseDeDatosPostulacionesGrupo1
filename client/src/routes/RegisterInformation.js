@@ -87,7 +87,7 @@ const RegisterInformation = () => {
               id="nombreCompleto"
               value={nombreCompleto}
               onChange={handleChange}
-              placeholder="Stalin Bladimir Rivera Vega"
+              placeholder="Nombres Completos"
               required
             />
             {formError.cand_nombre1 && <span className="error-message">{formError.cand_nombre1}</span>}
