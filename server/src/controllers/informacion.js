@@ -35,7 +35,7 @@ const upload = multer({ storage });
 
 // Cambio de "export" a "module.exports"
 module.exports.uploadPdf = (req, res) => {
-  upload.single("file")(req, res, (err) => {
+  upload.single("archivo")(req, res, (err) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }

@@ -5,6 +5,7 @@ import NumeroHojasInput from '../components/NumeroHojasInput';
 import Navpost from '../components/Navpost';
 import swal from 'sweetalert'
 import { Link } from 'react-router-dom';
+import { guardarArchivos } from '../services/informacion';
 
 
 function InforPost() {
@@ -47,7 +48,7 @@ function InforPost() {
     setArchivoSeleccionadoProfesional(archivo);
   };
 
-  
+ 
 
   const mostrarAlerta = () => {
     // Verificar si todos los campos están llenos
@@ -77,20 +78,43 @@ function InforPost() {
         buttons: ['No', 'Si'],
       }).then((respuesta) => {
         if (respuesta) {
-          swal({
-            text: 'Datos subidos correctamente',
-            icon: 'success',
-            button:'Salir'
+            // Crear un array con todos los archivos seleccionados
+            const archivos = [
+              archivoSeleccionadoHojaVida,
+              archivoSeleccionadoCedula,
+              archivoSeleccionadoDocente,
+              archivoSeleccionadoProfesional,
+              archivoSeleccionadoAdministrativa,
+              archivoSeleccionadoPublico,
+              archivoSeleccionadoTitulo,
+              archivoSeleccionadoVotacion
 
-          });
+            ];
+            guardarArchivos(archivos)
+            .then((response) => {
+              // Petición enviada con éxito, mostrar mensaje de éxito
+              swal({
+                text: 'Datos subidos correctamente',
+                icon: 'success',
+                button: 'Salir'
+              });
+            })
+            .catch((error) => {
+              // Manejar el error aquí
+              swal({
+                title: 'Error',
+                text: 'Hubo un error al subir los archivos.',
+                icon: 'error',
+                button: 'Aceptar',
+              });
+            });
         }
       });
     }
   };
-
   return (
     <>
-      <div className='body'>
+     
         <Navpost />
         <h1>Información</h1>
         <div className='container-inf'>
@@ -143,10 +167,12 @@ function InforPost() {
             <NumeroHojasInput archivo={archivoSeleccionadoProfesional} etiqueta='Experiencia profesional' />
           </div>
 
-          <button onClick={()=>mostrarAlerta()}>Confirmar Postulación</button>
-
+          
+      <button  class="btn btn-primary" onClick={()=>mostrarAlerta()}>Confirmar Postulación</button>
+      
         </div>
-      </div>
+    
+  
     </>
   );
 }

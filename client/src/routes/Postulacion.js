@@ -22,7 +22,7 @@ function Postulacion() {
       })
       .catch((error) => {
         console.error("Error al obtener las opciones de postulación:", error);
-      });
+      }); 
     axios.get("http://localhost:5000/contrataciones") // Cambia la URL de la API con la que te conectas a la base de datos
       .then((response) => {
         setOpcionesContratacion(response.data); // Actualiza el estado con los datos recibidos de la API

@@ -31,7 +31,7 @@ const ArchivoInput = ({ label, onArchivoSeleccionado }) => {
   return (
     <>
       <label className='label'>{label}</label>
-      <div className='archivo' {...getRootProps()} style={{ border: '1px dashed black', marginTop: '-1rem', paddingTop: '10px' }}>
+      <div className='archivo' {...getRootProps()}>
         <input {...getInputProps()} />
         {nombreArchivo && <p>{nombreArchivo}</p>}
         {!nombreArchivo && <p>Archivo excel o pdfs</p>}
