@@ -20,6 +20,7 @@ const item = require("./src/routes/itemRoutes.js");
 const requisito = require("./src/routes/requisitoRoutes.js");
 const oferta = require("./src/routes/ofertaRoutes.js");
 const informacion = require("./src/routes/informacionRoutes.js");
+const mail = require("./src/routes/mailerRoutes.js");
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(item)
 app.use(requisito)
 app.use(oferta)
 app.use("/informacion",informacion)
+app.use(mail)
 
 app.use((err, req, res, next) => {
     return res.json({
@@ -62,6 +64,9 @@ pool.connect((err) => {
   }
   console.log("Conexion a postgresdb exitosa!");
 });
+
+
+
 
 app.listen(5000)
 console.log("Servidor en el puerto 5000")
