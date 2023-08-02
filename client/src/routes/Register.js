@@ -27,20 +27,26 @@ function Register() {
     };
 
     const validarCedula = (cedula) => {
-        if (!/^\d{10}$/.test(cedula)) {
-            return false;
+        // Eliminar espacios en blanco al inicio y final de la cédula
+        if (typeof(cedula) == 'string' && cedula.length == 10 && /^\d+$/.test(cedula)) {
+            var digitos = cedula.split('').map(Number);
+            var codigo_provincia = digitos[0] * 10 + digitos[1];
+        
+            //if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30) && digitos[2] < 6) {
+        
+            if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30)) {
+              var digito_verificador = digitos.pop();
+        
+              var digito_calculado = digitos.reduce(
+                function (valorPrevio, valorActual, indice) {
+                  return valorPrevio - (valorActual * (2 - indice % 2)) % 9 - (valorActual == 9) * 9;
+                }, 1000) % 10;
+              return digito_calculado === digito_verificador;
         }
-        const provincia = parseInt(cedula.substr(0, 2));
-        if (provincia < 0 || provincia > 24) {
-            return false;
-        }
-        const tercerDigito = parseInt(cedula[2]);
-        if (tercerDigito > 5) {
-            return false;
-        }
-        return true;
-    };
-    
+          }
+          return false;
+      };
+      
     const handleCaptchaChange = (value) => {
         if (value) {
             setErrorMensaje('');
@@ -153,6 +159,12 @@ function Register() {
                                         title="Verifique que el número de cédula haya sido escrito correctamente"
                                         required
                                     />
+                                    <span className="error-message">{errorMensaje}</span>
+
+{/* Mostrar mensaje de cédula no válida */}
+{intentoEnvio && camposFaltantes.includes('cédula') && (
+  <div className="error-message">Cédula no es correcta</div>
+)}
                                     <div className="captcha">
                                         <ReCAPTCHA
                                             sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
