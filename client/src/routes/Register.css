@@ -28,17 +28,18 @@
 
 }
 
-.centredeDiv {
-    padding-top: 20px;
+.centredeDivconCapcha {
+    
     background-color: rgba(255, 255, 255, 0.5);
-    width: 500px;
-    height: 390px;
+    width: 100%;
+    height: 100%;
     color: black;
     font-weight: bold;
 }
 
 .captcha{
-    padding: 5px 100px;
+    display:flex;
+    height: 100%;
 }
 
 .form-container {
@@ -46,6 +47,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
+   
 }
 
 .cedula-form {
