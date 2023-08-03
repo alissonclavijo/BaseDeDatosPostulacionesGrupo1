@@ -17,6 +17,7 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Routes>
+        
           <Route path ="/" element={<Home/>}/>
           <Route path ="/information" element={<Information/>}/>
           <Route path ="/register" element={<Register/>}/>
@@ -25,6 +26,7 @@ function App() {
           <Route path ="/login" element={<Login/>}/>
           <Route path ="/homepost" element={<HomePost/>}/>
           <Route path ="/postulacion" element={<Postulacion/>}/>
+
         </Routes>    
       </div>
     </AuthProvider>  

@@ -39,6 +39,29 @@ const createCandidato = async (req, res) => {
   } = req.body;
 
   try {
+    // Consultar si el correo electrónico ya existe en la base de datos
+    const existingCorreo = await pool.query(
+      'SELECT * FROM public.candidato WHERE cand_correo = $1',
+      [cand_correo]
+    );
+
+    // Consultar si el número de identificación ya existe en la base de datos
+    const existingNumIdentificacion = await pool.query(
+      'SELECT * FROM public.candidato WHERE cand_num_identificacion = $1',
+      [cand_num_identificacion]
+    );
+
+    // Si el correo electrónico ya existe, devolver una respuesta de error
+    if (existingCorreo.rows.length > 0) {
+      return res.status(400).json({ message: 'El correo electrónico ya está en uso.' });
+    }
+
+    // Si el número de identificación ya existe, devolver una respuesta de error
+    if (existingNumIdentificacion.rows.length > 0) {
+      return res.status(400).json({ message: 'El número de identificación ya está en uso.' });
+    }
+
+    // Si el correo electrónico y el número de identificación no existen, proceder con la inserción
     const result = await pool.query(
       'INSERT INTO public.candidato (cand_tipo_identificacion, cand_num_identificacion, cand_sexo, cand_titulo, cand_fecha_nacimiento, cand_correo, cand_password, cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
       [
@@ -62,6 +85,7 @@ const createCandidato = async (req, res) => {
     res.status(500).json({ message: 'Error al crear el candidato' });
   }
 };
+
 
 
 const updateCandidato = async (req, res) => {
