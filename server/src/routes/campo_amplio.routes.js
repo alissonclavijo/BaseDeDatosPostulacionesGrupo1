@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const campoAmplioController = require('../controllers/campo_amplio');
+const campoAmplioController = require('../controllers/campo_amplio.controller');
 
 // Rutas
 router.get('/campo_amplio', campoAmplioController.getAllCamposAmplios);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const tituloExpController = require('../controllers/titulo_exp');
+const tituloExpController = require('../controllers/titulo_exp.controller');
 
 // Obtener todos los títulos de experiencia
 router.get('/titulos_exp', tituloExpController.getAllTitulosExp);

@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const actividadController = require('../controllers/actividad');
+const actividadController = require('../controllers/actividad.controller');
 
 // Rutas
 router.get('/actividad', actividadController.getAllActividades);

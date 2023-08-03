@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ofertaController = require('../controllers/oferta');
+const ofertaController = require('../controllers/oferta.controller');
 
 router.get('/ofertas', ofertaController.getAllOfertas);
 router.post('/ofertas', ofertaController.createOferta);

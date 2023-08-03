@@ -5,7 +5,7 @@ const {
   getRechumById,
   updateRechum,
   deleteRechum,
-} = require('../controllers/rechum');
+} = require('../controllers/rechum.controller');
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const transporter = require("../controllers/mailer"); // Ruta a tu archivo de configuración de Nodemailer
+const transporter = require("../controllers/mailer.controller"); // Ruta a tu archivo de configuración de Nodemailer
 
 router.post("/enviar-correo", async (req, res) => {
   const { destinatario, asunto, contenido } = req.body;

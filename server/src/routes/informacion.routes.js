@@ -6,7 +6,7 @@ const informacionController = require('../controllers/informacion.js');
 router.post("/upload", informacionController.uploadPdf);
 module.exports = router;*/
 const express = require('express');
-const { gfs, upload } = require('../controllers/informacion');
+const { gfs, upload } = require('../controllers/informacion.controller');
 
 const router = express.Router();
 

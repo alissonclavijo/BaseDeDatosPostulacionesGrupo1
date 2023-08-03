@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const solicitudController = require('../controllers/solicitud');
+const solicitudController = require('../controllers/solicitud.controller');
 
 router.get('/solicitudes', solicitudController.getAllSolicitudes);
 router.post('/solicitudes', solicitudController.createSolicitud);

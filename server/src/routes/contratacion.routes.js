@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const contratacionController = require('../controllers/contratacion');
+const contratacionController = require('../controllers/contratacion.controller');
 
 router.get('/contrataciones', contratacionController.getAllContrataciones);
 router.post('/contrataciones', contratacionController.createContratacion);

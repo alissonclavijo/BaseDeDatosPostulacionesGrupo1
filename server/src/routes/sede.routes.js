@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const sedeController = require('../controllers/sede');
+const sedeController = require('../controllers/sede.controller');
 
 router.get('/sedes', sedeController.getAllSedes);
 router.post('/sedes', sedeController.createSede);

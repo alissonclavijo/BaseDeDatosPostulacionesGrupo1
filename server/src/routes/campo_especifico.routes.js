@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const campoEspecificoController = require('../controllers/campo_especifico');
+const campoEspecificoController = require('../controllers/campo_especifico.controller');
 
 router.get('/campo_especifico', campoEspecificoController.getAllCampoEspecifico);
 router.post('/campo_especifico', campoEspecificoController.createCampoEspecifico);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const departamentoController = require('../controllers/departamento');
+const departamentoController = require('../controllers/departamento.controller');
 
 router.get('/departamentos', departamentoController.getAllDepartamentos);
 router.post('/departamentos', departamentoController.createDepartamento);

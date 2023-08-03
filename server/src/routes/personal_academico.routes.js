@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const personalAcademicoController = require('../controllers/personal_academico');
+const personalAcademicoController = require('../controllers/personal_academico.controller');
 
 // Rutas para el personal académico
 router.get('/personal_academico', personalAcademicoController.getAllPersonalAcademico);
