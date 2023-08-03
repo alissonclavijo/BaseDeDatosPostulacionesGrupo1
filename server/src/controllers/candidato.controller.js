@@ -9,6 +9,24 @@ const getAllCandidatos = async (req, res) => {
   }
 };
 
+const getCandidatoByCedula = async (req, res) => {
+  const { cedula } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM public.candidato WHERE cand_num_identificacion = $1', [cedula]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Candidato no encontrado' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el candidato por cédula' });
+  }
+};
+
+
 const getCandidatoById = async (req, res) => {
   const { id } = req.params;
 
@@ -86,8 +104,6 @@ const createCandidato = async (req, res) => {
   }
 };
 
-
-
 const updateCandidato = async (req, res) => {
   const { id } = req.params;
   const {
@@ -157,4 +173,5 @@ module.exports = {
   createCandidato,
   updateCandidato,
   deleteCandidato,
+  getCandidatoByCedula,
 };

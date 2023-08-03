@@ -6,8 +6,12 @@ const candidatoController = require('../controllers/candidato.controller');
 // Ruta para obtener todos los candidatos
 router.get('/candidatos', candidatoController.getAllCandidatos);
 
+// Ruta para obtener candidato por cédula
+router.get('/candidatos/:cedula', candidatoController.getCandidatoByCedula);
+
 // Ruta para obtener un candidato por su ID
 router.get('/candidatos/:id', candidatoController.getCandidatoById);
+
 
 // Ruta para registrar un nuevo candidato
 router.post('/candidatos', candidatoController.createCandidato);

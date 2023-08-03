@@ -1,103 +1,127 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
-import './Register.css';
+import "./Register.css";
+import { useNavigate } from 'react-router-dom';
+import verificarCedula from '../utils/validacionCedula'
 import axios from 'axios'
 
 const imagen = require.context("../img/");
 
-function Register (){
-    const [cedula, setCedula] = useState('');
-    const [errorMensaje, setErrorMensaje] = useState('');
-    const [captchaResuelto, setCaptchaResuelto] = useState(false);
+function Register() {
+  const [tipoIdentificacion, setTipoIdentificacion] = useState("");
+  const [identificacion, setIdentificacion] = useState("");
+  const [captchaResuelto, setCaptchaResuelto] = useState(false);
+  const [errorMensaje, setErrorMensaje] = useState("");
+  const navigate = useNavigate();
 
-    const handleCedulaChange = (e) => {
-       /* const { value } = e.target;
-        if (value.length <= 10 && /^\d*$/.test(value)) {
-            setCedula(value);
-            setErrorMensaje('');
-        } else {
-            setErrorMensaje('El espacio no debe quedar vacio');
-        }*/
-        setCedula(e.target.value)
-    };
 
-    const handleCaptchaChange = (value) => {
-        if (value) {
-            setErrorMensaje('');
-            setCaptchaResuelto(true);
-        } else {
-            setErrorMensaje('Por favor, resuelve el captcha.');
-            setCaptchaResuelto(false);
-        }
-    };
+  const handleTipoIdentificacionChange = (e) => {
+    setTipoIdentificacion(e.target.value);
+  };
 
-    const handleSubmit = async (e) => {
-        /*e.preventDefault();
-        if (cedula.length !== 10) {
-            setErrorMensaje('Compruebe que su cédula este escrita correctamente');
-        } else if (!captchaResuelto) {
-            setErrorMensaje('Por favor, resuelve el captcha.');
-        } else {
-        // Aquí puedes realizar las acciones que desees con la cédula ingresada
-        console.log('Cédula válida:', cedula);
-        setErrorMensaje('');
-        }*/
-        e.preventDefault();
-        try{
-          const response = await axios.post('http://localhost:5000/candidatos', {
-            
-            cand_num_identificacion:cedula,
-           
-            });
-            console.log(response.data);
-        }catch(error){
-          console.error(error)
-        }
-    };
+  const handleIdentificacionChange = (e) => {
+    setIdentificacion(e.target.value);
+  };
 
-    return(
-        <>
-        <Navbar/>
-        <div className="conregister">
-            <img className="banner" src={(imagen("./banner_profesores.jpg"))} alt="Universidad" />
-                <div className="register">
-                    <div className="containere">
-                        <div className="centredeDiv">
-                            <h1>Registro de Postulantes a Docentes</h1>
-                            <div className="form-container">
-                                <form onSubmit={handleSubmit} className="cedula-form">
-                                    <label htmlFor="cedula">Cédula de Identidad:</label>
-                                    <input
-                                        type="text"
-                                        id="cedula"
-                                        name="cedula"
-                                        value={cedula}
-                                        onChange={handleCedulaChange}
-                                        maxLength="10"
-                                        pattern="[0-9]*"
-                                        title="Verifique que el número de cédula ha sido escrito correctamente"
-                                        required
-                                    />
-                                    <div className="captcha">
-                                        <ReCAPTCHA
-                                        sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
-                                        onChange={handleCaptchaChange}
-                                        />
-                                    </div>
-                                    <span className="error-message">{errorMensaje}</span>
-                                    <button type="submit" className="btn">Enviar</button>
-                                </form>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                </div>
-        </div>
+  const handleClick = async () => {
+    /*
+     const cedulaValida = verificarCedula(identificacion);
+    if (cedulaValida) {
+      navigate('/registerinformation', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
+    } else {
+      setErrorMensaje("Por favor, ingrese una cédula válida.");
+    }*/
+    const cedulaValida = verificarCedula(identificacion);
+    if (cedulaValida) {
+      try {
+        // Realiza una solicitud a la API para verificar si la cédula ya existe
+        const response = await axios.get(`http://localhost:5000/candidatos/${identificacion}`);
         
-        </>
-    )
+        if (response.data.existe) {
+          setErrorMensaje("La cédula ya está registrada en la base de datos.");
+        } else {
+          // Si la cédula no existe, navega a la página RegisterInformation
+          navigate('/registerinformation', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
+        }
+      } catch (error) {
+        console.error("Error al verificar la cédula:", error.message);
+        setErrorMensaje("Error al verificar la cédula. Por favor, intenta nuevamente.");
+      }
+    } else {
+      setErrorMensaje("Por favor, ingrese una cédula válida.");
+    }
+  };
+
+  const handleCaptchaChange = (value) => {
+    if (value) {
+      setErrorMensaje("");
+      setCaptchaResuelto(true);
+    } else {
+      setErrorMensaje("Por favor, resuelve el captcha.");
+      setCaptchaResuelto(false);
+    }
+  };
+
+
+
+  return (
+    <>
+      <Navbar />
+      <div className="conregister">
+        <img
+          className="banner"
+          src={imagen("./banner_profesores.jpg")}
+          alt="Universidad"
+        />
+        <div className="register">
+          <div className="containere">
+            <div className="centredeDiv">
+              <h1>Registro de Postulantes a Docentes</h1>
+              <div className="form-container">
+                <form className="cedula-form">
+                  <label htmlFor="tipoIdentificacion">
+                    Seleccione un tipo:
+                  </label>
+                  <select
+                    id="tipoIdentificacion"
+                    name="tipoIdentificacion"
+                    value={tipoIdentificacion}
+                    onChange={handleTipoIdentificacionChange}
+                  >
+                    <option value ="identificacion">Seleccione la identificacion </option>
+                    <option value="cedula">Cédula</option>
+                    <option value="pasaporte">Pasaporte</option>
+                  </select>
+                  <label htmlFor="cedula">Identificacion:</label>
+                  <input
+                    type="text"
+                    id="cedula"
+                    name="cedula"
+                    value={identificacion}
+                    onChange={handleIdentificacionChange}
+                    maxLength="10"
+                    pattern="[0-9]*"
+                    title="Verifique que el número de cédula ha sido escrito correctamente"
+                    required
+                  />
+                  <div className="captcha">
+                    <ReCAPTCHA
+                      sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
+                      onChange={handleCaptchaChange}
+                    />
+                  </div>
+                  <span className="error-message">{errorMensaje}</span>
+                 <button onClick={handleClick}  className="custom-alert-btn">Enviar</button>
+                     
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Register;

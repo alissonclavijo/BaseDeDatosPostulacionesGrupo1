@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import Navbar from "../components/Navbar"
 import './Register.css';
 import './RegisterInformation.css';
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
 
 const imagen = require.context("../img/");
 const RegisterInformation = () => {
+  const location = useLocation();
+  const {tipo, identidad} = location.state || {};
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [tituloSenecyt, setTituloSenecyt] = useState('');
   const [sexo, setSexo] = useState('');
@@ -27,25 +30,7 @@ const RegisterInformation = () => {
         break;
     }
   };
-  const validarCedula = (cedula) => {
-    if (!/^\d{10}$/.test(cedula)) {
-        return false;
-    }
-
-    const provincia = parseInt(cedula.substr(0, 2));
-
-    if (provincia < 0 || provincia > 24) {
-        return false;
-    }
-
-    const tercerDigito = parseInt(cedula[2]);
-
-    if (tercerDigito > 5) {
-        return false;
-    }
-
-    return true;
-};
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,8 +39,8 @@ const RegisterInformation = () => {
     const apellido2 = apellidoArray.join(" ");
 
     const data = {
-      cand_tipo_identificacion: "",
-      cand_num_identificacion: "",
+      cand_tipo_identificacion:tipo,
+      cand_num_identificacion: identidad,
       cand_sexo: sexo,
       cand_titulo: tituloSenecyt,
       cand_fecha_nacimiento: fechaNacimiento,
@@ -100,6 +85,7 @@ const RegisterInformation = () => {
       <br/><br/><br/><br/><br/>
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
+        <h1>{tipo}{identidad}</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="nombreCompleto">NOMBRES Y APELLIDOS COMPLETOS:</label>
