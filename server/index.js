@@ -65,7 +65,8 @@ pool.connect((err) => {
   console.log("Conexion a postgresdb exitosa!");
 });
 
-
+//email
+console.log("smtp email listo !")
 
 
 app.listen(5000)

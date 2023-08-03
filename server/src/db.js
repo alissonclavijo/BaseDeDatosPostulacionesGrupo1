@@ -4,13 +4,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const pool = new Pool({
-    user: 'postgres',
-    password:'admin',
-    host: 'localhost',
-    port: 5432,
-    database:'SistemaPostulacion',
-    //database:'SistemaPostulacion_nuevo'
-
+    user: process.env.DB_USER,
+    password:process.env.DB_PASSWORD ,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_DATABASE,
+    
 })
 console.log(db);
 module.exports = pool;
