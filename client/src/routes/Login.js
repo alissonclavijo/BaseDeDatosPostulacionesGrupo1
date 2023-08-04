@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 const Login = () => {
@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showCustomAlert, setShowCustomAlert] = useState(false);
- 
+
   const { login } = useAuth();
 
   const handleEmailChange = (e) => {
@@ -31,7 +31,7 @@ const Login = () => {
       // Si las credenciales son válidas, llama a la función login del contexto para marcar el inicio de sesión exitoso.
       login();
       // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
-      window.location.href =("/homepost");
+      window.location.href = ("/homepost");
     }
   };
 
@@ -52,6 +52,7 @@ const Login = () => {
           alt="Login"
         />
         <div className="login-form">
+          <h1>Postulantes</h1>
           <h2>Inicio de sesión</h2>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={handleSubmit}>

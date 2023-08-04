@@ -9,6 +9,8 @@ import Login from './routes/Login';
 import HomePost from './routes/HomePost';
 import Postulacion from './routes/Postulacion';
 import AuthProvider from "./routes/AuthContext";
+import Loginrh from './routes/Loginrh';
+import Recursosh from './routes/Recursosh';
 
 
 
@@ -26,6 +28,8 @@ function App() {
           <Route path ="/login" element={<Login/>}/>
           <Route path ="/homepost" element={<HomePost/>}/>
           <Route path ="/postulacion" element={<Postulacion/>}/>
+          <Route path ="/loginrh" element={<Loginrh/>}/>
+          <Route path ="/recursosh" element={<Recursosh/>}/>
 
         </Routes>    
       </div>

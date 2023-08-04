@@ -11,8 +11,29 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.login-container{
-    background-color: rgba(72, 75, 76, 0.2);
+.login-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-image {
+  flex: 3; /* Cambiar a flex: 3 para que ocupe el 75% del ancho */
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.login-form {
+  flex: 1; /* Cambiar a flex: 1 para que ocupe el 25% del ancho */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-left: 1px solid #ccc;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
 }
 
 .banner{

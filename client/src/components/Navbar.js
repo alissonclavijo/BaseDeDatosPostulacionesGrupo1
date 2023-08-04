@@ -9,35 +9,42 @@ class Navbar extends Component{
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked})
     }
-    render(){
-        return(
-            <nav className="NavbarItems">
-                <img className="log" src={(imagen("./Logo.jpeg"))} alt="Imagen" />
-                <div className="menu-icons" onClick={this.handleClick}>
-                    <i className={this.state.clicked ? "fas fa-times" : "fas fa-bars"}></i>
-
-                </div>
-                <ul className={this.state.clicked ? 
-                "nav-menu active" : "nav-menu"}>
-                    {
-                        MenuItems.map((item, index) =>{
-                        return(
-                            <li key={index}>
-                                <Link className={item.cName} to={item.url}>
-                                <i className={item.icon}></i>{item.title}
-                                </Link>
-                            </li>
-                        );
-                        })
-                    }
-                    <Link to="/login"><button>Inicio de Sesión</button></Link>
-                    <Link to="/register"><button>Registrarse</button></Link>
-                    
-                    
+    render() {
+        return (
+          <nav className="NavbarItems">
+            <img className="log" src={imagen("./Logo.jpeg")} alt="Imagen" />
+            <div className="menu-icons" onClick={this.handleClick}>
+              <i className={this.state.clicked ? "fas fa-times" : "fas fa-bars"}></i>
+            </div>
+            <ul className={this.state.clicked ? "nav-menu active" : "nav-menu"}>
+              {MenuItems.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <Link className={item.cName} to={item.url}>
+                      <i className={item.icon}></i>
+                      {item.title}
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="nav-item-dropdown">
+                <a className="nav-link-dropdown">Inicio de Sesión</a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/login">Postulante</Link>
+                  </li>
+                  <li>
+                    <Link to="/loginrh">Recursos Humanos</Link>
+                  </li>
                 </ul>
-            </nav>
-        )
+              </li>
+              <Link to="/register">
+                <button>Registrarse</button>
+              </Link>
+            </ul>
+          </nav>
+        );
+      }
     }
-}
-
-export default Navbar;
+    
+    export default Navbar;
