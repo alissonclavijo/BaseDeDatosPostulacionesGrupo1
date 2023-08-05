@@ -28,4 +28,18 @@ router.post("/enviar-correo", async (req, res) => {
   }
 });
 
+// Agrega una nueva ruta para verificar el código de verificación
+router.post("/verificar-codigo", (req, res) => {
+  const { correo, codigo } = req.body;
+
+  // Verifica si el código ingresado por el usuario coincide con el código almacenado para el correo electrónico
+  if (codigosVerificacion[correo] === codigo) {
+    // Si el código coincide, elimina el código almacenado para que no se pueda volver a utilizar
+    delete codigosVerificacion[correo];
+    res.status(200).json({ message: "Código de verificación válido." });
+  } else {
+    res.status(400).json({ message: "Código de verificación inválido." });
+  }
+});
+
 module.exports = router;

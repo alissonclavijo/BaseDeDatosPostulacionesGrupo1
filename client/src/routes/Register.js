@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
 import "./Register.css";
-import { useNavigate } from 'react-router-dom';
-import verificarCedula from '../utils/validacionCedula'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+import verificarCedula from "../utils/validacionCedula";
+import axios from "axios";
 
 const imagen = require.context("../img/");
 
@@ -15,7 +15,6 @@ function Register() {
   const [errorMensaje, setErrorMensaje] = useState("");
   const navigate = useNavigate();
 
-
   const handleTipoIdentificacionChange = (e) => {
     setTipoIdentificacion(e.target.value);
   };
@@ -25,14 +24,15 @@ function Register() {
   };
 
   const handleClick = async () => {
-    
-     const cedulaValida = verificarCedula(identificacion);
+    const cedulaValida = verificarCedula(identificacion);
     if (cedulaValida) {
-      navigate('/validacioncorreo', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
+      navigate("/validacioncorreo", {
+        state: { tipo: tipoIdentificacion, identidad: identificacion },
+      });
     } else {
       setErrorMensaje("Por favor, ingrese una cédula válida.");
     }
-    
+
     /*const cedulaValida = verificarCedula(identificacion);
     if (cedulaValida) {
       try {
@@ -65,8 +65,6 @@ function Register() {
     }
   };
 
-
-
   return (
     <>
       <Navbar />
@@ -91,9 +89,11 @@ function Register() {
                     value={tipoIdentificacion}
                     onChange={handleTipoIdentificacionChange}
                   >
-                    <option value ="identificacion">Seleccione la identificacion </option>
-                    <option value="cedula">Cédula</option>
-                    <option value="pasaporte">Pasaporte</option>
+                    <option value="identificacion">
+                      Seleccione la identificacion{" "}
+                    </option>
+                    <option value="Cedula">Cédula</option>
+                    <option value="Pasaporte">Pasaporte</option>
                   </select>
                   <label htmlFor="cedula">Identificacion:</label>
                   <input
@@ -106,16 +106,19 @@ function Register() {
                     pattern="[0-9]*"
                     title="Verifique que el número de cédula ha sido escrito correctamente"
                     required
-                  />{/*
+                  />
                   <div className="captcha">
                     <ReCAPTCHA
                       sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
                       onChange={handleCaptchaChange}
                     />
-                  </div>*
-                  <span className="error-message">{errorMensaje}</span>*/}
-                 <button onClick={handleClick}  className="custom-alert-btn">Enviar</button>
-                     
+                  </div>
+                  <span className="error-message">{errorMensaje}</span>
+
+                  {/* Mostrar mensaje de campos faltantes solo si se intentó enviar el formulario */}
+                  <button onClick={handleClick} className="custom-alert-btn">
+                    Enviar
+                  </button>
                 </form>
               </div>
             </div>

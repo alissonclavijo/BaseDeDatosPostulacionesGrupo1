@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-import Navbar from "../components/Navbar"
-import './Register.css';
-import './RegisterInformation.css';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import "./Register.css";
+import "./RegisterInformation.css";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const imagen = require.context("../img/");
 const RegisterInformation = () => {
   const location = useLocation();
-  const {tipo, identidad, email} = location.state || {};
-  const [nombreCompleto, setNombreCompleto] = useState('');
-  const [tituloSenecyt, setTituloSenecyt] = useState('');
-  const [sexo, setSexo] = useState('');
- // const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
+  const { tipo, identidad, email } = location.state || {};
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [tituloSenecyt, setTituloSenecyt] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [password, setPassword] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [formError, setFormError] = useState({});
-
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     switch (id) {
-      case 'nombreCompleto':
+      case "nombreCompleto":
         setNombreCompleto(value);
         break;
       // Agregar más casos según sea necesario
@@ -30,16 +28,16 @@ const RegisterInformation = () => {
         break;
     }
   };
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Separar el nombre y el apellido del campo "nombreCompleto"
-    const [nombre1, nombre2, apellido1, ...apellidoArray] = nombreCompleto.split(" ");
+    const [nombre1, nombre2, apellido1, ...apellidoArray] =
+      nombreCompleto.split(" ");
     const apellido2 = apellidoArray.join(" ");
 
     const data = {
-      cand_tipo_identificacion:tipo,
+      cand_tipo_identificacion: tipo,
       cand_num_identificacion: identidad,
       cand_sexo: sexo,
       cand_titulo: tituloSenecyt,
@@ -54,16 +52,18 @@ const RegisterInformation = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/candidatos", data);
+      const response = await axios.post(
+        "http://localhost:5000/candidatos",
+        data
+      );
       console.log("Candidato registrado:", response.data);
 
       // Restablecer campos después del envío exitoso
-      setNombreCompleto('');
-      setTituloSenecyt('');
-      setSexo('');
-      //setEmail('');
-      setPassword('');
-      setFechaNacimiento('');
+      setNombreCompleto("");
+      setTituloSenecyt("");
+      setSexo("");
+      setPassword("");
+      setFechaNacimiento("");
       setShowAlert(true);
       setFormError({});
     } catch (error) {
@@ -74,31 +74,37 @@ const RegisterInformation = () => {
     }
   };
 
-  const LoginValidar = () => {
-    setShowAlert(false);
-    window.location.href = '/login';
-  };
-
   return (
     <React.Fragment>
       <Navbar />
-      <br/><br/><br/><br/><br/>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-        <h1>{tipo}{identidad}{email}</h1>{/*borrar es solo para probar promps*/}
+        <h1>
+          {tipo}
+          {identidad}
+          {email}
+        </h1>
+        {/*borrar es solo para probar promps*/}
         <form onSubmit={handleSubmit}>
-        <div className="form-group">
+          <div className="form-group">
             <label htmlFor="email">CORREO:</label>
             <input
               type="email"
               id="email"
               value={email}
-             // onChange={(e) => setEmail(e.target.value)}
+              // onChange={(e) => setEmail(e.target.value)}
               readOnly
             />
           </div>
           <div className="form-group">
-            <label htmlFor="nombreCompleto">NOMBRES Y APELLIDOS COMPLETOS:</label>
+            <label htmlFor="nombreCompleto">
+              NOMBRES Y APELLIDOS COMPLETOS:
+            </label>
             <input
               type="text"
               id="nombreCompleto"
@@ -107,11 +113,15 @@ const RegisterInformation = () => {
               placeholder="Nombres Completos"
               required
             />
-            {formError.cand_nombre1 && <span className="error-message">{formError.cand_nombre1}</span>}
+            {formError.cand_nombre1 && (
+              <span className="error-message">{formError.cand_nombre1}</span>
+            )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="titulosenecyt">SELECCIONE EL TÍTULO DE SENECYT PARA POSTULAR:</label>
+            <label htmlFor="titulosenecyt">
+              SELECCIONE EL TÍTULO DE SENECYT PARA POSTULAR:
+            </label>
             <select
               id="titulosenecyt"
               value={tituloSenecyt}
@@ -152,34 +162,30 @@ const RegisterInformation = () => {
             />
           </div>
 
-         
+          {
+            <div className="form-group">
+              <label htmlFor="password">Contraseña:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          }
 
-          { <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div> }
-
-          <div className="advertencia">Utilizar solo cuentas de gmail, hotmail, outlook.</div>
-
-          <button type="submit" className="submit-btn">Enviar</button>
-        </form>
-        {showAlert && (
-          <div className="custom-alert">
-            <p>Datos enviados correctamente.</p>
-            <p>Ingrese el código enviado a su correo.</p>
-            <p>867362</p>
-            <button className="custom-alert-btn" onClick={LoginValidar}>Validar</button>
+          <div className="advertencia">
+            Utilizar solo cuentas de gmail, hotmail, outlook.
           </div>
-        )}
+
+          <button type="submit" className="submit-btn">
+            Enviar
+          </button>
+        </form>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default RegisterInformation;

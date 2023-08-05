@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
 
 const RegistroCodigo = ({ correo, onSubmitCodigo }) => {
-  const [inputCodigo, setInputCodigo] = useState('');
-  const [codigoVerificacion, setCodigoVerificacion] = useState('');
+  const [inputCodigo, setInputCodigo] = useState("");
+  const [codigoVerificacion, setCodigoVerificacion] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmitCodigo(inputCodigo);
-    
+    setErrorMessage("");
+
+    // Realiza una solicitud al backend para verificar el código de verificación
+    try {
+      const response = await fetch("http://localhost:5000/verificar-codigo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo, codigo: inputCodigo }),
+      });
+
+      if (response.ok) {
+        onSubmitCodigo(inputCodigo); // Llama a onSubmitCodigo solo si el código es válido
+      } else {
+        setErrorMessage("Código de verificación inválido.");
+      }
+    } catch (error) {
+      console.error("Error al verificar el código:", error);
+      setErrorMessage("Error al verificar el código.");
+    }
   };
 
   return (
@@ -16,12 +35,10 @@ const RegistroCodigo = ({ correo, onSubmitCodigo }) => {
       <h2>Ingrese el código que se envió al correo</h2>
       <form onSubmit={handleSubmit}>
         <p>Correo electrónico:</p>
-        <input
-          type="text"
-          value={correo}
-          readOnly
-        />
-        <p>Se envió un código a su correo. Por favor, ingréselo a continuación:</p>
+        <input type="text" value={correo} readOnly />
+        <p>
+          Se envió un código a su correo. Por favor, ingréselo a continuación:
+        </p>
         <input
           type="text"
           placeholder="Código"

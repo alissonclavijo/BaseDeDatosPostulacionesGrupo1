@@ -57,6 +57,7 @@ const RegistroCorreo = ({ onSubmitCorreo }) => {
       console.error('Error al enviar el correo:', error);
       setError('Error al enviar el correo.');
     }
+    onSubmitCorreo(email)
   };
 
   return (

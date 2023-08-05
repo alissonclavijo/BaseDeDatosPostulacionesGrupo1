@@ -74,11 +74,6 @@ const createCandidato = async (req, res) => {
       return res.status(400).json({ message: 'El correo electrónico ya está en uso.' });
     }
 
-    // Si el número de identificación ya existe, devolver una respuesta de error
-    if (existingNumIdentificacion.rows.length > 0) {
-      return res.status(400).json({ message: 'El número de identificación ya está en uso.' });
-    }
-
     // Si el correo electrónico y el número de identificación no existen, proceder con la inserción
     const result = await pool.query(
       'INSERT INTO public.candidato (cand_tipo_identificacion, cand_num_identificacion, cand_sexo, cand_titulo, cand_fecha_nacimiento, cand_correo, cand_password, cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
