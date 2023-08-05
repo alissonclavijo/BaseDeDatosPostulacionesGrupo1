@@ -25,20 +25,22 @@ function Register() {
   };
 
   const handleClick = async () => {
-    /*
+    
      const cedulaValida = verificarCedula(identificacion);
     if (cedulaValida) {
-      navigate('/registerinformation', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
+      navigate('/validacioncorreo', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
     } else {
       setErrorMensaje("Por favor, ingrese una cédula válida.");
-    }*/
-    const cedulaValida = verificarCedula(identificacion);
+    }
+    
+    /*const cedulaValida = verificarCedula(identificacion);
     if (cedulaValida) {
       try {
         // Realiza una solicitud a la API para verificar si la cédula ya existe
         const response = await axios.get(`http://localhost:5000/candidatos/${identificacion}`);
         
         if (response.data.existe) {
+          console.log(response.data.existe);
           setErrorMensaje("La cédula ya está registrada en la base de datos.");
         } else {
           // Si la cédula no existe, navega a la página RegisterInformation
@@ -50,7 +52,7 @@ function Register() {
       }
     } else {
       setErrorMensaje("Por favor, ingrese una cédula válida.");
-    }
+    }*/
   };
 
   const handleCaptchaChange = (value) => {
@@ -104,14 +106,14 @@ function Register() {
                     pattern="[0-9]*"
                     title="Verifique que el número de cédula ha sido escrito correctamente"
                     required
-                  />
+                  />{/*
                   <div className="captcha">
                     <ReCAPTCHA
                       sitekey="6LclwkwnAAAAAC1Ku7FR7uiJ6Dgn6Yt-34d3andC"
                       onChange={handleCaptchaChange}
                     />
-                  </div>
-                  <span className="error-message">{errorMensaje}</span>
+                  </div>*
+                  <span className="error-message">{errorMensaje}</span>*/}
                  <button onClick={handleClick}  className="custom-alert-btn">Enviar</button>
                      
                 </form>

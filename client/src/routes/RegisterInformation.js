@@ -8,11 +8,11 @@ import axios from "axios";
 const imagen = require.context("../img/");
 const RegisterInformation = () => {
   const location = useLocation();
-  const {tipo, identidad} = location.state || {};
+  const {tipo, identidad, email} = location.state || {};
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [tituloSenecyt, setTituloSenecyt] = useState('');
   const [sexo, setSexo] = useState('');
-  const [email, setEmail] = useState('');
+ // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [showAlert, setShowAlert] = useState(false);
@@ -61,7 +61,7 @@ const RegisterInformation = () => {
       setNombreCompleto('');
       setTituloSenecyt('');
       setSexo('');
-      setEmail('');
+      //setEmail('');
       setPassword('');
       setFechaNacimiento('');
       setShowAlert(true);
@@ -85,8 +85,18 @@ const RegisterInformation = () => {
       <br/><br/><br/><br/><br/>
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-        <h1>{tipo}{identidad}</h1>
+        <h1>{tipo}{identidad}{email}</h1>{/*borrar es solo para probar promps*/}
         <form onSubmit={handleSubmit}>
+        <div className="form-group">
+            <label htmlFor="email">CORREO:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+             // onChange={(e) => setEmail(e.target.value)}
+              readOnly
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="nombreCompleto">NOMBRES Y APELLIDOS COMPLETOS:</label>
             <input
@@ -142,16 +152,7 @@ const RegisterInformation = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">CORREO:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+         
 
           { <div className="form-group">
             <label htmlFor="password">Contraseña:</label>

@@ -44,7 +44,7 @@ app.use(departamento)
 app.use(item)
 app.use(requisito)
 app.use(oferta)
-app.use("/informacion",informacion)
+app.use(informacion)
 app.use(mail)
 
 app.use((err, req, res, next) => {
@@ -67,6 +67,7 @@ pool.connect((err) => {
 
 //email
 console.log("smtp email listo !")
+console.log(process.env.PASSWORD_MAIL);
 
 
 app.listen(5000)

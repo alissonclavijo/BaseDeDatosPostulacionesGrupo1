@@ -62,12 +62,12 @@ const createCandidato = async (req, res) => {
       'SELECT * FROM public.candidato WHERE cand_correo = $1',
       [cand_correo]
     );
-
+/*
     // Consultar si el número de identificación ya existe en la base de datos
     const existingNumIdentificacion = await pool.query(
       'SELECT * FROM public.candidato WHERE cand_num_identificacion = $1',
       [cand_num_identificacion]
-    );
+    );*/
 
     // Si el correo electrónico ya existe, devolver una respuesta de error
     if (existingCorreo.rows.length > 0) {

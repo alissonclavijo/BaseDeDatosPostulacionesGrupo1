@@ -11,7 +11,7 @@ import Postulacion from './routes/Postulacion';
 import AuthProvider from "./routes/AuthContext";
 import Loginrh from './routes/Loginrh';
 import Recursosh from './routes/Recursosh';
-
+import CorreoValidacion from './routes/CorreoValidacion'
 
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
           <Route path ="/postulacion" element={<Postulacion/>}/>
           <Route path ="/loginrh" element={<Loginrh/>}/>
           <Route path ="/recursosh" element={<Recursosh/>}/>
+          <Route path ="/validacioncorreo" element={<CorreoValidacion/>}/>
 
         </Routes>    
       </div>

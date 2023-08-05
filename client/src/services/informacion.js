@@ -7,7 +7,7 @@ export async function guardarArchivos(archivos) {
     const formData = new FormData();
 
     archivos.forEach((archivo) => {
-      formData.append('archivos', archivo);
+      formData.append('archivo', archivo);
     });
 
     const response = await axios({
