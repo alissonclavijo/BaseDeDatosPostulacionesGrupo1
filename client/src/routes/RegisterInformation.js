@@ -85,15 +85,25 @@ const RegisterInformation = () => {
       <br />
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-        <h2>
+        {/* <h3>
           {tipo}
           <br />
           {identidad}
           <br />
           {email}
-        </h2>
+        </h3> */}
         {/*borrar es solo para probar promps*/}
         <form onSubmit={handleSubmit}>
+        <div className="form-group">
+            <label htmlFor="email">CEDULA:</label>
+            <input
+              type="text"
+              id="cedula"
+              value={identidad}
+              // onChange={(e) => setEmail(e.target.value)}
+              readOnly
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">CORREO:</label>
             <input
@@ -178,9 +188,6 @@ const RegisterInformation = () => {
             </div>
           }
 
-          <div className="advertencia">
-            Utilizar solo cuentas de gmail, hotmail, outlook.
-          </div>
 
           <TermsAndConditions
             onTycCheckedChange={(checked) => {
