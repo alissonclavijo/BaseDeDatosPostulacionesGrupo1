@@ -49,6 +49,23 @@ const getOfertaById = async (req, res) => {
   }
 };
 
+const getOfertaByParams = async (req, res) => {
+  const { sede_id } = req.params;
+  const { dept_id } = req.params;
+  const { ca_id } = req.params;
+  const { ce_id } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM public.oferta WHERE sede_id = $1 AND dept_id = $2 AND ca_id = $3 AND ce_id = $4', [sede_id, dept_id,ca_id,ce_id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Oferta no encontrada' });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la oferta' });
+  }
+};
+
 const updateOferta = async (req, res) => {
   const { ofe_id } = req.params;
   const {
@@ -112,4 +129,5 @@ module.exports = {
   getOfertaById,
   updateOferta,
   deleteOferta,
+  getOfertaByParams,
 };

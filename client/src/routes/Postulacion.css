@@ -18,6 +18,13 @@
   margin-top: 60px;
 
 }
+.centrado{
+  display: grid;
+  place-items: center;
+}
+#tabla{
+  display: none;
+}
 
 /* Estilos para los títulos */
 h1 {
@@ -53,6 +60,15 @@ button {
 
 button:hover {
   background-color: #005454; /* Color de fondo del botón cuando se pasa el cursor sobre él */
+}
+.botonPeque {
+  background-color: #318044; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  padding: 2px 2px; /* Espacio interno del botón (arriba/abajo izquierda/derecha) */
+  border: none; /* Quitar el borde del botón */
+  cursor: pointer; /* Cambiar el cursor cuando se pasa sobre el botón */
+  margin-right: 10px; /* Espacio entre los botones */
+  font-size: 13px;
 }
 
 /* Deplegable de formato de archivos */
