@@ -69,7 +69,7 @@ const RegistroCorreo = ({ onSubmitCorreo }) => {
       <div className="background-registro-correo"> {/* Agregamos una clase CSS para el contenedor */}
         <Navbar/>
         <div className="registro-correo-container"> {/* Agregamos una clase CSS para el contenedor */}
-          <h2>Ingrese el correo</h2>
+          <h2> Ingrese el correo</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="email"
@@ -79,6 +79,10 @@ const RegistroCorreo = ({ onSubmitCorreo }) => {
             />
             <button type="submit">Registro</button>
           </form>
+          
+          <div className="advertencia">
+            Utilizar solo cuentas de gmail, hotmail, outlook.
+          </div>
         </div>
       </div>
     </>  
