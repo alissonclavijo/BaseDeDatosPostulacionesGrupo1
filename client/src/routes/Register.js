@@ -68,6 +68,7 @@ function Register() {
   return (
     <>
       <Navbar />
+      
       <div className="conregister">
         <img
           className="banner"
@@ -75,6 +76,7 @@ function Register() {
           alt="Universidad"
         />
         <div className="register">
+       
           <div className="containere">
             <div className="centredeDiv">
               <h2>Registro de Postulantes a Docentes</h2>
