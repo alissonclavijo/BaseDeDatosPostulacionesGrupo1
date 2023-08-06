@@ -1,0 +1,51 @@
+.background-registro-correo {
+    background-image: url("../img/banner_profesores.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.registro-correo-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(240, 240, 240, 0.8); /* Ajusta el valor de alfa (0.8) para hacer el contenedor traslúcido */
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input {
+    padding: 12px; /* Ajusta el padding para aumentar el tamaño del cuadro de texto */
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Ajusta el tamaño de fuente para el cuadro de texto */
+  }
+  
+  button {
+    padding: 12px 10px; /* Ajusta el padding para aumentar el tamaño del botón */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Ajusta el tamaño de fuente para el botón */
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

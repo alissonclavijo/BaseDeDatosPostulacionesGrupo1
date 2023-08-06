@@ -77,7 +77,7 @@ function Register() {
         <div className="register">
           <div className="containere">
             <div className="centredeDiv">
-              <h1>Registro de Postulantes a Docentes</h1>
+              <h2>Registro de Postulantes a Docentes</h2>
               <div className="form-container">
                 <form className="cedula-form">
                   <label htmlFor="tipoIdentificacion">

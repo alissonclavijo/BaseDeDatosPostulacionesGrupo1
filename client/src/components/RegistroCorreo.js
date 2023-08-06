@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import "./RegistroCorreo.css";
+import Navbar from "../components/Navbar";
+
 
 const RegistroCorreo = ({ onSubmitCorreo }) => {
   const [email, setEmail] = useState('');
@@ -61,18 +64,24 @@ const RegistroCorreo = ({ onSubmitCorreo }) => {
   };
 
   return (
-    <div>
-      <h2>Ingrese el correo</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="submit">Registro</button>
-      </form>
-    </div>
+    
+    <>
+      <div className="background-registro-correo"> {/* Agregamos una clase CSS para el contenedor */}
+        <Navbar/>
+        <div className="registro-correo-container"> {/* Agregamos una clase CSS para el contenedor */}
+          <h2>Ingrese el correo</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button type="submit">Registro</button>
+          </form>
+        </div>
+      </div>
+    </>  
   );
 };
 
