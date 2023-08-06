@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import "./Register.css";
 import "./RegisterInformation.css";
 import { useLocation } from "react-router-dom";
+import TermsAndConditions from "../components/TyC";
 import axios from "axios";
 
 const imagen = require.context("../img/");
@@ -84,11 +85,13 @@ const RegisterInformation = () => {
       <br />
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-        <h1>
+        <h2>
           {tipo}
+          <br />
           {identidad}
+          <br />
           {email}
-        </h1>
+        </h2>
         {/*borrar es solo para probar promps*/}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -179,7 +182,13 @@ const RegisterInformation = () => {
             Utilizar solo cuentas de gmail, hotmail, outlook.
           </div>
 
-          <button type="submit" className="submit-btn">
+          <TermsAndConditions
+            onTycCheckedChange={(checked) => {
+              const submitBtn = document.getElementById("submitBtn");
+              submitBtn.disabled = !checked;
+            }}
+          />
+          <button type="submit" id="submitBtn" className="submit-btn" disabled>
             Enviar
           </button>
         </form>
