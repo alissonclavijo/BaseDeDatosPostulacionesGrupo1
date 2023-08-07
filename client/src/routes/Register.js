@@ -24,14 +24,19 @@ function Register() {
   };
 
   const handleClick = async () => {
-    const cedulaValida = verificarCedula(identificacion);
-    if (cedulaValida) {
-      navigate("/validacioncorreo", {
-        state: { tipo: tipoIdentificacion, identidad: identificacion },
-      });
-    } else {
-      setErrorMensaje("Por favor, ingrese una cédula válida.");
+    if (!captchaResuelto) {
+      setErrorMensaje("Por favor, resuelve el captcha.");
+      return;
     }
+
+    if (!verificarCedula(identificacion)) {
+      setErrorMensaje("Por favor, ingrese una cédula válida.");
+      return;
+    }
+
+    navigate("/validacioncorreo", {
+      state: { tipo: tipoIdentificacion, identidad: identificacion },
+    });
 
     /*const cedulaValida = verificarCedula(identificacion);
     if (cedulaValida) {
@@ -117,10 +122,12 @@ function Register() {
                   </div>
                   <span className="error-message">{errorMensaje}</span>
 
-                  {/* Mostrar mensaje de campos faltantes solo si se intentó enviar el formulario */}
-                  <button onClick={handleClick} className="custom-alert-btn">
-                    Enviar
-                  </button>
+                  <button
+                  type="button" 
+                  onClick={handleClick}
+                  className="custom-alert-btn">
+                  Enviar
+                </button>
                 </form>
               </div>
             </div>
