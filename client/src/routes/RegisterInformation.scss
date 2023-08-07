@@ -1,0 +1,92 @@
+$main-color:#087434;
+
+.main-register{
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow-x: hidden;
+    background: linear-gradient(to right, rgb(207, 207, 207) 50%, $main-color 50%);
+
+    .regist-contain{
+        height: 105vh;
+        width: 80%;
+        background: linear-gradient(to right bottom, rgba(236, 236, 236, 0.7), rgba(236,236,236, 0.3));
+        border-radius: 1rem;
+        margin: 2rem auto;
+        box-shadow: 0.5rem 0.5rem 2rem -1rem rgb(58,57,57);
+        display: flex;
+
+        .left-side, .rigth-side{
+            margin: 2rem 2rem;
+            box-shadow: 0.5rem 0.5rem 2rem -1rem rgb(58, 57, 57);
+            height: 90%;
+            width: 100%;
+        }
+        .left-side{
+            display: flex;
+            flex-direction: column;
+
+
+            .input1{
+                display: block;
+                border: none;
+                height: 2rem;
+                width: 70%;
+                margin: auto;
+                margin-bottom: 1.5rem;
+                padding: 0.2rem 1rem;
+                font-size: small;
+                color: gray;
+                transition: all 0.3s ease-in-out;
+                &:focus{
+                    outline: none;
+                    border: none;
+                }
+                &:hover{
+                    outline: 0.5px solid $main-color;
+                    box-shadow: 0.5px 0.5px 6px -1px $main-color;
+                }
+            }
+
+            .label1 label{
+                display: block;
+                margin: auto;
+                float: left;
+                width: 70%;
+                font-size: small;
+                color: gray;
+
+            }
+            
+            .submit-btn{
+                width: 17%;
+                height: 7%;
+                background:$main-color ;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3 ease;
+                &:hover{
+                    box-shadow: 0.5px 0.5px 6px -1px black;
+                    transform: translateY(-5px);
+                }
+            }
+        }
+        .rigth-side{
+            display: flex;
+            flex-direction: column;
+            .welcomeimg{
+                display: flex;
+                height: 90%;
+                width: 90%;
+                margin: 0rem auto;
+                justify-content: center;
+                align-items: center;
+
+                #wel-img-id{
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}

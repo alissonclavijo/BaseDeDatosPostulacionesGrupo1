@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.scss";
 import {Link} from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import inni from '../img/login.png'
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showCustomAlert, setShowCustomAlert] = useState(false);
- 
+  const [userData, setUserData] = useState([]);
   const { login } = useAuth();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get('http://localhost:5000/candidatos');
+      setUserData(result.data);
+    };
+
+    fetchData();
+  }, [])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,18 +33,33 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+/*
     if (!email || !password) {
       setErrorMessage("Por favor, ingresa tu email y contraseña.");
     } else {
       setErrorMessage("");
-      // En una implementación real, aquí enviarías los datos al servidor para autenticar al usuario.
-      // Si las credenciales son válidas, llama a la función login del contexto para marcar el inicio de sesión exitoso.
       login();
-      // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
-      window.location.href =("/homepost");
-    }
-  };
+      window.location.href =("/homepost");  }*/
+      login();
+      const candidatos = userData.find(
+        (candidatos) => candidatos.cand_correo === email && candidatos.cand_password === password
+              );
+      if(candidatos){
+        if (candidatos.cand_nombre1 === 'sebas') {
+          // Redirect to admin page
+          console.log('Admin login successful');
+          window.location.href=`http://localhost:3000/recursosh`
+          
+        } else{
+          // Redirect to user page
+          window.location.href=`http://localhost:3000/postulacion`
+          console.log('User login successful');
+        }
+      } else {
+        alert("Contraseña o usuario incorrecto");
+      }
+      }
+ // };
 
   const handleCloseCustomAlert = () => {
     setShowCustomAlert(false);
