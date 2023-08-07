@@ -6,6 +6,7 @@ import Docente from '../img/Docente.png';
 import Pdf from '../img/pdf.png'
 import Word from '../img/word.png'
 import Excel from '../img/excel.png'
+import { Link } from 'react-router-dom';
 
 
 function HomePost() {
@@ -38,6 +39,10 @@ function HomePost() {
             <span>Certificados Experiencia Profesional</span>
             <img src={Pdf} alt=""/>
             <img src={Word} alt=""/>
+          </div>
+
+          <div className='i-documents'>
+            <button ><Link to={"/InforPost"} className='link'>Postulacion</Link></button>
           </div>
 
 
