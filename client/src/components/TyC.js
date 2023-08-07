@@ -1,5 +1,6 @@
 // components/TyC.js (TermsAndConditions)
 import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const TermsAndConditions = ({ onTycCheckedChange }) => {
   const tycRef = useRef(null);
@@ -14,9 +15,9 @@ const TermsAndConditions = ({ onTycCheckedChange }) => {
         <br />
       <h3>Términos y Condiciones</h3>
       Estoy de acuerdo con los{" "}
-      <a href="terminos.html" target="_blank" className="enlace-terminos">
-        términos y condiciones
-      </a>{" "}
+      <Link to="/terminosycondiciones" target="_blank" className="enlace-terminos">
+      términos y condiciones
+    </Link>{" "}
       <br />
       <input
         type="checkbox"

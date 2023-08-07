@@ -1,0 +1,68 @@
+.contenedor {
+  margin-top: 110px;  
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .texto {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .imagen {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .imagen img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Estilos para el cuerpo del documento */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+/* Estilos para los encabezados */
+h2 {
+    color: #333;
+}
+
+/* Estilos para los párrafos */
+p {
+    margin-bottom: 10px;
+}
+
+/* Estilos para texto en negrita */
+strong {
+    color: #555;
+}
+
+/* Estilos para las secciones */
+.section {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+/* Estilos para las imágenes */
+.imagen {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+}
+
+.imagen img {
+    max-width: 100%;
+    height: auto;
+}
