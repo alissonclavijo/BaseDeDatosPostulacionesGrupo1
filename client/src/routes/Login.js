@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import inni from '../img/login.png'
 import axios from 'axios';
+import swal from 'sweetalert'
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -52,11 +53,23 @@ const Login = () => {
           
         } else{
           // Redirect to user page
-          window.location.href=`http://localhost:3000/postulacion`
+          window.location.href=`http://localhost:3000/homepost`
           console.log('User login successful');
         }
       } else {
-        alert("Contraseña o usuario incorrecto");
+        swal({
+          title: '',
+          content: {
+            element: "div",
+            attributes: {
+              innerHTML: "Contraseña o Usuario incorrecto<br/>Por favor verifique sus datos.<br/>",
+            },
+          },
+          icon: '',
+          buttons: ["Intentar de nuevo"],
+        });
+        setEmail("");
+        setPassword("");
       }
       }
  // };
