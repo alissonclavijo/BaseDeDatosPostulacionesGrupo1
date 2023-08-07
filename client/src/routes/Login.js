@@ -46,7 +46,7 @@ const Login = () => {
         (candidatos) => candidatos.cand_correo === email && candidatos.cand_password === password
               );
       if(candidatos){
-        if (candidatos.cand_nombre1 === 'r') {
+        if (candidatos.cand_nombre1 === 'sebas') {
           // Redirect to admin page
           console.log('Admin login successful');
           window.location.href=`http://localhost:3000/recursosh`
