@@ -85,13 +85,13 @@ const RegisterInformation = () => {
       <br />
       <div className="register-form-container">
         <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-        {/* <h3>
+         <h3>
           {tipo}
           <br />
           {identidad}
           <br />
           {email}
-        </h3> */}
+        </h3>
         {/*borrar es solo para probar promps*/}
         <form onSubmit={handleSubmit}>
         <div className="form-group">
