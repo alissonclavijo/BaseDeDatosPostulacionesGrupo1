@@ -5,7 +5,9 @@ $main-color:#087434;
     min-width: 100vw;
     overflow-x: hidden;
     background: linear-gradient(to right, rgb(207, 207, 207) 50%, $main-color 50%);
-
+.titu{
+    font-size: 30px;
+}
     .login-contain{
         height: 70vh;
         width: 80%;
@@ -47,24 +49,27 @@ $main-color:#087434;
                 }
             }
 
-            .label2 label{
+            .label2 {
                 display: block;
                 margin: auto;
                 float: left;
                 width: 70%;
-                font-size: small;
-                color: gray;
+                font-size: 20px;
+                color: black;
 
             }
-            
+            .submit{
+                text-align: center;
+                align-items: center;
+            }
             .submit-btn1{
-                width: 17%;
-                height: 7%;
+                
                 background:$main-color ;
                 color: white;
                 border: none;
                 cursor: pointer;
                 transition: all 0.3 ease;
+                align-items: center;
                 &:hover{
                     box-shadow: 0.5px 0.5px 6px -1px black;
                     transform: translateY(-5px);
@@ -91,8 +96,8 @@ $main-color:#087434;
                 align-items: center;
 
                 #wel-img-id1{
-                  width: 100%;
-                  object-fit: cover;
+                    width: 100%;
+                    object-fit: cover;
                 }
             }
         }
