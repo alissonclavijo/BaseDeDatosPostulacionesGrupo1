@@ -7,7 +7,7 @@ $main-color:#087434;
     background: linear-gradient(to right, rgb(207, 207, 207) 50%, $main-color 50%);
 
     .regist-contain{
-        height: 105vh;
+        height: 125vh;
         width: 80%;
         background: linear-gradient(to right bottom, rgba(236, 236, 236, 0.7), rgba(236,236,236, 0.3));
         border-radius: 1rem;
@@ -58,8 +58,6 @@ $main-color:#087434;
             }
             
             .submit-btn{
-                width: 17%;
-                height: 7%;
                 background:$main-color ;
                 color: white;
                 border: none;

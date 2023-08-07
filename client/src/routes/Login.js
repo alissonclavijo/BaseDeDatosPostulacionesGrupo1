@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import inni from '../img/login.png'
 import axios from 'axios';
-import swal from 'sweetalert'
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -53,23 +52,11 @@ const Login = () => {
           
         } else{
           // Redirect to user page
-          window.location.href=`http://localhost:3000/homepost`
+          window.location.href=`http://localhost:3000/postulacion`
           console.log('User login successful');
         }
       } else {
-        swal({
-          title: '',
-          content: {
-            element: "div",
-            attributes: {
-              innerHTML: "Contraseña o Usuario incorrecto<br/>Por favor verifique sus datos.<br/>",
-            },
-          },
-          icon: '',
-          buttons: ["Intentar de nuevo"],
-        });
-        setEmail("");
-        setPassword("");
+        alert("Contraseña o usuario incorrecto");
       }
       }
  // };
@@ -100,7 +87,7 @@ const Login = () => {
 
           <div className="left-side1">
           <br/><br/><br/>
-            <h2>Inicio de sesión</h2>
+            <h2 className="titu">Inicio de sesión</h2>
             <br/>
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             <form onSubmit={handleSubmit}>
@@ -126,10 +113,11 @@ const Login = () => {
                   onChange={handlePasswordChange}
                   required
                 />
-
-              <button type="submit" className="submit-btn">
-                Iniciar sesión
-              </button>
+              <div className="submit">
+                <button type="submit"  className="submit-btn1" >
+                  Iniciar sesión
+                </button>
+              </div>
             </form>
           </div>
 
@@ -140,7 +128,7 @@ const Login = () => {
         {showCustomAlert && (
           <div className="custom-alert">
             <p>Tu información será manipulada conforme a la necesidad de la institución sin lugar a reclamos, conforme a la ley de protección de datos del Ecuador.</p>
-            <Link to="/homepost"><button className="submit-btn" onClick={handleCloseCustomAlert}>
+            <Link to="/homepost"><button className="submit-btn1" onClick={handleCloseCustomAlert}>
               Aceptar
             </button></Link>
           </div>
