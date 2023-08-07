@@ -33,6 +33,10 @@ td {
   width: 3000;
 }
 
+.id1 td{
+  padding: 10px;
+}
+
 th {
   background-color: #f0f0f0;
 }

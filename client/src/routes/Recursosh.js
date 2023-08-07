@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faInfoCircle, faPrint } from "@fortawesome/free-solid-svg-icons";
+import NavpostAdmin from '../components/NavpostAdmin';
 import "./Recursosh.css";
 
 const Recursosh = () => {
@@ -24,6 +25,8 @@ const Recursosh = () => {
   );
 
   return (
+    <>
+    <NavpostAdmin/>
     <div className="table-container">
       <br />
       <h1>Tabla de Postulaciones</h1>
@@ -53,7 +56,7 @@ const Recursosh = () => {
         <tbody>
           {filteredData.map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              <td className="id1">{item.id}</td>
               <td>{item.registroId}</td>
               <td>{item.nombre}</td>
               <td>{item.telefono}</td>
@@ -78,6 +81,7 @@ const Recursosh = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 
