@@ -6,6 +6,8 @@ const RegistroCodigo = ({ correo, onSubmitCodigo }) => {
   const [inputCodigo, setInputCodigo] = useState("");
   const [codigoVerificacion, setCodigoVerificacion] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,10 @@ const RegistroCodigo = ({ correo, onSubmitCodigo }) => {
         body: JSON.stringify({ correo, codigo: inputCodigo }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
+        setSuccessMessage(data.message);
         onSubmitCodigo(inputCodigo); // Llama a onSubmitCodigo solo si el código es válido
       } else {
         setErrorMessage("Código de verificación inválido.");
