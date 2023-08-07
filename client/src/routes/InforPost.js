@@ -4,7 +4,7 @@ import ArchivoInput from '../components/ArchivoInput';
 import NumeroHojasInput from '../components/NumeroHojasInput';
 import Navpost from '../components/Navpost';
 import swal from 'sweetalert'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { guardarArchivos } from '../services/informacion';
 
 
@@ -48,7 +48,7 @@ function InforPost() {
     setArchivoSeleccionadoProfesional(archivo);
   };
 
- 
+  const navigate = useNavigate();
 
   const mostrarAlerta = () => {
     // Verificar si todos los campos están llenos
@@ -96,7 +96,11 @@ function InforPost() {
               swal({
                 text: 'Datos subidos correctamente',
                 icon: 'success',
-                button: 'Salir'
+                button: 'Salir',
+              }).then(() => {
+                // Redireccionar a "/postulacion" después de hacer clic en "Salir"
+                // eslint-disable-next-line no-restricted-globals
+                navigate('/postulacion')
               });
             })
             .catch((error) => {

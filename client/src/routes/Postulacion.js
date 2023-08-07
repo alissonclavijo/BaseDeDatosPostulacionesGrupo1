@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navpost from '../components/Navpost';
 import "./Postulacion.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import swal from 'sweetalert'
 
@@ -24,6 +24,8 @@ function Postulacion() {
   const [opcionesAmplio, setOpcionesAmplio] = useState([]);
   const [opcionesEspecifico, setOpcionesEspecifico] = useState([]);
 
+
+
   function mostrar() {
     // Obtener el elemento con el id "tabla"
     var div = document.getElementById('tabla');
@@ -35,19 +37,24 @@ function Postulacion() {
       console.error("Elemento con id 'tabla' no encontrado.");
     }
   }
+  const navigate = useNavigate();
   const mostrarAlerta = () => {
-
-      swal({
-        title: '',
-        content: {
-          element: "div",
-          attributes: {
-            innerHTML: "Verifique los datos<br/>Solo puede postular una vez por concurso.<br/>Verifique los datos antes de enviar. <br/>",
-          },
+    swal({
+      title: '',
+      content: {
+        element: "div",
+        attributes: {
+          innerHTML: "Verifique los datos<br/>Solo puede postular una vez por concurso.<br/>Verifique los datos antes de enviar. <br/>",
         },
-        icon: '',
-        buttons: ["Regresar", "Postular"],
-      });
+      },
+      icon: '',
+      buttons: ["Regresar", "Postular"],
+    }).then((value) => {
+      console.log(value)
+      if (value) {
+        navigate("/"); // Navega a "/home" si se hace clic en "Postular"
+      }
+    });
     
   };
 
@@ -369,7 +376,7 @@ function Postulacion() {
          */}
             <br />
             <br />
-            <button  class="btn btn-primary" onClick={()=>mostrarAlerta()}>Postulación</button>
+            <button hidden={!amplio} class="btn btn-primary" onClick={()=>mostrarAlerta()}>Postulación</button>
           </div>
 
         </div>

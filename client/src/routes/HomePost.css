@@ -84,6 +84,10 @@
     width: 250px;
 }
 
+.link {
+    color: aliceblue;
+    text-decoration: none;
+}
 
 /*    width: 30px;
     height: 30px;
