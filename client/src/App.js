@@ -12,6 +12,7 @@ import AuthProvider from "./routes/AuthContext";
 import Recursosh from './routes/Recursosh';
 import CorreoValidacion from './routes/CorreoValidacion'
 import { Error404 } from "./routes/Error404";
+import RecursosVerCandidato from "./routes/RecursosVerCandidato";
 
 
 function App() {
@@ -31,7 +32,8 @@ function App() {
           <Route exact path ="/recursosh" element={<Recursosh/>}/>
           <Route exact path ="/validacioncorreo" element={<CorreoValidacion/>}/>
           <Route exact path="*" element={<Error404 />} />
-
+          <Route exact path ="/recursosvercandidato" element={<RecursosVerCandidato/>}/>
+          
         </Routes>    
       </div>
     </AuthProvider>  
