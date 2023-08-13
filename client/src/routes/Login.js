@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.scss";
-import {Link} from "react-router-dom";
-import { useAuth } from "./AuthContext";
-import inni from '../img/login.png'
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
+import inni from "../img/login.png";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,16 +12,16 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [userData, setUserData] = useState([]);
-  const { login } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:5000/candidatos');
+      const result = await axios.get("http://localhost:5000/candidatos");
       setUserData(result.data);
     };
 
     fetchData();
-  }, [])
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -33,104 +33,108 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-/*
-    if (!email || !password) {
-      setErrorMessage("Por favor, ingresa tu email y contraseña.");
-    } else {
-      setErrorMessage("");
-      login();
-      window.location.href =("/homepost");  }*/
-      login();
-      const candidatos = userData.find(
-        (candidatos) => candidatos.cand_correo === email && candidatos.cand_password === password
-              );
-      if(candidatos){
-        if (candidatos.cand_nombre1 === 'sebas') {
-          // Redirect to admin page
-          console.log('Admin login successful');
-          window.location.href=`http://localhost:3000/recursosh`
-          
-        } else{
-          // Redirect to user page
-          window.location.href=`http://localhost:3000/postulacion`
-          console.log('User login successful');
-        }
+    localStorage.setItem("token", true);
+    const candidatos = userData.find(
+      (candidatos) =>
+        candidatos.cand_correo === email &&
+        candidatos.cand_password === password
+    );
+    if (candidatos) {
+      if (candidatos.cand_nombre1 === "sebas") {
+        console.log("Admin login successful");
+        navigate("/recursosh");
       } else {
-        alert("Contraseña o usuario incorrecto");
+        navigate("/homepost");
+        console.log("User login successful");
       }
-      }
- // };
+    } else {
+      swal("Sus credenciales son incorrectas");
+    }
+  };
 
   const handleCloseCustomAlert = () => {
     setShowCustomAlert(false);
-    // Puedes agregar aquí cualquier otra lógica que desees realizar después de cerrar la alerta.
   };
 
   return (
     <>
       <div className="main-login">
         <Navbar />
-        <br /><br /><br /><br /><br /><br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
 
         <div className="login-contain">
-          
-        <div className='rigth-side1'>
-                <div className='welcomenote1'>
-                    <h3>Bienvenido de vuelta!!!</h3>
-                    <br/>
-                </div>
+          <div className="rigth-side1">
+            <div className="welcomenote1">
+              <h3>Bienvenido de vuelta!!!</h3>
+              <br />
+            </div>
 
-                <div className='welcomeimg1'>
-                    <img src={inni} id='wel-img-id1' alt='' />
-                </div>
+            <div className="welcomeimg1">
+              <img src={inni} id="wel-img-id1" alt="" />
+            </div>
           </div>
 
           <div className="left-side1">
-          <br/><br/><br/>
+            <br />
+            <br />
+            <br />
             <h2 className="titu">Inicio de sesión</h2>
-            <br/>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <br />
+            {errorMessage && (
+              <div className="error-message">{errorMessage}</div>
+            )}
             <form onSubmit={handleSubmit}>
+              <label className="label2" htmlFor="email">
+                Email:
+              </label>
+              <input
+                className="input2"
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
 
-                <label className='label2' htmlFor="email">Email:</label>
-                <input className='input2'
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
-                />
-
-
-
-                <label className='label2' htmlFor="password">Contraseña:</label>
-                <input className='input2'
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  required
-                />
+              <label className="label2" htmlFor="password">
+                Contraseña:
+              </label>
+              <input
+                className="input2"
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
               <div className="submit">
-                <button type="submit"  className="submit-btn1" >
+                <button type="submit" className="submit-btn1">
                   Iniciar sesión
                 </button>
               </div>
             </form>
           </div>
-
-          
-
         </div>
 
         {showCustomAlert && (
           <div className="custom-alert">
-            <p>Tu información será manipulada conforme a la necesidad de la institución sin lugar a reclamos, conforme a la ley de protección de datos del Ecuador.</p>
-            <Link to="/homepost"><button className="submit-btn1" onClick={handleCloseCustomAlert}>
-              Aceptar
-            </button></Link>
+            <p>
+              Tu información será manipulada conforme a la necesidad de la
+              institución sin lugar a reclamos, conforme a la ley de protección
+              de datos del Ecuador.
+            </p>
+            <Link to="/homepost">
+              <button className="submit-btn1" onClick={handleCloseCustomAlert}>
+                Aceptar
+              </button>
+            </Link>
           </div>
         )}
       </div>
