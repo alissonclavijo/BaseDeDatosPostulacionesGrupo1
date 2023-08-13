@@ -4,6 +4,7 @@ import "./RegisterInformation.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../components/TyC";
 import axios from "axios";
+import bcrypt from "bcryptjs";
 import espelogo from "../img/espelogo.png";
 import swal from "sweetalert";
 
@@ -38,6 +39,9 @@ const RegisterInformation = () => {
       nombreCompleto.split(" ");
     const apellido2 = apellidoArray.join(" ");
 
+    const saltRounds = 10; // Número de rondas de sal (ajusta según tus necesidades)
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
     const data = {
       cand_tipo_identificacion: tipo,
       cand_num_identificacion: identidad,
@@ -46,13 +50,13 @@ const RegisterInformation = () => {
       cand_fecha_nacimiento: fechaNacimiento,
       cand_id: 22,
       cand_correo: email,
-      cand_password: password,
+      cand_password: hashedPassword,
       cand_nombre1: nombre1 || "",
       cand_nombre2: nombre2 || "",
       cand_apellido1: apellido1 || "",
       cand_apellido2: apellido2 || "",
     };
-
+   
     try {
       const response = await axios.post(
         "http://localhost:5000/candidatos",

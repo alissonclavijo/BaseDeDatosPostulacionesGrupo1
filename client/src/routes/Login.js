@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import inni from "../img/login.png";
 import axios from "axios";
+import bcrypt from "bcryptjs";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,21 +33,30 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.setItem("token", true);
-    const candidatos = userData.find(
-      (candidatos) =>
-        candidatos.cand_correo === email &&
-        candidatos.cand_password === password
-    );
+  
+    const candidatos = userData.find((candidatos) => candidatos.cand_correo === email);
+  
     if (candidatos) {
-      if (candidatos.cand_nombre1 === "sebas") {
-        console.log("Admin login successful");
-        navigate("/recursosh");
-      } else {
-        navigate("/homepost");
-        console.log("User login successful");
+      try {
+        const passwordMatches = await bcrypt.compare(password, candidatos.cand_password);
+  
+        if (passwordMatches) {
+          if (candidatos.cand_nombre1 === "sebas") {
+            console.log("Admin login successful");
+            navigate("/recursosh");
+          } else {
+            navigate("/homepost");
+            console.log("User login successful");
+          }
+        } else {
+          swal("Sus credenciales son incorrectas");
+        }
+      } catch (error) {
+        console.error("Error al comparar contraseñas:", error);
+        // Maneja el error de comparación de contraseñas
       }
     } else {
       swal("Sus credenciales son incorrectas");
