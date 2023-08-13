@@ -12,6 +12,8 @@ router.get('/candidatos/:cedula', candidatoController.getCandidatoByCedula);
 // Ruta para obtener un candidato por su ID
 router.get('/candidatos/:id', candidatoController.getCandidatoById);
 
+// Ruta para obtener candidato por correo electrónico
+router.get('/candidatos/porcorreo/:correo', candidatoController.getCandidatoByCorreo);
 
 // Ruta para registrar un nuevo candidato
 router.post('/candidatos', candidatoController.createCandidato);
@@ -21,5 +23,6 @@ router.put('/candidatos/:id', candidatoController.updateCandidato);
 
 // Ruta para eliminar un candidato por su ID
 router.delete('/candidatos/:id', candidatoController.deleteCandidato);
+
 
 module.exports = router;

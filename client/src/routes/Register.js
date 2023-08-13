@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import Navbar from "../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
 import "./Register.css";
@@ -9,11 +9,34 @@ import axios from "axios";
 const imagen = require.context("../img/");
 
 function Register() {
+  const [cedulaExists, setCedulaExists] = useState(false);
   const [tipoIdentificacion, setTipoIdentificacion] = useState("");
   const [identificacion, setIdentificacion] = useState("");
   const [captchaResuelto, setCaptchaResuelto] = useState(false);
   const [errorMensaje, setErrorMensaje] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Verificar si la cédula ya existe en la base de datos
+    if (identificacion && tipoIdentificacion === "Cédula") {
+      axios
+        .get(`http://localhost:5000/candidatos/${identificacion}`)
+        .then((response) => {
+          if (response.status === 200) {
+            setCedulaExists(true);
+          } else {
+            setCedulaExists(false);
+          }
+        })
+        .catch((error) => {
+          // La cédula no existe en la base de datos
+          setCedulaExists(false);
+        });
+    } else {
+      // La cédula no se ha ingresado o no es del tipo "Cédula"
+      setCedulaExists(false);
+    }
+  }, [identificacion, tipoIdentificacion]);
 
   const handleTipoIdentificacionChange = (e) => {
     setTipoIdentificacion(e.target.value);
@@ -33,31 +56,16 @@ function Register() {
       setErrorMensaje("Por favor, ingrese una cédula válida.");
       return;
     }
+    if (cedulaExists) {
+      setErrorMensaje("La cédula ingresada ya existe en la base de datos.");
+      return;
+    }
 
     navigate("/validacioncorreo", {
       state: { tipo: tipoIdentificacion, identidad: identificacion },
     });
 
-    /*const cedulaValida = verificarCedula(identificacion);
-    if (cedulaValida) {
-      try {
-        // Realiza una solicitud a la API para verificar si la cédula ya existe
-        const response = await axios.get(`http://localhost:5000/candidatos/${identificacion}`);
-        
-        if (response.data.existe) {
-          console.log(response.data.existe);
-          setErrorMensaje("La cédula ya está registrada en la base de datos.");
-        } else {
-          // Si la cédula no existe, navega a la página RegisterInformation
-          navigate('/registerinformation', { state: { tipo: tipoIdentificacion, identidad: identificacion } });
-        }
-      } catch (error) {
-        console.error("Error al verificar la cédula:", error.message);
-        setErrorMensaje("Error al verificar la cédula. Por favor, intenta nuevamente.");
-      }
-    } else {
-      setErrorMensaje("Por favor, ingrese una cédula válida.");
-    }*/
+  
   };
 
   const handleCaptchaChange = (value) => {
@@ -97,12 +105,12 @@ function Register() {
                     onChange={handleTipoIdentificacionChange}
                   >
                     <option value="identificacion">
-                      Seleccione la identificacion{" "}
+                      Seleccione la identificación{" "}
                     </option>
-                    <option value="Cedula">Cédula</option>
+                    <option value="Cédula">Cédula</option>
                     <option value="Pasaporte">Pasaporte</option>
                   </select>
-                  <label htmlFor="cedula">Identificacion:</label>
+                  <label htmlFor="cedula">Identificación:</label>
                   <input
                     type="text"
                     id="cedula"

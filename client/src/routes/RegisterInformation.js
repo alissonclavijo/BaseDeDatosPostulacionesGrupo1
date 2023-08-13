@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import './RegisterInformation.scss';
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import "./RegisterInformation.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 import TermsAndConditions from "../components/TyC";
 import axios from "axios";
-import espelogo from '../img/espelogo.png'
+import espelogo from "../img/espelogo.png";
+import swal from "sweetalert";
 
 const RegisterInformation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { tipo, identidad, email } = location.state || {};
   const [nombreCompleto, setNombreCompleto] = useState("");
   const [tituloSenecyt, setTituloSenecyt] = useState("");
@@ -67,6 +68,12 @@ const RegisterInformation = () => {
       setFechaNacimiento("");
       setShowAlert(true);
       setFormError({});
+      swal(
+        "Se ha registrado con exito!",
+        "Ahora inicie cesión con su correo y contraseña",
+        "success"
+      );
+      navigate("/login", { state: { correo: email } });
     } catch (error) {
       console.error("Error al registrar candidato:", error.message);
       if (error.response && error.response.data) {
@@ -78,60 +85,56 @@ const RegisterInformation = () => {
   return (
     <React.Fragment>
       <Navbar />
-      
-      <div className="main-register"><br /><br /><br /><br /><br />
+
+      <div className="main-register">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <div className="regist-contain">
-          <div className='left-side'>
+          <div className="left-side">
             <h2>FORMULARIO DE ADMISIÓN PARA DOCENTES</h2>
-            <h3>
-              {tipo}
-              {identidad}
-              {email}
-            </h3>
-            {/*borrar es solo para probar promps*/}
+
             <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label className='label1' htmlFor="email">CEDULA:</label>
-                <input className='input1'
-                  type="text"
-                  id="cedula"
-                  value={identidad}
-                  // onChange={(e) => setEmail(e.target.value)}
-                  readOnly
-                />
-              </div>
               <div className="form-group">
-                <label className='label1' htmlFor="email">CORREO:</label>
-                <input className='input1'
+                <label className="label1" htmlFor="email">
+                  CORREO:
+                </label>
+                <input
+                  className="input1"
                   type="email"
                   id="email"
                   value={email}
-                  // onChange={(e) => setEmail(e.target.value)}
                   readOnly
                 />
               </div>
               <div className="form-group">
-                <label className='label1' htmlFor="nombreCompleto">
+                <label className="label1" htmlFor="nombreCompleto">
                   NOMBRES Y APELLIDOS COMPLETOS:
                 </label>
-                <input className='input1'
+                <input
+                  className="input1"
                   type="text"
                   id="nombreCompleto"
                   value={nombreCompleto}
                   onChange={handleChange}
-                  placeholder="Nombres Completos"
+                  placeholder="Nombres, Apellidos"
                   required
                 />
                 {formError.cand_nombre1 && (
-                  <span className="error-message">{formError.cand_nombre1}</span>
+                  <span className="error-message">
+                    {formError.cand_nombre1}
+                  </span>
                 )}
               </div>
 
               <div className="form-group">
-                <label className='label1' htmlFor="titulosenecyt">
+                <label className="label1" htmlFor="titulosenecyt">
                   SELECCIONE EL TÍTULO DE SENECYT PARA POSTULAR:
                 </label>
-                <select className='input1'
+                <select
+                  className="input1"
                   id="titulosenecyt"
                   value={tituloSenecyt}
                   onChange={(e) => setTituloSenecyt(e.target.value)}
@@ -146,8 +149,11 @@ const RegisterInformation = () => {
               </div>
 
               <div className="form-group">
-                <label className='label1' htmlFor="sexo">SEXO:</label>
-                <select className='input1'
+                <label className="label1" htmlFor="sexo">
+                  SEXO:
+                </label>
+                <select
+                  className="input1"
                   id="sexo"
                   value={sexo}
                   onChange={(e) => setSexo(e.target.value)}
@@ -161,8 +167,11 @@ const RegisterInformation = () => {
               </div>
 
               <div className="form-group">
-                <label className='label1' htmlFor="fechaNacimiento">FECHA DE NACIMIENTO:</label>
-                <input className='input1'
+                <label className="label1" htmlFor="fechaNacimiento">
+                  FECHA DE NACIMIENTO:
+                </label>
+                <input
+                  className="input1"
                   type="date"
                   id="fechaNacimiento"
                   value={fechaNacimiento}
@@ -173,8 +182,11 @@ const RegisterInformation = () => {
 
               {
                 <div className="form-group">
-                  <label className='label1' htmlFor="password">CONTRASEÑA:</label>
-                  <input className='input1'
+                  <label className="label1" htmlFor="password">
+                    CONTRASEÑA:
+                  </label>
+                  <input
+                    className="input1"
                     type="password"
                     id="password"
                     value={password}
@@ -184,27 +196,29 @@ const RegisterInformation = () => {
                 </div>
               }
 
-
               <TermsAndConditions
                 onTycCheckedChange={(checked) => {
                   const submitBtn = document.getElementById("submitBtn");
                   submitBtn.disabled = !checked;
                 }}
               />
-              <div className="submit">
-                <Link to="login"><button type="submit" id="submitBtn" className="submit-btn" disabled>
-                  Enviar
-                </button></Link>
-              </div>
+
+              <button
+                type="submit"
+                id="submitBtn"
+                className="submit-btn"
+                disabled
+              >
+                Enviar
+              </button>
             </form>
           </div>
 
-          <div className='rigth-side'>
-            <div className='welcomeimg'>
-                <img src={espelogo} id='wel-img-id' alt='' />
+          <div className="rigth-side">
+            <div className="welcomeimg">
+              <img src={espelogo} id="wel-img-id" alt="" />
             </div>
           </div>
-
         </div>
       </div>
     </React.Fragment>

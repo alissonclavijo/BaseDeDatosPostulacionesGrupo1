@@ -1,74 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from "react";
 import "./RegistroCorreo.css";
 import Navbar from "../components/Navbar";
-
+import axios from "axios";
 
 const RegistroCorreo = ({ onSubmitCorreo }) => {
-  const [email, setEmail] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
- /*
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [emailExists, setEmailExists] = useState(false);
+
+  useEffect(() => {
+    
+    if (email) {
+      axios
+        .get(`http://localhost:5000/candidatos/porcorreo/${email}`)
+        .then((response) => {
+          if (response.data) {
+            setEmailExists(true);
+          } else {
+            setEmailExists(false);
+          }
+        })
+        .catch((error) => {
+          console.error('Error al verificar el correo electrónico:', error);
+          setEmailExists(false);
+        });
+    } else {
+      setEmailExists(false);
+    }
+  }, [email]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validar el formato del correo electrónico usando una expresión regular
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setErrorMessage('Ingrese un correo electrónico válido.');
-      return;
-    }
-
-    // Realizar una solicitud al backend para verificar si el correo ya está registrado
-    try {
-      const response = await fetch(`http://localhost:5000/candidatos/${encodeURIComponent(email)}`);
-      const data = await response.json();
-
-      // Si el correo ya está registrado, mostrar un mensaje de error
-      if (response.ok && data.length > 0) {
-        setErrorMessage('El correo electrónico ya está registrado.');
-        return;
-      }
-    } catch (error) {
-      console.error('Error al verificar el correo:', error);
-    }
-
-    // Si el correo es válido y no está registrado, enviar el correo al onSubmitCorreo
-    onSubmitCorreo(email);
-  };*/
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch('http://localhost:5000/enviar-correo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ destinatario: email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
+      if (emailExists) {
+        setError("El correo ya esta registrado.");
       } else {
-        setError(data.message);
+        const response = await fetch("http://localhost:5000/enviar-correo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ destinatario: email }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setMessage(data.message);
+        } else {
+          setError(data.message);
+        }
+        onSubmitCorreo(email);
       }
     } catch (error) {
-      console.error('Error al enviar el correo:', error);
-      setError('Error al enviar el correo.');
+      console.error("Error al enviar el correo:", error);
+      setError("Error al enviar el correo.");
     }
-    onSubmitCorreo(email)
   };
 
   return (
-    
     <>
-      <div className="background-registro-correo"> {/* Agregamos una clase CSS para el contenedor */}
-        <Navbar/>
-        <div className="registro-correo-container"> {/* Agregamos una clase CSS para el contenedor */}
+      <div className="background-registro-correo">
+        <Navbar />
+        <div className="registro-correo-container">
           <h2> Ingrese el correo</h2>
           <form onSubmit={handleSubmit}>
             <input
@@ -79,14 +76,26 @@ const RegistroCorreo = ({ onSubmitCorreo }) => {
             />
             <button type="submit">Registro</button>
           </form>
-          
+
+          {emailExists && (
+            <div className="mensaje-error">
+             <h2> El correo electrónico ya se encuentra registrado. </h2>
+            </div>
+          )}
+
           <div className="advertencia">
             Utilizar solo cuentas de gmail, hotmail, outlook.
           </div>
         </div>
       </div>
-    </>  
+    </>
   );
 };
 
 export default RegistroCorreo;
+
+
+
+
+
+

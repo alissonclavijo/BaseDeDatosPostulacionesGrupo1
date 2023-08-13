@@ -40,6 +40,22 @@ const getCandidatoById = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener el candidato' });
   }
 };
+const getCandidatoByCorreo = async (req, res) => {
+  const { correo } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM public.candidato WHERE cand_correo = $1', [correo]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Candidato no encontrado' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el candidato por correo electrónico' });
+  }
+};
 
 const createCandidato = async (req, res) => {
   const {
@@ -168,4 +184,5 @@ module.exports = {
   updateCandidato,
   deleteCandidato,
   getCandidatoByCedula,
+  getCandidatoByCorreo,
 };
