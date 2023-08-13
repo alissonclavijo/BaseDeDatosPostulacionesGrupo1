@@ -14,16 +14,47 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showCustomAlert, setShowCustomAlert] = useState(false);
   const [userData, setUserData] = useState([]);
+
+  const [candidatosData, setCandidatosData] = useState([]);
+  const [rechumData, setRechumData] = useState([]);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get("http://localhost:5000/candidatos");
       setUserData(result.data);
     };
 
     fetchData();
+  }, []);*/
+  useEffect(() => {
+    // Cargar datos de candidatos
+    const fetchCandidatos = async () => {
+      try {
+        const result = await axios.get("http://localhost:5000/candidatos");
+        // Aquí puedes hacer lo que necesites con los datos de candidatos
+        setCandidatosData(result.data);
+      } catch (error) {
+        console.error("Error al obtener datos de candidatos:", error);
+      }
+    };
+
+    // Cargar datos de ReCHUM (ajusta la URL y el proceso de acuerdo a tu caso)
+    const fetchReCHUM = async () => {
+      try {
+        const result = await axios.get("http://localhost:5000/rechum");
+        // Aquí puedes hacer lo que necesites con los datos de ReCHUM
+        setRechumData(result.data);
+      } catch (error) {
+        console.error("Error al obtener datos de ReCHUM:", error);
+      }
+    };
+
+    fetchCandidatos();
+    fetchReCHUM();
   }, []);
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -32,8 +63,8 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
-  const handleSubmit = async (e) => {
+  
+  /*const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.setItem("token", true);
   
@@ -61,12 +92,31 @@ const Login = () => {
     } else {
       swal("Sus credenciales son incorrectas");
     }
+  };*/
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    localStorage.setItem("token", true);
+    const candidatos = candidatosData.find(
+      (candidatos) =>
+        candidatos.cand_correo === email &&
+        bcrypt.compareSync(password, candidatos.cand_password)
+    );
+
+    const rechum = rechumData.find(
+      (rechum) =>
+        rechum.rh_correo === email &&
+        bcrypt.compareSync(password, rechum.rh_password)
+    );
+        if (candidatos) {
+     navigate("/homepost");
+    } else if (rechum) {
+       navigate("/recursosh");
+    } else {
+      swal("Sus credenciales son incorrectas");
+    }
   };
 
-  const handleCloseCustomAlert = () => {
-    setShowCustomAlert(false);
-  };
-
+ 
   return (
     <>
       <div className="main-login">
@@ -134,20 +184,7 @@ const Login = () => {
           </div>
         </div>
 
-        {showCustomAlert && (
-          <div className="custom-alert">
-            <p>
-              Tu información será manipulada conforme a la necesidad de la
-              institución sin lugar a reclamos, conforme a la ley de protección
-              de datos del Ecuador.
-            </p>
-            <Link to="/homepost">
-              <button className="submit-btn1" onClick={handleCloseCustomAlert}>
-                Aceptar
-              </button>
-            </Link>
-          </div>
-        )}
+      
       </div>
     </>
   );
