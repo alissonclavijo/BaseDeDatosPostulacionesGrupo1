@@ -1,34 +1,36 @@
- 
- /* Estilo para el contenedor principal */
-  .conregister {
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centra verticalmente el contenido */
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-  
-  /* Estilo para el contenedor del centro */
-  .centredeDiv {
-    background-color: rgba(255, 255, 255, 0.8);
-    max-width: 100%;
-    width: 100%;
-    color: black;
-    font-weight: bold;
-    text-align: center; /* Centra horizontalmente el contenido */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra horizontalmente el contenido */
-    justify-content: center; /* Centra verticalmente el contenido */
-    margin-top: 60px; /* Ajusta la altura del contenedor */
-  }
+/* Estilo para el contenedor principal */
+.conregister {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra verticalmente el contenido */
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Estilo para el contenedor del centro */
+.centredeDiv {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 60%; /* Establece el ancho del contenedor de contenido */
+  max-width: 600px; /* Ancho máximo del contenedor de contenido */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%; /* Alinea el centro del centroDiv con el centro vertical de conregister */
+  left: 50%; /* Alinea el centro del centroDiv con el centro horizontal de conregister */
+  transform: translate(-50%, -50%); /* Ajusta el centrado vertical y horizontal */
+}
+
+/* Resto de tus estilos */
+
   
   /* Estilos del formulario de la cédula */
   .form-container {
@@ -109,4 +111,5 @@
   .custom-alert-btn:hover {
     background-color: #2980b9;
   }
+  
   
