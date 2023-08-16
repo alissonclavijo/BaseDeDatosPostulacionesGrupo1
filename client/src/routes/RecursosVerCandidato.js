@@ -32,23 +32,53 @@ const RecursosVerCandidato = () => {
   const [documents, setDocuments] = useState([
     {
       id: 1,
-      tipoDocumento: 'Cedula',
-      nombreDocumento: 'cedula.pdf',
+      tipoDocumento: 'Hoja de vida formato ESPE',
+      nombreDocumento: 'hojadevida.pdf',
       numeroHojas: 5
     },
     {
       id: 2,
-      tipoDocumento: 'Titulo',
-      nombreDocumento: 'TituloPerez.docx',
+      tipoDocumento: 'Copia de cédula',
+      nombreDocumento: 'CedulaPerez.docx',
       numeroHojas: 3
     },
     {
       id: 3,
-      tipoDocumento: 'Curriculum',
-      nombreDocumento: 'CVPerez.docx',
+      tipoDocumento: 'Certificado de votación',
+      nombreDocumento: 'CertificadoPerez.docx',
       numeroHojas: 6
     },
-    // Agregar más documentos aquí si es necesario
+    {
+      id: 4,
+      tipoDocumento: 'Certificado de registro de título',
+      nombreDocumento: 'CertificadoRegistroPerez.docx',
+      numeroHojas: 1
+    },
+    {
+      id: 5,
+      tipoDocumento: 'Experiencia de docente',
+      nombreDocumento: 'ExperienciaPerez.docx',
+      numeroHojas: 5
+    },
+    {
+      id: 6,
+      tipoDocumento: 'Certificado de no tener Impedimentos',
+      nombreDocumento: 'CertifiacoImpedimentosPerez.docx',
+      numeroHojas: 4
+    },
+    {
+      id: 7,
+      tipoDocumento: 'Certificado de no tener responsabilidades administrativas',
+      nombreDocumento: 'CertifiacoImpedimentosPerez.docx',
+      numeroHojas: 4
+    },
+    {
+      id: 8,
+      tipoDocumento: 'Experiencia profesional',
+      nombreDocumento: 'ExperienciaPerez.docx',
+      numeroHojas: 4
+    },
+   
   ]);
 
   const [formacion, setFormacion] = useState({
