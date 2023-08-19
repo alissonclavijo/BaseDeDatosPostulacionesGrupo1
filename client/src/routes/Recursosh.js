@@ -6,81 +6,107 @@ import "./Recursosh.css";
 
 const Recursosh = () => {
   const initialData = [
-    { id: 1, registroId: 12345, nombre: "John Doe", telefono: "555-123-4567", direccion: "123 Main St", ciudad: "New York", status: "Aprobado" },
-    { id: 2, registroId: 56789, nombre: "Jane Smith", telefono: "555-987-6543", direccion: "456 Elm St", ciudad: "Los Angeles", status: "Pendiente" },
-    { id: 3, registroId: 24680, nombre: "Mike Johnson", telefono: "555-555-5555", direccion: "789 Oak St", ciudad: "Chicago", status: "Rechazado" },
-    { id: 4, registroId: 13579, nombre: "Lisa Williams", telefono: "555-222-3333", direccion: "987 Maple St", ciudad: "Miami", status: "Aprobado" },
-    { id: 5, registroId: 10293, nombre: "Robert Lee", telefono: "555-444-7777", direccion: "321 Pine St", ciudad: "San Francisco", status: "Pendiente" },
+    { id: 1, registroId: 12345, nombre: "John Doe", apellidos: "Doe", nombres: "John", titulo: "Licenciado en Informática", puntuacion: 95, opciones: "Aceptar", recursosHumanos: "María Pérez", estado: "Pendiente", oferta: 1 },
+    { id: 2, registroId: 56789, nombre: "Jane Smith", apellidos: "Smith", nombres: "Jane", titulo: "Ingeniero Químico", puntuacion: 85, opciones: "Rechazar", recursosHumanos: "Carlos González", estado: "Rechazado", oferta: 2 },
+    { id: 3, registroId: 96789, nombre: "Jane Smith", apellidos: "Smith", nombres: "Jane", titulo: "Ingeniero Químico", puntuacion: 85, opciones: "Rechazar", recursosHumanos: "Carlos González", estado: "Rechazado", oferta: 2 },
   ];
 
-  const [data, setData] = useState(initialData);
-  const [searchTerm, setSearchTerm] = useState("");
+  const offers = [
+    { id: 1, name: "Técnico Docente Nivel 1" },
+    { id: 2, name: "Técnico de Laboratorio Nivel 1" },
+    { id: 3, name: "Auxiliar Nivel 1" },
+    { id: 4, name: "Agregado Nivel 1" },
+    { id: 5, name: "Principal Nivel 1" },
+    { id: 6, name: "Técnico de Investigación Nivel 1" },
+    { id: 7, name: "Descripción del Personal Académico" },
+  ];
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
+  const handleOfferSelect = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOffer(selectedValue !== "" ? parseInt(selectedValue) : null);
   };
 
-  const filteredData = data.filter((item) =>
-    item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = initialData.filter((item) => item.oferta === selectedOffer);
+
+  const handleSendResults = () => {
+    // Lógica para enviar los resultados
+    alert("Resultados enviados con éxito");
+  };
 
   return (
     <>
-    <NavpostAdmin/>
-    <div className="table-container">
-      <br />
-      <h1>Tabla de Postulaciones</h1>
-      <div className="search-container">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Buscar..."
-          className="search-input"
-        />
-         <FontAwesomeIcon icon={faPrint} className="print-icon" />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Registro ID</th>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Ciudad</th>
-            <th>Status</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item) => (
-            <tr key={item.id}>
-              <td className="id1">{item.id}</td>
-              <td>{item.registroId}</td>
-              <td>{item.nombre}</td>
-              <td>{item.telefono}</td>
-              <td>{item.direccion}</td>
-              <td>{item.ciudad}</td>
-              <td>{item.status}</td>
-              <td>
-                <div className="btn-container">
-                  <button className="green-button">
-                    <FontAwesomeIcon icon={faCheck} />
-                  </button>
-                  <button className="red-button">
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                  <button className="yellow-button">
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                  </button>
-                </div>
-              </td>
-            </tr>
+      <NavpostAdmin />
+      <div className="offer-selector">
+        <label htmlFor="offerSelect">Seleccione una oferta: </label>
+        <select
+          id="offerSelect"
+          value={selectedOffer || ""}
+          onChange={handleOfferSelect}
+        >
+          <option value="">Seleccione...</option>
+          {offers.map((offer) => (
+            <option key={offer.id} value={offer.id}>
+              {offer.name}
+            </option>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </select>
+      </div>
+      {selectedOffer !== null && (
+        <div className="table-container">
+          <h1>Tabla de Postulaciones</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Nombres</th>
+                <th>Título</th>
+                <th>Puntuación</th>
+                <th>Opciones</th>
+                <th>Recursos Humanos</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.nombre}</td>
+                  <td>{item.apellidos}</td>
+                  <td>{item.nombres}</td>
+                  <td>{item.titulo}</td>
+                  <td>{item.puntuacion}</td>
+                  <td>
+                    <div className="btn-container">
+                      <button className="green-button">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </button>
+                      <button className="red-button">
+                        <FontAwesomeIcon icon={faTimes} />
+                      </button>
+                      <button className="yellow-button">
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                      </button>
+                    </div>
+                  </td>
+                  <td>{item.recursosHumanos}</td>
+                  <td>{item.estado}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {selectedOffer !== null && (
+        <div className="send-results">
+          <button className="send-results-button" onClick={handleSendResults}>
+            Enviar Resultados
+          </button>
+        </div>
+      )}
     </>
   );
 };
