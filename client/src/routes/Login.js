@@ -108,8 +108,11 @@ const Login = () => {
         bcrypt.compareSync(password, rechum.rh_password)
     );
         if (candidatos) {
+         
      navigate("/homepost");
     } else if (rechum) {
+         
+
        navigate("/recursosh");
     } else {
       swal("Sus credenciales son incorrectas");
