@@ -26,7 +26,7 @@ function Postulacion() {
   const [detalles, setDetalles] = useState('');
 
 
-  const mostrarDetalles = (vacantes, tiempo) => {
+  const mostrarDetalles = (vacantes, tiempo, ofe_id) => {
     setDetalles(`Vacantes: ${vacantes}, Tiempo: ${tiempo}`);
     swal({
       title: '',
@@ -41,13 +41,17 @@ function Postulacion() {
     }).then((value) => {
       console.log(value)
       if (value) {
+        postularOferta(ofe_id);
         postulacionExitosa();
         navigate("/postulacion"); // Navega a "/home" si se hace clic en "Postular"
       }
     });
 
   };
-
+  function postularOferta (ofertaId) {
+    
+    console.log(`Postulación para oferta con ID: ${ofertaId}`);
+  };
 
   function mostrar() {
     // Obtener el elemento con el id "tabla"
@@ -455,7 +459,7 @@ function Postulacion() {
 
                   })}
                   <td>
-                    <button onClick={() => mostrarDetalles(val.ofe_vacantes, val.ofe_horas)}>
+                    <button onClick={() => mostrarDetalles(val.ofe_vacantes, val.ofe_horas, val.ofe_id)}>
                       POSTULAR
                     </button></td>
 
