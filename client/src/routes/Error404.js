@@ -1,7 +1,11 @@
 import "./404.css";
+import Navbar from "../components/Navbar"
+
 export function Error404() {
 	return(
 	
+	<div>
+	   	<Navbar />
     <figure>
 	<div class="sad-mac"></div>
 	<figcaption>
@@ -23,7 +27,8 @@ export function Error404() {
 		<span class="n"></span>
 		<span class="d"></span>
 	</figcaption>
-</figure>    
+</figure>
+</div>    
   
   )}
   

@@ -10,7 +10,7 @@ function Navpost({ handlesubmit }) {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
   const handleSubmit = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("tokenCandidatos");
   };
 
   return (

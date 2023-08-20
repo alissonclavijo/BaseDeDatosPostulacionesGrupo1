@@ -1,33 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.scss";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import inni from "../img/login.png";
 import axios from "axios";
 import bcrypt from "bcryptjs";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [showCustomAlert, setShowCustomAlert] = useState(false);
-  const [userData, setUserData] = useState([]);
-
   const [candidatosData, setCandidatosData] = useState([]);
   const [rechumData, setRechumData] = useState([]);
 
   const navigate = useNavigate();
 
-  /*useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get("http://localhost:5000/candidatos");
-      setUserData(result.data);
-    };
-
-    fetchData();
-  }, []);*/
   useEffect(() => {
     // Cargar datos de candidatos
     const fetchCandidatos = async () => {
@@ -40,11 +28,11 @@ const Login = () => {
       }
     };
 
-    // Cargar datos de ReCHUM (ajusta la URL y el proceso de acuerdo a tu caso)
+    // Cargar datos de ReCHUM
     const fetchReCHUM = async () => {
       try {
         const result = await axios.get("http://localhost:5000/rechum");
-        // Aquí puedes hacer lo que necesites con los datos de ReCHUM
+
         setRechumData(result.data);
       } catch (error) {
         console.error("Error al obtener datos de ReCHUM:", error);
@@ -55,7 +43,6 @@ const Login = () => {
     fetchReCHUM();
   }, []);
 
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -63,39 +50,10 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-  
-  /*const handleSubmit = async (e) => {
-    e.preventDefault();
-    localStorage.setItem("token", true);
-  
-    const candidatos = userData.find((candidatos) => candidatos.cand_correo === email);
-  
-    if (candidatos) {
-      try {
-        const passwordMatches = await bcrypt.compare(password, candidatos.cand_password);
-  
-        if (passwordMatches) {
-          if (candidatos.cand_nombre1 === "sebas") {
-            console.log("Admin login successful");
-            navigate("/recursosh");
-          } else {
-            navigate("/homepost");
-            console.log("User login successful");
-          }
-        } else {
-          swal("Sus credenciales son incorrectas");
-        }
-      } catch (error) {
-        console.error("Error al comparar contraseñas:", error);
-        // Maneja el error de comparación de contraseñas
-      }
-    } else {
-      swal("Sus credenciales son incorrectas");
-    }
-  };*/
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem("token", true);
+
     const candidatos = candidatosData.find(
       (candidatos) =>
         candidatos.cand_correo === email &&
@@ -107,19 +65,17 @@ const Login = () => {
         rechum.rh_correo === email &&
         bcrypt.compareSync(password, rechum.rh_password)
     );
-        if (candidatos) {
-         
-     navigate("/homepost");
+    if (candidatos) {
+      localStorage.setItem("tokenCandidatos", true);
+      navigate("/homepost");
     } else if (rechum) {
-         
-
-       navigate("/recursosh");
+      localStorage.setItem("tokenRechum", "true");
+      navigate("/recursosh");
     } else {
       swal("Sus credenciales son incorrectas");
     }
   };
 
- 
   return (
     <>
       <div className="main-login">
@@ -186,8 +142,6 @@ const Login = () => {
             </form>
           </div>
         </div>
-
-      
       </div>
     </>
   );
