@@ -24,6 +24,8 @@
 }
 #tabla{
   display: none;
+  max-width: 90vw;
+  padding: 5vh;
 }
 
 /* Estilos para los títulos */

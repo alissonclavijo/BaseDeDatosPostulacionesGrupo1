@@ -23,7 +23,30 @@ function Postulacion() {
   const [opcionesDepartamentos, setOpcionesDepartamentos] = useState([]);
   const [opcionesAmplio, setOpcionesAmplio] = useState([]);
   const [opcionesEspecifico, setOpcionesEspecifico] = useState([]);
+  const [detalles, setDetalles] = useState('');
 
+
+  const mostrarDetalles = (vacantes, tiempo) => {
+    setDetalles(`Vacantes: ${vacantes}, Tiempo: ${tiempo}`);
+    swal({
+      title: '',
+      content: {
+        element: "div",
+        attributes: {
+          innerHTML: `Verifique los datos<br/>Solo puede postular una vez por concurso.<br/>Verifique los datos antes de enviar. <br/><br/>Detalles de la postulación seleccionada<br/>Sede: ${sede}<br/>Campo Amplio: ${amplio}<br/>Campo Específico: ${especifico}<br/>Tiempo: ${tiempo} horas<br/>Vacantes: ${vacantes}<br/>`,
+        },
+      },
+      icon: '',
+      buttons: ["Regresar", "Postular"],
+    }).then((value) => {
+      console.log(value)
+      if (value) {
+        postulacionExitosa();
+        navigate("/postulacion"); // Navega a "/home" si se hace clic en "Postular"
+      }
+    });
+
+  };
 
 
   function mostrar() {
@@ -55,11 +78,68 @@ function Postulacion() {
         navigate("/"); // Navega a "/home" si se hace clic en "Postular"
       }
     });
-    
+
+  };
+  const AlertaCamposIncompletos = () => {
+    swal({
+      title: '',
+      content: {
+        element: "div",
+        attributes: {
+          innerHTML: "Por favor, completa todos los campos antes de buscar ofertas.<br/>",
+        },
+      },
+      icon: '',
+      button: "Entendido",
+    })
+  };
+  const postulacionExitosa = () => {
+    swal({
+      title: '',
+      content: {
+        element: "div",
+        attributes: {
+          innerHTML: "Postulación exitosa<br/>	",
+        },
+      },
+      icon: '',
+      button: "Entendido",
+    }).then((value) => {
+      console.log(value)
+      if (value) {
+        navigate("/homepost"); // Navega a "/home" si se hace clic en "Postular"
+      }
+    });
+
+  };
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
-  useEffect(() => {
+  const handleClick = () => {
+    if (todosLosCamposLlenos()) {
+      mostrar();
+      console.log(sede);
     console.log(departamento);
+    console.log(amplio);
+    console.log(especifico);
+    } else {
+      AlertaCamposIncompletos();
+    }
+  };
+  // Función para verificar si todos los campos están llenos
+  const todosLosCamposLlenos = () => {
+    return (
+      postulacion !== '' &&
+      contratacion !== '' &&
+      academico !== '' &&
+      sede !== '' &&
+      departamento !== '' &&
+      amplio !== '' &&
+      especifico !== ''
+    );
+  };
+  useEffect(() => {
     axios.get("http://localhost:5000/postulaciones") // Cambia la URL de la API con la que te conectas a la base de datos
       .then((response) => {
         setOpcionesPostulacion(response.data); // Actualiza el estado con los datos recibidos de la API
@@ -124,7 +204,7 @@ function Postulacion() {
       });
   }, [amplio]);
   useEffect(() => {
-    axios.get("http://localhost:5000/ofertas?sede_id=${sede_id}&dept_id=${dept_id}") // Cambia la URL de la API con la que te conectas a la base de datos
+    axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`) 
       .then((response) => {
         setOpcionesOferta(response.data); // Actualiza el estado con los datos recibidos de la API
       })
@@ -136,15 +216,7 @@ function Postulacion() {
   }, [especifico]);
 
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
 
-  const handleButtonClick = () => {
-    // Aquí puedes agregar la lógica que desees para el botón
-    // Por ejemplo, cambiar el color o realizar alguna acción específica
-    // En este ejemplo, solo cambiaremos el color del botón.
-  };
 
   return (
     <>
@@ -154,21 +226,28 @@ function Postulacion() {
         <div className="contenedor">
           <div className="postulacion">
             <h1>Bienvenido a la Plataforma ESPE Docentes</h1>
+            <h1>Seleccione los campos de su postulación</h1>
             <br />
 
             <div className="form-group">
               <label for="postulacion">POSTULACIÓN</label>
               <select
-                name="Periodo"
+                id="postulacion"
+                name="postulacion"
                 onChange={(e) => {
                   setPostulacion(e.target.value);
                   setContratacion(''); // Reiniciar el valor de Contratación al cambiar Postulación
                   setAcademico(''); // Reiniciar el valor de Personal Académico al cambiar Postulación
+                  setSede(''); // Reiniciar el valor de Sede al cambiar Postulación
+                  setDepartamento(''); // Reiniciar el valor de Departamento al cambiar Postulación
+                  setAmplio(''); // Reiniciar el valor de Campo Amplio al cambiar Postulación
+                  setEspecifico(''); // Reiniciar el valor de Campo Específico al cambiar Postulación
                 }}
                 value={postulacion}
               >
+                <option value="">Seleccione una opción</option>
                 {opcionesPostulacion.map((opcion) => (
-                  <option key={opcion.post_periodo} value={opcion.post_periodo}>
+                  <option key={opcion.post_id} value={opcion.post_id}>
                     {opcion.post_periodo}
                   </option>
                 ))}
@@ -177,17 +256,24 @@ function Postulacion() {
             {postulacion && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="contratacion">TIPO DE CONTRATACIÓN</label>
                   <select
-                    name="Contratacion"
+                    id="contratacion"
+                    name="contratacion"
                     onChange={(e) => {
                       setContratacion(e.target.value);
                       setAcademico('');
+                      setSede('');
+                      setDepartamento('');
+                      setAmplio('');
+                      setEspecifico('');
                     }}
                     value={contratacion}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesContratacion.map((opcion) => (
-                      <option key={opcion.con_nombre} value={opcion.con_nombre}>
+                      <option key={opcion.con_id} value={opcion.con_id}>
                         {opcion.con_nombre}
                       </option>
                     ))}
@@ -198,16 +284,23 @@ function Postulacion() {
             {contratacion && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="academico">TIPO DE PERSONAL ACADÉMICO</label>
                   <select
+                    id="academico"
                     name="Academicoo"
                     onChange={(e) => {
                       setAcademico(e.target.value);
+                      setSede('');
+                      setDepartamento('');
+                      setAmplio('');
+                      setEspecifico('');
                     }}
                     value={academico}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesAcademico.map((opcion) => (
-                      <option key={opcion.pa_nombre} value={opcion.pa_id}>
+                      <option key={opcion.pa_id} value={opcion.pa_id}>
                         {opcion.pa_nombre}
                       </option>
                     ))}
@@ -218,16 +311,22 @@ function Postulacion() {
             {academico && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="sede">SEDE</label>
                   <select
+                    id="sede"
                     name="Sede"
                     onChange={(e) => {
                       setSede(e.target.value);
+                      setDepartamento('');
+                      setAmplio('');
+                      setEspecifico('');
                     }}
                     value={sede}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesSedes.map((opcion) => (
-                      <option key={opcion.sede_nombre} value={opcion.sede_nombre}>
+                      <option key={opcion.sede_id} value={opcion.sede_id}>
                         {opcion.sede_nombre}
                       </option>
                     ))}
@@ -238,17 +337,21 @@ function Postulacion() {
             {sede && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="departamento">DEPARTAMENTO</label>
                   <select
+                    id="departamento"
                     name="Departamento"
                     onChange={(e) => {
                       setDepartamento(e.target.value);
-
+                      setAmplio('');
+                      setEspecifico('');
                     }}
                     value={departamento}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesDepartamentos.map((opcion) => (
-                      <option key={opcion.dept_nombre} value={opcion.dept_id}>
+                      <option key={opcion.dept_id} value={opcion.dept_id}>
                         {opcion.dept_descripcion}
                       </option>
                     ))}
@@ -259,14 +362,18 @@ function Postulacion() {
             {departamento && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="amplio">CAMPO AMPLIO</label>
                   <select
+                    id="amplio"
                     name="Amplio"
                     onChange={(e) => {
                       setAmplio(e.target.value);
+                      setEspecifico('');
                     }}
                     value={amplio}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesAmplio.map((opcion) => (
                       <option key={opcion.ca_id} value={opcion.ca_id}>
                         {opcion.ca_nombre}
@@ -279,16 +386,19 @@ function Postulacion() {
             {amplio && (
               <>
                 <div className="form-group">
+                  <br></br>
                   <label for="especifico">CAMPO ESPECÍFICO</label>
                   <select
+                    id="especifico"
                     name="Especifico"
                     onChange={(e) => {
                       setEspecifico(e.target.value);
                     }}
                     value={especifico}
                   >
+                    <option value="">Seleccione una opción</option>
                     {opcionesEspecifico.map((opcion) => (
-                      <option key={opcion.ce_nombre} value={opcion.ce_nombre}>
+                      <option key={opcion.ce_id} value={opcion.ce_id}>
                         {opcion.ce_nombre}
                       </option>
                     ))}
@@ -296,87 +406,62 @@ function Postulacion() {
                 </div>
               </>
             )}
-
-            <button onClick={mostrar}>BUSCAR OFERTAS</button>
-
-            <div className='visualizar centrado' id="tabla">
-              <table className='mostrar'>
-                <tr>
-                  <th colSpan={6}>Usuarios</th>
-                </tr>
-                <tr>
-                  <th>Vacantes </th>
-                  <th>Tiempo</th>
-                  <th>Campo Amplio </th>
-                  <th>Campo Específico </th>
-                  <th>Sede</th>
-                  <th>Departamento </th>
-                </tr>
-                {opcionesOferta.map(val => {
-                  return <tr>
-                    <td>{val.ofe_vacantes}</td>
-                    <td>{val.ofe_horas}</td>
-
-                    {opcionesAmplio.map(valor => {
-                      if (valor.ca_id == val.ca_id) {
-                        return <td>{valor.ca_nombre}</td>
-                      }
-
-                    })}
-                    {opcionesEspecifico.map(valor => {
-                      if (valor.ce_id == val.ce_id) {
-                        return <td>{valor.ce_nombre}</td>
-                      }
-
-                    })}
-                    {opcionesSedes.map(valor => {
-                      if (valor.sede_id == val.sede_id) {
-                        return <td>{valor.sede_nombre}</td>
-                      }
-
-                    })}
-                    {opcionesDepartamentos.map(valor => {
-                      if (valor.dept_id == val.dept_id) {
-                        return <td>{valor.dept_nombre}</td>
-                      }
-                    })}
-                    <td><button className='botonPeque'>Seleccionar</button></td>
-
-                  </tr>
-                })}
-              </table>
-            </div>
-
-
-
-
-
+            <br></br>
+            <button onClick={handleClick}>BUSCAR OFERTAS</button>
             {/* <button onClick={handleButtonClick}>Actividad Docencia</button>
             <button onClick={handleButtonClick}>Actividad Investigacion</button>
             <button onClick={handleButtonClick}>Actividad Vinculacion</button> */}
-
-            {/*
-          <h2>Botón desplegable para formatos de documentos</h2>
-          <div className="custom-select">
-            <select>
-              <option value="pdf">
-                <img src="../img/pdf.png" alt="PDF" className="file-icon" />
-                PDF
-              </option>
-              <option value="word">
-                <img
-                  src="../img/wordimg.png"
-                  alt="Word"
-                  className="file-icon"
-                />
-                Word
-              </option>
-            </select>
           </div>
-         */}
-            <br />
-            <br />
-            <button hidden={!amplio} class="btn btn-primary" onClick={()=>mostrarAlerta()}>Postulación</button>
+          <div className='visualizar centrado postulacion' id="tabla">
+            <table className='mostrar'>
+              <tr>
+                <th colSpan={7}>OFERTAS</th>
+              </tr>
+              <tr>
+                <th>Vacantes </th>
+                <th>Tiempo</th>
+                <th>Sede</th>
+                <th>Departamento </th>
+                <th>Campo Amplio </th>
+                <th>Campo Específico </th>
+                <th>Seleccionar </th>
+              </tr>
+              {opcionesOferta.map(val => {
+                return <tr>
+                  <td>{val.ofe_vacantes}</td>
+                  <td>{val.ofe_horas}</td>
+
+                  {opcionesSedes.map(valor => {
+                    if (valor.sede_id == val.sede_id) {
+                      return <td>{valor.sede_nombre}</td>
+                    }
+
+                  })}
+                  {opcionesDepartamentos.map(valor => {
+                    if (valor.dept_id == val.dept_id) {
+                      return <td>{valor.dept_nombre}</td>
+                    }
+                  })}
+                  {opcionesAmplio.map(valor => {
+                    if (valor.ca_id == val.ca_id) {
+                      return <td>{valor.ca_nombre}</td>
+                    }
+
+                  })}
+                  {opcionesEspecifico.map(valor => {
+                    if (valor.ce_id == val.ce_id) {
+                      return <td>{valor.ce_nombre}</td>
+                    }
+
+                  })}
+                  <td>
+                    <button onClick={() => mostrarDetalles(val.ofe_vacantes, val.ofe_horas)}>
+                      POSTULAR
+                    </button></td>
+
+                </tr>
+              })}
+            </table>
           </div>
 
         </div>

@@ -138,7 +138,8 @@ function InforPost() {
     <>
      
         <Navpost />
-        <h1>Información</h1>
+        <br></br>
+        <h1>Cargue los documentos de información personal en los formatos establecidos</h1>
         <div className='container-inf'>
         <h5 className='lab'>Núm Páginas</h5>
           {/* Hoja de vida formato ESPE */}
@@ -228,7 +229,8 @@ function InforPost() {
             </button>
           )}
           </div>
-      <button  class="btn btn-primary" onClick={()=>mostrarAlerta()}>Confirmar Postulación</button>
+      <button  class="btn btn-primary" onClick={()=>mostrarAlerta()}>Enviar documentos</button>
+      <br></br>
         </div>
         {archivoSeleccionadoParaPrevisualizar && (
         <Modal isOpen={modalAbierto} onRequestClose={cerrarModal} contentLabel='Previsualización del archivo'>
