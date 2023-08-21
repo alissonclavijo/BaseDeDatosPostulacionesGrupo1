@@ -4,6 +4,7 @@ import axios from "axios";
 import "../styles/InforPost.css";
 import ReactModal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
+import Navpost from '../components/Navpost';
 
 export function InforPost() {
   const documentLabels = [
@@ -76,6 +77,8 @@ export function InforPost() {
   };
 
   return (
+  <div>
+  <Navpost/>
     <Container>
       <h1>Subir Documentos</h1>
       <Form>
@@ -197,6 +200,7 @@ export function InforPost() {
         </div>
       </ReactModal>
     </Container>
+    </div>
   );
 }
 
