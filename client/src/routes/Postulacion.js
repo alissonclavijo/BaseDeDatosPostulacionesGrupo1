@@ -28,8 +28,8 @@ function Postulacion() {
 
 
   const mostrarDetalles = (vacantes, tiempo, ofe_id) => {
-    console .log(ofe_id)
     const datosOferta = obtenerDatos();
+    console.log(ofe_id)
     setDetalles(`Vacantes: ${vacantes}, Tiempo: ${tiempo}`);
     swal({
       title: '',
@@ -42,6 +42,7 @@ function Postulacion() {
       icon: '',
       buttons: ["Regresar", "Postular"],
     }).then((value) => {
+      console.log(value)
       if (value) {
         postularOferta(ofe_id);
         postulacionExitosa();
@@ -66,7 +67,7 @@ function Postulacion() {
       console.error("Elemento con id 'tabla' no encontrado.");
     }
   }
-  function ocultar() {
+  function ocultarTabla() {
     // Obtener el elemento con el id "tabla"
     var div = document.getElementById('tabla');
     // Verificar si se encontró el elemento
@@ -136,6 +137,13 @@ function Postulacion() {
   const handleClick = () => {
     if (todosLosCamposLlenos()) {
       mostrar();
+      console.log(sede);
+      console.log(departamento);
+      console.log(amplio);
+      console.log(especifico);
+      console.log(postulacion);
+      console.log(contratacion);
+      console.log(academico);
     } else {
       AlertaCamposIncompletos();
     }
@@ -184,7 +192,7 @@ function Postulacion() {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`)
+    axios.get(`http://localhost:5000/ofertas`)
       .then((response) => {
         // Actualiza el estado con los datos recibidos de la API
         setOpcionesOferta(response.data);
@@ -213,7 +221,9 @@ function Postulacion() {
     }
 
     const segunPostulacion = opcionesOferta.filter((opcion) => opcion.post_id == postulacion);
+    console.log(segunPostulacion);
     const opciones = segunPostulacion.map((aa) => aa.con_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -237,8 +247,10 @@ function Postulacion() {
       return; // No hagas nada si opcionesOferta aún no se ha actualizado
     }
 
-    const segunContratacion = opcionesOferta.filter((opcion) => opcion.con_id == postulacion);
+    const segunContratacion = opcionesOferta.filter((opcion) => opcion.con_id == contratacion);
+    console.log(segunContratacion);
     const opciones = segunContratacion.map((aa) => aa.pa_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -269,7 +281,9 @@ function Postulacion() {
     }
 
     const segunAcademico = opcionesOferta.filter((opcion) => opcion.pa_id == academico);
+    console.log(segunAcademico);
     const opciones = segunAcademico.map((aa) => aa.sede_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -293,7 +307,9 @@ function Postulacion() {
     }
 
     const segunSede = opcionesOferta.filter((opcion) => opcion.sede_id == sede);
+    console.log(segunSede);
     const opciones = segunSede.map((aa) => aa.dept_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -315,9 +331,10 @@ function Postulacion() {
     if (opcionesOferta.length === 0) {
       return; // No hagas nada si opcionesOferta aún no se ha actualizado
     }
-
     const segunDepartamento = opcionesOferta.filter((opcion) => opcion.dept_id == departamento);
+    console.log(segunDepartamento);
     const opciones = segunDepartamento.map((aa) => aa.ca_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -341,7 +358,9 @@ function Postulacion() {
     }
 
     const segunAmplio = opcionesOferta.filter((opcion) => opcion.ca_id == amplio);
+    console.log(segunAmplio);
     const opciones = segunAmplio.map((aa) => aa.ce_id);
+    console.log(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
     const axiosPromises = opciones.map((opcion) => {
@@ -387,13 +406,13 @@ function Postulacion() {
                 name="postulacion"
                 onChange={(e) => {
                   setPostulacion(e.target.value);
+                  ocultarTabla();
                   setContratacion(''); // Reiniciar el valor de Contratación al cambiar Postulación
                   setAcademico(''); // Reiniciar el valor de Personal Académico al cambiar Postulación
                   setSede(''); // Reiniciar el valor de Sede al cambiar Postulación
                   setDepartamento(''); // Reiniciar el valor de Departamento al cambiar Postulación
                   setAmplio(''); // Reiniciar el valor de Campo Amplio al cambiar Postulación
                   setEspecifico(''); // Reiniciar el valor de Campo Específico al cambiar Postulación
-                  ocultar();
                 }}
                 value={postulacion}
               >
@@ -415,12 +434,12 @@ function Postulacion() {
                     name="contratacion"
                     onChange={(e) => {
                       setContratacion(e.target.value);
+                      ocultarTabla();
                       setAcademico('');
                       setSede('');
                       setDepartamento('');
                       setAmplio('');
                       setEspecifico('');
-                      ocultar();
                     }}
                     value={contratacion}
                   >
@@ -444,11 +463,11 @@ function Postulacion() {
                     name="Academicoo"
                     onChange={(e) => {
                       setAcademico(e.target.value);
+                      ocultarTabla();
                       setSede('');
                       setDepartamento('');
                       setAmplio('');
                       setEspecifico('');
-                      ocultar();
                     }}
                     value={academico}
                   >
@@ -472,10 +491,10 @@ function Postulacion() {
                     name="Sede"
                     onChange={(e) => {
                       setSede(e.target.value);
+                      ocultarTabla();
                       setDepartamento('');
                       setAmplio('');
                       setEspecifico('');
-                      ocultar();
                     }}
                     value={sede}
                   >
@@ -499,9 +518,9 @@ function Postulacion() {
                     name="Departamento"
                     onChange={(e) => {
                       setDepartamento(e.target.value);
+                      ocultarTabla();
                       setAmplio('');
                       setEspecifico('');
-                      ocultar();
                     }}
                     value={departamento}
                   >
@@ -525,8 +544,8 @@ function Postulacion() {
                     name="Amplio"
                     onChange={(e) => {
                       setAmplio(e.target.value);
+                      ocultarTabla();
                       setEspecifico('');
-                      ocultar();
                     }}
                     value={amplio}
                   >
@@ -550,7 +569,7 @@ function Postulacion() {
                     name="Especifico"
                     onChange={(e) => {
                       setEspecifico(e.target.value);
-                      ocultar();
+                      ocultarTabla();
                     }}
                     value={especifico}
                   >
