@@ -9,6 +9,20 @@ const getAllPersonalAcademico = async (req, res) => {
   }
 };
 
+const getPersonalAcademicoById = async (req, res) => {
+  const { pa_id } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM public.personal_academico WHERE pa_id = $1', [pa_id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Personal Academico no encontrado' });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el Personal Academico' });
+  }
+};
+
 const createPersonalAcademico = async (req, res) => {
   const { pa_nombre, pa_descripcion } = req.body;
 
@@ -67,6 +81,7 @@ const deletePersonalAcademico = async (req, res) => {
 
 module.exports = {
   getAllPersonalAcademico,
+  getPersonalAcademicoById,
   createPersonalAcademico,
   updatePersonalAcademico,
   deletePersonalAcademico,

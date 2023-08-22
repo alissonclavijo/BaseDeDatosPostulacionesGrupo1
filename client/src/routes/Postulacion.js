@@ -48,8 +48,8 @@ function Postulacion() {
     });
 
   };
-  function postularOferta (ofertaId) {
-    
+  function postularOferta(ofertaId) {
+
     console.log(`Postulación para oferta con ID: ${ofertaId}`);
   };
 
@@ -124,9 +124,9 @@ function Postulacion() {
     if (todosLosCamposLlenos()) {
       mostrar();
       console.log(sede);
-    console.log(departamento);
-    console.log(amplio);
-    console.log(especifico);
+      console.log(departamento);
+      console.log(amplio);
+      console.log(especifico);
     } else {
       AlertaCamposIncompletos();
     }
@@ -143,84 +143,285 @@ function Postulacion() {
       especifico !== ''
     );
   };
-  useEffect(() => {
-    axios.get("http://localhost:5000/postulaciones") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesPostulacion(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de postulación:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`)
+  //     .then((response) => {
+  //       // Actualiza el estado con los datos recibidos de la API
+  //       setOpcionesOferta(response.data);
 
+  //       // Realiza cualquier operación que dependa de opcionesOferta aquí
+  //       const opcionesPostulacion = response.data.map((aa) => aa.post_id);
+  //       axios.get(`http://localhost:5000/postulaciones?post_id=${opcionesPostulacion}`) 
+  //         .then((response) => {
+  //           setOpcionesPostulacion(response.data); // Actualiza el estado con los datos recibidos de la API
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error al obtener las opciones de postulación:", error);
+  //         });
+  //         // setOpcionesPostulacion(opcionesPostulacion);
+
+  //       console.log(response.data);
+  //       console.log(opcionesPostulacion);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error al obtener las opciones de ofertas:", error);
+  //     });
   useEffect(() => {
-    axios.get("http://localhost:5000/contrataciones") // Cambia la URL de la API con la que te conectas a la base de datos
+    axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`)
       .then((response) => {
-        setOpcionesContratacion(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de contratación:", error);
-      });
-  }, [postulacion]);
-  useEffect(() => {
-    axios.get("http://localhost:5000/personal_academico") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesAcademico(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de personal académico:", error);
-      });
-  }, [contratacion]);
-  useEffect(() => {
-    axios.get("http://localhost:5000/sedes") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesSedes(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de sedes:", error);
-      });
-  }, [academico]);
-  useEffect(() => {
-    axios.get("http://localhost:5000/departamentos") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesDepartamentos(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de departamentos:", error);
-      });
-  }, [sede]);
-  useEffect(() => {
-    axios.get("http://localhost:5000/campo_amplio") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesAmplio(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de campo amplio:", error);
-      });
-  }, [departamento]);
-  useEffect(() => {
-    axios.get("http://localhost:5000/campo_especifico") // Cambia la URL de la API con la que te conectas a la base de datos
-      .then((response) => {
-        setOpcionesEspecifico(response.data); // Actualiza el estado con los datos recibidos de la API
-      })
-      .catch((error) => {
-        console.error("Error al obtener las opciones de campo específico:", error);
-      });
-  }, [amplio]);
-  useEffect(() => {
-    axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`) 
-      .then((response) => {
-        setOpcionesOferta(response.data); // Actualiza el estado con los datos recibidos de la API
+        // Actualiza el estado con los datos recibidos de la API
+        setOpcionesOferta(response.data);
+
+        // Realiza cualquier operación que dependa de opcionesOferta aquí
+        const opciones = response.data.map((aa) => aa.post_id);
+
+        // Ahora, dentro de este bloque, obtenemos las opciones de postulación
+        axios.get(`http://localhost:5000/postulaciones?post_id=${opciones}`)
+          .then((response) => {
+            setOpcionesPostulacion(response.data); // Actualiza el estado con los datos recibidos de la API
+          })
+          .catch((error) => {
+            console.error("Error al obtener las opciones de postulación:", error);
+          });
       })
       .catch((error) => {
         console.error("Error al obtener las opciones de ofertas:", error);
       });
+    // axios.get("http://localhost:5000/postulaciones") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesPostulacion(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de postulación:", error);
+    //   });
+  }, []);
 
 
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunPostulacion = opcionesOferta.filter((opcion) => opcion.post_id == postulacion);
+    console.log(segunPostulacion);
+    const opciones = segunPostulacion.map((aa) => aa.con_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/contrataciones/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesContratacion = responses.map((response) => response.data);
+        setOpcionesContratacion(opcionesContratacion);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de contratación:", error);
+      });
+  }, [postulacion, opcionesOferta]);
+
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunContratacion = opcionesOferta.filter((opcion) => opcion.con_id == postulacion);
+    console.log(segunContratacion);
+    const opciones = segunContratacion.map((aa) => aa.pa_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/personal_academico/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesAcademico = responses.map((response) => response.data);
+        setOpcionesAcademico(opcionesAcademico);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de personal academico:", error);
+      });
+    // axios.get("http://localhost:5000/personal_academico") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesAcademico(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de personal académico:", error);
+    //   });
+  }, [contratacion]);
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunAcademico = opcionesOferta.filter((opcion) => opcion.pa_id == academico);
+    console.log(segunAcademico);
+    const opciones = segunAcademico.map((aa) => aa.sede_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/sedes/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesSedes = responses.map((response) => response.data);
+        setOpcionesSedes(opcionesSedes);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de sedes:", error);
+      });
+    // axios.get("http://localhost:5000/sedes") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesSedes(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de sedes:", error);
+    //   });
+  }, [academico]);
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunSede = opcionesOferta.filter((opcion) => opcion.sede_id == sede);
+    console.log(segunSede);
+    const opciones = segunSede.map((aa) => aa.dept_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/departamentos/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesDepartamentos = responses.map((response) => response.data);
+        setOpcionesDepartamentos(opcionesDepartamentos);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de departamentos:", error);
+      });
+    // axios.get("http://localhost:5000/departamentos") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesDepartamentos(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de departamentos:", error);
+    //   });
+  }, [sede]);
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunDepartamento = opcionesOferta.filter((opcion) => opcion.dept_id == departamento);
+    console.log(segunDepartamento);
+    const opciones = segunDepartamento.map((aa) => aa.ca_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/campo_amplio/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesAmplio = responses.map((response) => response.data);
+        setOpcionesAmplio(opcionesAmplio);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de campo amplio:", error);
+      });
+    // axios.get("http://localhost:5000/campo_amplio") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesAmplio(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de campo amplio:", error);
+    //   });
+  }, [departamento]);
+  useEffect(() => {
+    if (opcionesOferta.length === 0) {
+      return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    }
+
+    const segunAmplio = opcionesOferta.filter((opcion) => opcion.ca_id == amplio);
+    console.log(segunAmplio);
+    const opciones = segunAmplio.map((aa) => aa.ce_id);
+    console.log(opciones);
+
+    // Crear un array de promesas para las solicitudes Axios
+    const axiosPromises = opciones.map((opcion) => {
+      return axios.get(`http://localhost:5000/campo_especifico/${opcion}`);
+    });
+
+    // Esperar a que todas las solicitudes se completen
+    Promise.all(axiosPromises)
+      .then((responses) => {
+        // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+        const opcionesEspecifico = responses.map((response) => response.data);
+        setOpcionesEspecifico(opcionesEspecifico);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de campo específico:", error);
+      });
+    // axios.get("http://localhost:5000/campo_especifico") // Cambia la URL de la API con la que te conectas a la base de datos
+    //   .then((response) => {
+    //     setOpcionesEspecifico(response.data); // Actualiza el estado con los datos recibidos de la API
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de campo específico:", error);
+    //   });
+  }, [amplio]);
+  useEffect(() => {
+    // if (opcionesOferta.length === 0) {
+    //   return; // No hagas nada si opcionesOferta aún no se ha actualizado
+    // }
+
+    // const segunEspecifico = opcionesOferta.filter((opcion) => opcion.ce_id == especifico);
+    // console.log(segunEspecifico);
+    // const opciones = segunEspecifico.map((aa) => aa.ce_id);
+    // console.log(opciones);
+
+    // // Crear un array de promesas para las solicitudes Axios
+    // const axiosPromises = opciones.map((opcion) => {
+    //   return axios.get(`http://localhost:5000/campo_especifico/${opcion}`);
+    // });
+
+    // // Esperar a que todas las solicitudes se completen
+    // Promise.all(axiosPromises)
+    //   .then((responses) => {
+    //     // responses es un array de respuestas de Axios, cada una correspondiente a una solicitud
+    //     const opcionesEspecifico = responses.map((response) => response.data);
+    //     setOpcionesEspecifico(opcionesEspecifico);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener las opciones de campo específico:", error);
+    //   });
+    axios.get(`http://localhost:5000/ofertas?sede_id=${sede}&dept_id=${departamento}&ca_id=${amplio}&ce_id=${especifico}`)
+      .then((response) => {
+        setOpcionesOferta(response.data); // Actualiza el estado con los datos recibidos de la API       
+      })
+      .catch((error) => {
+        console.error("Error al obtener las opciones de ofertas:", error);
+      });
   }, [especifico]);
-
-
-
 
   return (
     <>
@@ -430,7 +631,7 @@ function Postulacion() {
                 <th>Campo Específico </th>
                 <th>Seleccionar </th>
               </tr>
-              {opcionesOferta.map(val => {
+              {opcionesEspecifico.map(val => {
                 return <tr>
                   <td>{val.ofe_vacantes}</td>
                   <td>{val.ofe_horas}</td>

@@ -54,12 +54,8 @@ const getOfertaByParams = async (req, res) => {
   const { dept_id } = req.params;
   const { ca_id } = req.params;
   const { ce_id } = req.params;
-  console.log(sede_id)
-  console.log(dept_id)
-  console.log(ca_id)
-  console.log(ce_id)
   try {
-    const result = await pool.query('SELECT * FROM public.oferta WHERE sede_id = $1 AND dept_id = $2 AND ca_id = $3 AND ce_id = $4', [sede_id, dept_id,ca_id,ce_id]);
+    const result = await pool.query('SELECT * FROM public.oferta WHERE sede_id = $1 AND dept_id = $2 AND ca_id = $3 AND ce_id = $4;', [sede_id, dept_id,ca_id,ce_id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Oferta no encontrada' });
     }
