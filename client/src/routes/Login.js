@@ -4,7 +4,10 @@ import "./Login.scss";
 import {useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import inni from "../img/login.png";
-import axios from "axios";
+import {
+  fetchCandidatos,
+  fetchReCHUM,
+} from "../services/api";
 import bcrypt from "bcryptjs";
 
 const Login = () => {
@@ -17,31 +20,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar datos de candidatos
-    const fetchCandidatos = async () => {
-      try {
-        const result = await axios.get("http://localhost:5000/candidatos");
-        // Aquí puedes hacer lo que necesites con los datos de candidatos
-        setCandidatosData(result.data);
-      } catch (error) {
-        console.error("Error al obtener datos de candidatos:", error);
-      }
-    };
+    
+    async function fetchData() {
+    const candidatosData = await fetchCandidatos();
+    setCandidatosData(candidatosData);
+    const rechumData = await fetchReCHUM();
+    setRechumData(rechumData);
+ 
 
-    // Cargar datos de ReCHUM
-    const fetchReCHUM = async () => {
-      try {
-        const result = await axios.get("http://localhost:5000/rechum");
-
-        setRechumData(result.data);
-      } catch (error) {
-        console.error("Error al obtener datos de ReCHUM:", error);
-      }
-    };
-
-    fetchCandidatos();
-    fetchReCHUM();
-  }, []);
+  }
+  fetchData();
+}, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
