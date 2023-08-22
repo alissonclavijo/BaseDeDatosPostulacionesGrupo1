@@ -9,7 +9,7 @@ export const SidebarData = [
         icon: <FaIcons.FaHouseUser/>,
         cName:'nav-text1'
     },
-
+    
     {
         title:'Cerrar Sesión',
         path:'/',

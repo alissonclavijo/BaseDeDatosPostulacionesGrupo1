@@ -123,8 +123,10 @@ const RecursosVerCandidato = () => {
   };
 
   return (
+    <div>
+    <NavpostAdmin />
     <div className="table-container">
-      <NavpostAdmin />
+    
       <div className="applicant-info">
 <br></br>
   <h1>Información del Postulante</h1>
@@ -388,6 +390,7 @@ const RecursosVerCandidato = () => {
       </div>
       <br></br>
       <button className="enviar-button">Enviar Puntuación</button>
+    </div>
     </div>
   );
 };
