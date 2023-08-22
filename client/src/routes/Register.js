@@ -80,14 +80,10 @@ function Register() {
 
   return (
     <>
+    <div className="background-registro-correo">
       <Navbar />
       
-      <div className="conregister">
-        <img
-          className="banner"
-          src={imagen("./banner_profesores.jpg")}
-          alt="Universidad"
-        />
+     
         <div className="register">
        
           <div className="containere">
@@ -141,7 +137,7 @@ function Register() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </>
   );
 }

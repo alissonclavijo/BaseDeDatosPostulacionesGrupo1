@@ -22,9 +22,10 @@ router.get('/files', (req, res) => {
       return res.json(files);
     });
   });*/
+  
   router.get('/files', async (req, res) => {
     try {
-      const file = await gfs.files.find().toArray();
+      const file = await gfs.files.list();
       // Check if files
       if (!file || file.length === 0) {
         return res.status(404).json({
