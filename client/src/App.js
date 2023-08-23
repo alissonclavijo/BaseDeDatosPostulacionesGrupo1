@@ -7,6 +7,7 @@ import InforPost from "./routes/InforPost"
 import RegisterInformation from './routes/RegisterInformation';
 import Login from './routes/Login';
 import HomePost from './routes/HomePost';
+import Contact from './routes/Contact';
 import Answer from './routes/Answer';
 import AnswerRRHH from './routes/AnswerRRHH';
 import Postulacion from './routes/Postulacion';
@@ -29,6 +30,7 @@ function App() {
           <Route exact path ="/register" element={<Register/>}/>
           <Route exact path ="/registerinformation" element={<RegisterInformation/>}/>
           <Route exact path ="/validacioncorreo" element={<CorreoValidacion/>}/>
+          <Route exact path ="/contact" element={<Contact/>}/>
 
           {/*Rutas Protegidas */}
           <Route element={<ProtectedRoutes/>}>
