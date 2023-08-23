@@ -24,6 +24,12 @@ export const SidebarData = [
         cName:'nav-text'
     },
     {
+        title:'Respuesta',
+        path:'/answer',
+        icon: <RiICons.RiQuestionAnswerLine/>,
+        cName:'nav-text'
+    },
+    {
         title:'Cerrar Sesión',
         path:'/',
         icon: <BiICons.BiExit/>,

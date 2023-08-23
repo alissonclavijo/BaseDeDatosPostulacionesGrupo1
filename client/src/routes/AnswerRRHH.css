@@ -1,0 +1,30 @@
+.answer2{
+    padding: 20px 0;
+}
+
+.gif2{
+    width: 50%;
+    height: 500px;
+}
+
+.span2{
+    padding-left: 310px;
+    display: block;
+    font-family: monospace;
+    white-space: nowrap;
+    border-right: 4px solid;
+    width: 85ch;
+    text-align: center;
+    justify-content: center;
+
+    animation:typing 5s steps(32), blink .5s infinite step-end alternate;
+    overflow:hidden;
+}
+
+@keyframes typing{
+    from{width:0}
+}
+
+@keyframes blinck{
+    from {width:0}
+}

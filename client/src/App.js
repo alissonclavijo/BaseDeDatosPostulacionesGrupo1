@@ -7,6 +7,8 @@ import InforPost from "./routes/InforPost"
 import RegisterInformation from './routes/RegisterInformation';
 import Login from './routes/Login';
 import HomePost from './routes/HomePost';
+import Answer from './routes/Answer';
+import AnswerRRHH from './routes/AnswerRRHH';
 import Postulacion from './routes/Postulacion';
 import Recursosh from './routes/Recursosh';
 import CorreoValidacion from './routes/CorreoValidacion'
@@ -32,13 +34,15 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
           <Route exact path ="/inforpost" element={<InforPost/>}/>
           <Route exact path ="/homepost" element={<HomePost/>}/>
-          <Route exact path ="/postulacion" element={<Postulacion/>}/>                    
+          <Route exact path ="/postulacion" element={<Postulacion/>}/>
+          <Route exact path ="/answer" element={<Answer/>}/>                       
           </Route>
 
           {/*Rutas Recursos*/}
           <Route element={<ProtectedRechum/>}>
           <Route exact path ="/recursosh" element={<Recursosh/>}/>  
           <Route exact path ="/recursosvercandidato" element={<RecursosVerCandidato/>}/>
+          <Route exact path ="/answerRRHH" element={<AnswerRRHH/>}/>
           </Route>
 
           <Route exact path="*" element={<Error404 />} />
