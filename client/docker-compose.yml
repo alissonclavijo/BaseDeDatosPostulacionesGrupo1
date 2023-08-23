@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/client
+    networks:
+      - postulaciones
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+networks:
+  postulaciones:
+    external: false

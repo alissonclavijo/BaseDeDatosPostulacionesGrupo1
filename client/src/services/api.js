@@ -151,3 +151,55 @@ export async function Solicitud() {
     return [];
   }
 }
+
+/* Post*/
+export async function SolicitudPost(postData){
+  try {
+    const response = await fetch('http://localhost:5000/solicitudes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud POST');
+    }
+
+    const dataFromServer = await response.json();
+    return dataFromServer;
+  } catch (error) {
+    console.error('Error en la solicitud POST:', error);
+    throw error;
+  }
+};
+
+export async function ActualizarSolicitud(candId, solId, nuevaNotaFinal) {
+  const url = `http://localhost:5000/solicitudes/${candId}/${solId}`; // URL del recurso a actualizar
+  const postData = {
+    nota_final: nuevaNotaFinal,
+    // Otras propiedades si es necesario
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud PUT');
+    }
+
+    const dataFromServer = await response.json();
+    return dataFromServer;
+  } catch (error) {
+    console.error('Error en la solicitud PUT:', error);
+    throw error;
+  }
+}
+

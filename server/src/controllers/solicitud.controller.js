@@ -41,7 +41,7 @@ const getSolicitudByIds = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener la solicitud' });
   }
 };
-
+/*
 const updateSolicitud = async (req, res) => {
   const { cand_id, sol_id } = req.params;
   const { rh_id, sol_aprobacion } = req.body;
@@ -49,7 +49,7 @@ const updateSolicitud = async (req, res) => {
   try {
     const result = await pool.query(
       'UPDATE public.solicitud SET rh_id = $1, sol_aprobacion = $2 WHERE cand_id = $3 AND sol_id = $4 RETURNING *',
-      [rh_id, sol_aprobacion, cand_id, sol_id]
+      [rh_id, sol_aprobacion, cand_id, sol_id , ]
     );
 
     if (result.rows.length === 0) {
@@ -59,7 +59,27 @@ const updateSolicitud = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar la solicitud' });
   }
+};*/
+const updateSolicitud = async (req, res) => {
+  const { cand_id, sol_id } = req.params;
+  const { rh_id, sol_aprobacion, nota_final } = req.body;
+
+  try {
+    const result = await pool.query(
+      'UPDATE public.solicitud SET rh_id = $1, sol_aprobacion = $2, nota_final = $3 WHERE cand_id = $4 AND sol_id = $5 RETURNING *',
+      [rh_id, sol_aprobacion, nota_final, cand_id, sol_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+
+    res.status(200).json(result.rows[0]); // Devolver el registro actualizado
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar la solicitud' });
+  }
 };
+
 
 const deleteSolicitud = async (req, res) => {
   const { cand_id, sol_id } = req.params;
