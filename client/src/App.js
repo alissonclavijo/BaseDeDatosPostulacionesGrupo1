@@ -17,7 +17,6 @@ import { Error404 } from "./routes/Error404";
 import RecursosVerCandidato from "./routes/RecursosVerCandidato";
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import ProtectedRechum from './utils/ProtectedRechum';
-import Contact from './routes/Contact';
 
 
 function App() {
