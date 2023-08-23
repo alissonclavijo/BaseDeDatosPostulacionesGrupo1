@@ -6,7 +6,9 @@ Este proyecto tiene como objetivo proporcionar un sistema de gestión de postula
 1. Crea una carpeta en tu sistema con el nombre deseado para el proyecto.
 2. Copia la dirección de la carpeta que acabas de crear.
 3. Clona este repositorio utilizando el siguiente comando en tu terminal o consola:
-   `git clone https://github.com/alissonclavijo/BaseDeDatosPostulacionesGrupo1.git`
+   <pre> 
+   git clone https://github.com/alissonclavijo/BaseDeDatosPostulacionesGrupo1.git
+   </pre> 
 5. Abre el proyecto en tu editor de código preferido, como Visual Studio Code.
 
 ##Dentro del proyecto, realiza las siguientes configuraciones:
@@ -25,28 +27,30 @@ Este proyecto tiene como objetivo proporcionar un sistema de gestión de postula
 
 2. Dirígete a la carpeta del servidor ejecutando el siguiente comando:
    <pre> 
-   `cd server`
+   cd server
    </pre> 
 4. Instala las dependencias del servidor con el siguiente comando:
-   `npm install`
-5. Inicia el servidor con el siguiente comando:
    <pre> 
-   `npm run dev`
+   npm install
+   </pre> 
+6. Inicia el servidor con el siguiente comando:
+   <pre> 
+   npm run dev
    </pre> 
 ##Ejecución del Cliente
 
 1. Abre otra terminal o consola.
 2. Dirígete a la carpeta del cliente ejecutando el siguiente comando:
    <pre> 
-   `cd client`
+   cd client
    </pre> 
 4. Instala las dependencias del cliente con el siguiente comando:
    <pre> 
-   `npm install`
+   npm install
    </pre> 
 6. Inicia el cliente con el siguiente comando:
    <pre> 
-   `npm start`
+   npm start
    </pre> 
    
 ##Uso
