@@ -4,12 +4,15 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import NavpostAdmin from "../components/NavpostAdmin";
 import "./RecursosVerCandidato.css";
 import { useLocation } from "react-router-dom";
-import {
-  getTituloExp,
-} from "../services/api";
+import { getTituloExp, ActualizarSolicitud } from "../services/api";
+import {useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const RecursosVerCandidato = () => {
+  const [data, setData] = useState({});
   const [titulo, setTituloExp] = useState([]);
+  const navigate = useNavigate();
+ 
 
   const location = useLocation();
   const candidatosData = location.state;
@@ -23,12 +26,15 @@ const RecursosVerCandidato = () => {
 
   useEffect(() => {
     async function fetchData() {
-      setTituloExp(await getTituloExp());   
+      setTituloExp(await getTituloExp());
     }
 
     fetchData();
   }, []);
 
+ 
+
+    
   const [applicantInfo, setApplicantInfo] = useState({
     cedula: candidatosData.cand_num_identificacion,
     nombres: `${candidatosData.cand_nombre1} ${candidatosData.cand_nombre2}`,
@@ -47,13 +53,13 @@ const RecursosVerCandidato = () => {
 
   const [applications, setApplications] = useState([
     {
-      postulacion: postulacion.post_periodo = "2023-2024",
-      contrato: contratacion.con_nombre = "Personal academico",
-      actividad: actividad.act_nombre = "Docencia",
-      sede: sedes.sede_nombre = "Matriz",
-      departamento: departamento.dept_nombre = "DCCO",
-      campoAmplio: campoamplio.ca_nombre = "Ciencias de la Computación",
-      campoEspecifico: campoespecifico.ce_nombre="Algebra Lineal" ,
+      postulacion: (postulacion.post_periodo = "2023-2024"),
+      contrato: (contratacion.con_nombre = "Personal academico"),
+      actividad: (actividad.act_nombre = "Docencia"),
+      sede: (sedes.sede_nombre = "Matriz"),
+      departamento: (departamento.dept_nombre = "DCCO"),
+      campoAmplio: (campoamplio.ca_nombre = "Ciencias de la Computación"),
+      campoEspecifico: (campoespecifico.ce_nombre = "Algebra Lineal"),
     },
     // Agregar más aplicaciones aquí si es necesario
   ]);
@@ -110,50 +116,123 @@ const RecursosVerCandidato = () => {
     },
   ]);
 
-  const [formacion, setFormacion] = useState({
-    tipo: "Maestría",
+  const [tipoFormacion, setTipoFormacion] = useState({
     puntuacionTitulo: "",
     puntuacionAdicional: "",
+    valorTipo: "",
+    totalPuntuacion: "",
   });
 
-  const [formacion1, setFormacion2] = useState({
-    tipoarticulo: "Opcion1arti",
+  const [docencia, setDocencia] = useState({
+    ValorExamen: "",
+    puntuacionExamen: "",
+    ValorExperiencia: "",
+    puntuacionDocencia: "",
+    totalPuntuacion: "",
+  });
+
+  const [produccion, setProduccion] = useState({
+    puntuacionArticulo: "",
+  });
+
+  const [experiencia, setExperiencia] = useState({
     puntuacionMeses: "",
   });
 
-  const [formacion2, setFormacion3] = useState({
-    tipomeses: "Opcions1",
-    puntuacionMeses: "",
-  });
-
-  const handleFormacionChange = (event) => {
+  const handlePonderacion = (event) => {
     const { name, value } = event.target;
-    setFormacion((prevFormacion) => ({
+    setTipoFormacion((prevFormacion) => ({
       ...prevFormacion,
       [name]: value,
     }));
   };
 
-  const handleFormacionChange2 = (event) => {
+  const handleDocencia = (event) => {
     const { name, value } = event.target;
-    setFormacion2((prevFormacion) => ({
-      ...prevFormacion,
-      [name]: value,
-    }));
-  };
-
-  const handleFormacionChange3 = (event) => {
-    const { name, value } = event.target;
-    setFormacion3((prevFormacion) => ({
-      ...prevFormacion,
-      [name]: value,
-    }));
-  };
-
-const handleSubmit = async (e) =>{
-  e.preventDefault();
   
-}
+    // Realiza las operaciones según el campo que se esté actualizando
+    if (name === "ValorExamen") {
+      const parsedValue = parseInt(value);
+      const puntuacionExamen = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
+  
+      setDocencia((prevDocencia) => ({
+        ...prevDocencia,
+        [name]: value,
+        puntuacionExamen: puntuacionExamen,
+      }));
+    } else {
+      setDocencia((prevDocencia) => ({
+        ...prevDocencia,
+        [name]: value,
+      }));
+    }
+    if (name === "ValorExperiencia") {
+      const parsedValue = parseInt(value);
+      const puntuacionDocencia = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
+  
+      setDocencia((prevDocencia) => ({
+        ...prevDocencia,
+        [name]: value,
+        puntuacionDocencia: puntuacionDocencia,
+      }));
+    } else {
+      setDocencia((prevDocencia) => ({
+        ...prevDocencia,
+        [name]: value,
+      }));
+    }
+  };
+  
+  const handleProduccion = (event) => {
+    const { name, value } = event.target;
+    setProduccion((prevFormacion) => ({
+      ...prevFormacion,
+      [name]: value,
+    }));
+  };
+  const handleExperiencia = (event) => {
+    const { name, value } = event.target;
+    setExperiencia((prevFormacion) => ({
+      ...prevFormacion,
+      [name]: value,
+    }));
+  };
+
+  const calculateTotalPuntuacion = () => {
+    const total =
+      parseFloat(docencia.puntuacionExamen) +
+      parseFloat(docencia.puntuacionDocencia) +
+      parseFloat(tipoFormacion.puntuacionTitulo) +
+      parseFloat(tipoFormacion.valorTipo) +
+      parseFloat(experiencia.puntuacionTitulo) +
+      parseFloat(produccion.puntuacionTitulo);
+
+    return total;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  };
+  const handleSubmitTotal = async (e) => {
+    e.preventDefault();
+    const totalPuntuacion = calculateTotalPuntuacion();
+    const dato = 1;
+    try {
+      const response = await ActualizarSolicitud( candidatosData.cand_id, dato, totalPuntuacion);
+      console.log('Solicitud actualizada:', response);
+      // Realiza las acciones que necesitas después de actualizar la solicitud
+    } catch (error) {
+      console.error('Error al actualizar la solicitud:', error);
+      // Manejo de errores si es necesario
+    }
+    swal(
+      "Se ha registrado con exito!",
+      "Se hizo lo que se pudo",
+      "success"
+    );
+    navigate("/recursosh");
+  };
+  
 
   return (
     <div>
@@ -311,13 +390,9 @@ const handleSubmit = async (e) =>{
                 <td>Títulos</td>
                 <td>
                   <div className="centered-select">
-                    <select
-                      name="tipo"
-                      value={formacion.tipo}
-                      onChange={handleFormacionChange}
-                    >
-                     <option value="">Seleccione...</option>
-                       {titulo}
+                    <select name="tipo">
+                      <option value="">Seleccione...</option>
+                      {titulo}
                     </select>
                   </div>
                 </td>
@@ -325,8 +400,8 @@ const handleSubmit = async (e) =>{
                   <input
                     type="text"
                     name="puntuacionTitulo"
-                    value={formacion.puntuacionTitulo}
-                    onChange={handleFormacionChange}
+                    value={tipoFormacion.puntuacionTitulo}
+                    onChange={handlePonderacion}
                   />
                 </td>
               </tr>
@@ -335,17 +410,18 @@ const handleSubmit = async (e) =>{
                 <td>
                   <input
                     type="text"
-                    name="puntuacionAdicional"
-                    value={formacion.puntuacionAdicional}
-                    onChange={handleFormacionChange}
+                    name="valorTipo"
+                    value={tipoFormacion.valorTipo}
+                    
+                    onChange={handlePonderacion}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
                     name="puntuacionAdicional"
-                    value={formacion.puntuacionAdicional}
-                    onChange={handleFormacionChange}
+                    value={tipoFormacion.valorTipo}
+                    onChange={handlePonderacion}
                   />
                 </td>
               </tr>
@@ -353,8 +429,7 @@ const handleSubmit = async (e) =>{
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseInt(formacion.puntuacionTitulo) +
-                    parseInt(formacion.puntuacionAdicional)}
+                 {parseFloat(tipoFormacion.puntuacionTitulo) + parseFloat(tipoFormacion.valorTipo)} 
                 </td>
               </tr>
             </tbody>
@@ -377,36 +452,37 @@ const handleSubmit = async (e) =>{
                 <td>
                   <input
                     type="text"
-                    name="puntuacionTitulo"
-                    value={formacion.puntuacionTitulo}
-                    onChange={handleFormacionChange}
+                    name="ValorExamen"
+                    value={docencia.ValorExamen}
+                    onChange={handleDocencia}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionAdicional"
-                    value={formacion.puntuacionAdicional}
-                    onChange={handleFormacionChange}
+                    name="puntuacionExamen"
+                    value={docencia.puntuacionExamen}
+                    onChange={handleDocencia}
                   />
                 </td>
+                
               </tr>
               <tr>
                 <td>Experiencia Profesional en docencia Universitaria</td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionTitulo"
-                    value={formacion.puntuacionTitulo}
-                    onChange={handleFormacionChange}
+                    name="ValorExperiencia"
+                    value={docencia.ValorExperiencia}
+                    onChange={handleDocencia}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionAdicional"
-                    value={formacion.puntuacionAdicional}
-                    onChange={handleFormacionChange}
+                    name="puntuacionDocencia"
+                    value={docencia.puntuacionDocencia}
+                    onChange={handleDocencia}
                   />
                 </td>
               </tr>
@@ -414,8 +490,7 @@ const handleSubmit = async (e) =>{
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseInt(formacion.puntuacionTitulo) +
-                    parseInt(formacion.puntuacionAdicional)}
+                  {parseFloat(docencia.puntuacionExamen)+parseFloat(docencia.puntuacionDocencia)}
                 </td>
               </tr>
             </tbody>
@@ -439,8 +514,8 @@ const handleSubmit = async (e) =>{
                   <div className="centered-selectarticulo">
                     <select
                       name="tipoarticulo"
-                      value={formacion.tipoarticulo}
-                      onChange={handleFormacionChange2}
+                      value={produccion.tipoarticulo}
+                      onChange={handleProduccion}
                     >
                       <option value="Opcion1arti">
                         Artículo completo o DOI
@@ -456,8 +531,8 @@ const handleSubmit = async (e) =>{
                   <input
                     type="text"
                     name="puntuacionTitulo"
-                    value={formacion.puntuacionTitulo}
-                    onChange={handleFormacionChange}
+                    value={produccion.puntuacionTitulo}
+                    onChange={handleProduccion}
                   />
                 </td>
               </tr>
@@ -465,8 +540,7 @@ const handleSubmit = async (e) =>{
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseInt(formacion.puntuacionTitulo) +
-                    parseInt(formacion.puntuacionAdicional)}
+                  {parseFloat(produccion.puntuacionTitulo)}
                 </td>
               </tr>
             </tbody>
@@ -490,8 +564,8 @@ const handleSubmit = async (e) =>{
                   <div className="centered-selectmeses">
                     <select
                       name="tipomeses"
-                      value={formacion.tipomeses}
-                      onChange={handleFormacionChange3}
+                      value={experiencia.tipomeses}
+                      onChange={handleExperiencia}
                     >
                       <option value="Opcions1">12 - 16 meses</option>
                       <option value="Opcions2">17 - 21 meses</option>
@@ -505,8 +579,8 @@ const handleSubmit = async (e) =>{
                   <input
                     type="text"
                     name="puntuacionTitulo"
-                    value={formacion.puntuacionTitulo}
-                    onChange={handleFormacionChange}
+                    value={experiencia.puntuacionTitulo}
+                    onChange={handleExperiencia}
                   />
                 </td>
               </tr>
@@ -514,15 +588,19 @@ const handleSubmit = async (e) =>{
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseInt(formacion.puntuacionTitulo) +
-                    parseInt(formacion.puntuacionAdicional)}
+                  {parseFloat(experiencia.puntuacionTitulo)} 
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <table>
+        <tr>
+        <td>Valor del Nota Final : {calculateTotalPuntuacion()} </td>
+        </tr>
+        </table>
         <br></br>
-        <button className="enviar-button">Enviar Puntuación</button>
+        <button onClick={handleSubmitTotal} className="enviar-button">Enviar Puntuación</button>
       </div>
     </div>
   );

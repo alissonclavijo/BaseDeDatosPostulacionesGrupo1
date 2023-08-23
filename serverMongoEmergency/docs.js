@@ -9,6 +9,10 @@ mongoose.connect('mongodb://localhost:27018', {
 });
 
 const pdfSchema = new mongoose.Schema({
+  id_candidato: {
+    type: Number,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
@@ -26,4 +30,3 @@ const pdfSchema = new mongoose.Schema({
 const PDF = mongoose.model('PDF', pdfSchema);
 
 module.exports = PDF;
-
