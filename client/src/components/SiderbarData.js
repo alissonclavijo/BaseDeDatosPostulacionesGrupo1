@@ -24,7 +24,7 @@ export const SidebarData = [
         cName:'nav-text'
     },
     {
-        title:'Respuesta',
+        title:'Estado de postulación',
         path:'/answer',
         icon: <RiICons.RiQuestionAnswerLine/>,
         cName:'nav-text'
