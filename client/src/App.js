@@ -16,6 +16,8 @@ import { Error404 } from "./routes/Error404";
 import RecursosVerCandidato from "./routes/RecursosVerCandidato";
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import ProtectedRechum from './utils/ProtectedRechum';
+import Contact from './routes/Contact';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route exact path ="/register" element={<Register/>}/>
           <Route exact path ="/registerinformation" element={<RegisterInformation/>}/>
           <Route exact path ="/validacioncorreo" element={<CorreoValidacion/>}/>
+          <Route exact path ="/contact" element={<Contact/>}/>
 
           {/*Rutas Protegidas */}
           <Route element={<ProtectedRoutes/>}>

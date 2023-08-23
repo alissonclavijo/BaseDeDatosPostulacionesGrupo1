@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-const imagen = require.context("../img/");
 import { Link } from "react-router-dom";
+const imagen = require.context("../img/");
+
 function Contact (props){
     useEffect(() => {
         const script = document.createElement("script");
