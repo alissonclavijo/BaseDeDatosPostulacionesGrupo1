@@ -1,7 +1,28 @@
-function Contact (){
+import React, { useEffect } from "react";
+const imagen = require.context("../img/");
+import { Link } from "react-router-dom";
+function Contact (props){
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.id = "messenger-widget-b";
+        script.src = "https://cdn.botpenguin.com/website-bot.js";
+        script.defer = true;
+        script.innerHTML = "64e5aa90808a5b1dc631ab8d,64e5976a36b0c57c32b9a32b";
+        
+        // Append the script to the end of the body element
+        document.body.appendChild(script);
+
+        // Clean up: Remove the script when the component unmounts
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
     return(
         <>
-        <h1>Contacto</h1>
+        <Link to="/">
+            <button>.</button>
+          </Link>
         </>
     )
 }
