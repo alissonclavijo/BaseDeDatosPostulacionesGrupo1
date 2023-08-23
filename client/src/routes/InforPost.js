@@ -41,7 +41,7 @@ export function InforPost() {
       setShowConfirmModal(true);
     } else {
       // Display an error message if any document is missing
-      alert("Por favor, suba todos los documentos requeridos antes de enviar.");
+      alert("Subir todos los documentos necesarios");
     }
   };
 
@@ -82,19 +82,31 @@ export function InforPost() {
     <Container>
       <h1>Subir Documentos</h1>
       <Form>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ paddingLeft: "120px" }}><h2>Documentos que se debe enviar</h2></div>
+          <div style={{ paddingRight: "90px" }}><h2>#</h2></div>
+        </div>
         {documentLabels.map((label, index) => (
-          <div key={index}>
+          
+          <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+
+          <div style={{ marginRight: "10px", width: "70%" }}>
             <label htmlFor={`file${index + 1}`}>{label}:</label>
             <input
               type="file"
               id={`file${index + 1}`}
               onChange={(e) => handleFileChange(index, e)}
+              style={{ width: "100%" }}
             />
-            {/*<a href={linkPDF[index]} target="_blank" rel="noreferrer"><button onClick={(e) => e.preventDefault()}>📄 Previsualizar</button></a>*/}
-            {sheetsCount[index] > 0 && <p>Cantidad de Páginas: {sheetsCount[index]}</p>}
           </div>
+          <div>
+            {/*<a href={linkPDF[index]} target="_blank" rel="noreferrer"><button onClick={(e) => e.preventDefault()}>📄 Previsualizar</button></a>*/}
+            {sheetsCount[index] > 0 && <p style={{ paddingRight: "70px" }}> {sheetsCount[index]} hojas</p>}
+          </div>
+        </div>
+        
         ))}
-        {sheetsCount.reduce((a, b) => a + b, 0) > 0 && <h3>Conteo Acumulado de Páginas: {sheetsCount.reduce((a, b) => a + b, 0)}</h3>}
+        {sheetsCount.reduce((a, b) => a + b, 0) > 0 && <h3>Total de Páginas: {sheetsCount.reduce((a, b) => a + b, 0)}</h3>}
         <button type="button" onClick={handleEnviarClick}>
           Enviar
         </button>
@@ -103,27 +115,28 @@ export function InforPost() {
       <ReactModal
         isOpen={showConfirmModal}
         onRequestClose={() => setShowConfirmModal(false)}
-        className="mm-popup__box"
-        overlayClassName="mm-popup__overlay"
         style={{
           content: {
-            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
-            top: "15%", // Posición vertical, 5% desde la parte superior
-            left: "40%", // Posición horizontal, 5% desde la izquierda
-            right: "50%", // Margen derecho, 5% desde la derecha
-            bottom: "45%", // Margen inferior, 5% desde la parte inferior
-            padding: "50px", // Agrega espacio interno de 20px
-            borderRadius: "10px", // Añade bordes redondeados
-            backgroundColor: "#fff", // Fondo del popup en blanco
-          },
+            width: "40%", // Cambiado a 40%
+            top: "10%",
+            left: "30%", // Centrado horizontalmente con un margen del 30%
+            right: "30%", // Centrado horizontalmente con un margen del 30%
+            bottom: "10%",
+            padding: "20px",
+            borderRadius: "10px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e0e0e0",
+                },
           overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
             zIndex: 1000,
           },
         }}
       >
-        <div className="mm-popup__box__header">
-          <h2 className="mm-popup__box__header__title">Verifique los datos antes de enviar</h2>
+        <div className="mm-popup__box__header" style={{
+          backgroundColor: "#black"
+        }}>
+          <h2 className="mm-popup__box__header__title" >Revise cuidadosamente la información antes de enviar</h2>
           <button
             className="mm-popup__close"
             onClick={() => setShowConfirmModal(false)}
@@ -134,21 +147,31 @@ export function InforPost() {
         </div>
         <div className="mm-popup__box__body">
           <p>
-            Esta seguro que los datos enviados son los correctos, estos datos serán enviados y
-            posteriormente no podrán ser modificados.
+            Por favor, confirme que está seguro de enviar los datos que ha subido. Una vez que envíe los datos, no tendrá otra oportunidad para realizar cambios.
           </p>
-          <p>Si envía cualquier documento de manera errónea, puede ser descalificado del concurso.</p>
+          <p>
+            Es crucial tener presente que cualquier equivocación en los documentos podría conducir a la eliminación del concurso.
+          </p>
+          <img
+            src="https://www.alchemer.com/wp-content/uploads/2023/03/Untitled-design-9.gif"
+            alt="Imagen de ejemplo"
+            style={{
+              width: "100%", // Cambiar el tamaño de la imagen según sea necesario
+              height: "auto",
+            }}
+          />
         </div>
-        <div className="mm-popup__box__footer">
-          <div className="mm-popup__box__footer__right-space">
-            <button className="mm-popup__btn" onClick={() => setShowConfirmModal(false)}>
+        <div className="mm-popup__box__footer" style={{ textAlign: "center" }}>
+          <div className="mm-popup__box__footer__right-space" style={{ display: "flex", justifyContent: "center", paddingRight: "120px", gap: "50px" }}>
+            <button className="mm-popup__btn mm-popup__btn--cancel" onClick={() => setShowConfirmModal(false)}>
               Cancelar
             </button>
-            <button className="mm-popup__btn mm-popup__btn--success" onClick={handleModalAcceptClick}>
-              Aceptar
+            <button className="mm-popup__btn mm-popup__btn--proceed" onClick={handleModalAcceptClick}>
+              Continuar
             </button>
           </div>
         </div>
+
       </ReactModal>
       <ReactModal
         isOpen={showSuccessModal}
@@ -157,14 +180,15 @@ export function InforPost() {
         overlayClassName="mm-popup__overlay"
         style={{
           content: {
-            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
-            top: "15%", // Posición vertical, 5% desde la parte superior
-            left: "40%", // Posición horizontal, 5% desde la izquierda
-            right: "50%", // Margen derecho, 5% desde la derecha
-            bottom: "50%", // Margen inferior, 5% desde la parte inferior
-            padding: "50px", // Agrega espacio interno de 20px
-            borderRadius: "10px", // Añade bordes redondeados
-            backgroundColor: "#fff", // Fondo del popup en blanco
+            width: "40%", // Cambiado a 40%
+            top: "10%",
+            left: "41%", // Centrado horizontalmente con un margen del 30%
+            right: "40%", // Centrado horizontalmente con un margen del 30%
+            bottom: "10%",
+            padding: "20px",
+            borderRadius: "10px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e0e0e0",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -173,7 +197,7 @@ export function InforPost() {
         }}
       >
         <div className="mm-popup__box__header">
-          <h2 className="mm-popup__box__header__title">Datos Subidos Correctamente</h2>
+          <h2 className="mm-popup__box__header__title">Información Cargada Exitosamente</h2>
           <button
             className="mm-popup__close"
             onClick={() => setShowSuccessModal(false)}
@@ -183,16 +207,26 @@ export function InforPost() {
           </button>
         </div>
         <div className="mm-popup__box__body">
-          <p>Tus datos se han subido correctamente. ¡Gracias por completar el proceso!</p>
+          <p>La información que has proporcionado ha sido cargada exitosamente.</p>
+          <img
+            src="https://services.riobravosystems.com/wp-content/uploads/2020/10/sendingmail.gif"
+            alt="Imagen de ejemplo"
+            style={{
+              width: "100%", // Cambiar el tamaño de la imagen según sea necesario
+              height: "auto",
+              marginBottom:"-10px",
+            }}/>
         </div>
         <div className="mm-popup__box__footer">
           <div className="mm-popup__box__footer__right-space">
+
             <button
               className="mm-popup__btn"
               onClick={() => {
                 setShowSuccessModal(false);
-                navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
+                navigate("/postulacion"); 
               }}
+
             >
               Salir
             </button>
