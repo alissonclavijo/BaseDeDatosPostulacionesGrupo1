@@ -17,7 +17,7 @@ Este proyecto tiene como objetivo proporcionar un sistema de gestión de postula
    
 ##Configuración de la Base de Datos
 
-1. Descarga el archivo SistemaPostulacion.sql, que contiene la estructura de la base de datos.
+1. Descarga el archivo `SistemaPostulacion.sql`, que contiene la estructura de la base de datos.
 2. Restaura la base de datos en PostgreSQL utilizando PgAdmin 4 o cualquier otro editor de preferencia.
 3. Verifica que la restauración se haya realizado correctamente y que los datos estén disponibles en la base de datos.
    
