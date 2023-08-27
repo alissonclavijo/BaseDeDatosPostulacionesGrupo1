@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import NavpostAdmin from "../components/NavpostAdmin";
 import "./RecursosVerCandidato.css";
 import { useLocation } from "react-router-dom";
 import { getTituloExp, ActualizarSolicitud } from "../services/api";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import InformacionPostulante from "../components/RecursosHumanos/InformacionPostulante";
+import Postulacion from "../components/RecursosHumanos/Postulacion";
+import Documentos from "../components/RecursosHumanos/Documentos";
 
 const RecursosVerCandidato = () => {
-  const [data, setData] = useState({});
   const [titulo, setTituloExp] = useState([]);
   const navigate = useNavigate();
- 
-
   const location = useLocation();
   const candidatosData = location.state;
   const postulacion = location.state;
@@ -32,76 +29,6 @@ const RecursosVerCandidato = () => {
 
     fetchData();
   }, []);
-
- 
-
-    
- 
-
-  const [applications, setApplications] = useState([
-    {
-      postulacion: (postulacion.post_periodo = "2023-2024"),
-      contrato: (contratacion.con_nombre = "Personal academico"),
-      actividad: (actividad.act_nombre = "Docencia"),
-      sede: (sedes.sede_nombre = "Matriz"),
-      departamento: (departamento.dept_nombre = "DCCO"),
-      campoAmplio: (campoamplio.ca_nombre = "Ciencias de la Computación"),
-      campoEspecifico: (campoespecifico.ce_nombre = "Algebra Lineal"),
-    },
-    // Agregar más aplicaciones aquí si es necesario
-  ]);
-
-  const [documents, setDocuments] = useState([
-    {
-      id: 1,
-      tipoDocumento: "Hoja de vida formato ESPE",
-      nombreDocumento: "hojadevida.pdf",
-      numeroHojas: 5,
-    },
-    {
-      id: 2,
-      tipoDocumento: "Copia de cédula",
-      nombreDocumento: "CedulaPerez.docx",
-      numeroHojas: 3,
-    },
-    {
-      id: 3,
-      tipoDocumento: "Certificado de votación",
-      nombreDocumento: "CertificadoPerez.docx",
-      numeroHojas: 6,
-    },
-    {
-      id: 4,
-      tipoDocumento: "Certificado de registro de título",
-      nombreDocumento: "CertificadoRegistroPerez.docx",
-      numeroHojas: 1,
-    },
-    {
-      id: 5,
-      tipoDocumento: "Experiencia de docente",
-      nombreDocumento: "ExperienciaPerez.docx",
-      numeroHojas: 5,
-    },
-    {
-      id: 6,
-      tipoDocumento: "Certificado de no tener Impedimentos",
-      nombreDocumento: "CertifiacoImpedimentosPerez.docx",
-      numeroHojas: 4,
-    },
-    {
-      id: 7,
-      tipoDocumento:
-        "Certificado de no tener responsabilidades administrativas",
-      nombreDocumento: "CertifiacoImpedimentosPerez.docx",
-      numeroHojas: 4,
-    },
-    {
-      id: 8,
-      tipoDocumento: "Experiencia profesional",
-      nombreDocumento: "ExperienciaPerez.docx",
-      numeroHojas: 4,
-    },
-  ]);
 
   const [tipoFormacion, setTipoFormacion] = useState({
     puntuacionTitulo: "",
@@ -136,12 +63,12 @@ const RecursosVerCandidato = () => {
 
   const handleDocencia = (event) => {
     const { name, value } = event.target;
-  
+
     // Realiza las operaciones según el campo que se esté actualizando
     if (name === "ValorExamen") {
       const parsedValue = parseInt(value);
       const puntuacionExamen = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
-  
+
       setDocencia((prevDocencia) => ({
         ...prevDocencia,
         [name]: value,
@@ -156,7 +83,7 @@ const RecursosVerCandidato = () => {
     if (name === "ValorExperiencia") {
       const parsedValue = parseInt(value);
       const puntuacionDocencia = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
-  
+
       setDocencia((prevDocencia) => ({
         ...prevDocencia,
         [name]: value,
@@ -169,7 +96,7 @@ const RecursosVerCandidato = () => {
       }));
     }
   };
-  
+
   const handleProduccion = (event) => {
     const { name, value } = event.target;
     setProduccion((prevFormacion) => ({
@@ -197,92 +124,43 @@ const RecursosVerCandidato = () => {
     return total;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  };
   const handleSubmitTotal = async (e) => {
     e.preventDefault();
     const totalPuntuacion = calculateTotalPuntuacion();
     const dato = 1;
     try {
-      const response = await ActualizarSolicitud( candidatosData.cand_id, dato, totalPuntuacion);
-      console.log('Solicitud actualizada:', response);
+      const response = await ActualizarSolicitud(
+        candidatosData.cand_id,
+        dato,
+        totalPuntuacion
+      );
+      console.log("Solicitud actualizada:", response);
       // Realiza las acciones que necesitas después de actualizar la solicitud
     } catch (error) {
-      console.error('Error al actualizar la solicitud:', error);
+      console.error("Error al actualizar la solicitud:", error);
       // Manejo de errores si es necesario
     }
-    swal(
-      "Se ha registrado con exito!",
-      "Se hizo lo que se pudo",
-      "success"
-    );
+    swal("Se ha registrado con exito!", "Se hizo lo que se pudo", "success");
     navigate("/recursosh");
   };
-  
 
   return (
     <div>
       <NavpostAdmin />
       <div className="table-container">
         <div className="applicant-info">
-         <InformacionPostulante candidatosData={candidatosData} />
+          <InformacionPostulante candidatosData={candidatosData} />
         </div>
-        <br></br>
-        <h1>Postulación </h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Postulación</th>
-              <th>Contrato</th>
-              <th>Actividad</th>
-              <th>Sede</th>
-              <th>Departamento</th>
-              <th>Campo Amplio</th>
-              <th>Campo Específico</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((application) => (
-              <tr key={application.id}>
-                <td>{application.postulacion}</td>
-                <td>{application.contrato}</td>
-                <td>{application.actividad}</td>
-                <td>{application.sede}</td>
-                <td>{application.departamento}</td>
-                <td>{application.campoAmplio}</td>
-                <td>{application.campoEspecifico}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <br></br>
-        <h1>Documentos </h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Tipo de Documento</th>
-              <th>Documento</th>
-              <th>Número de Hojas</th>
-              <th>Descargar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documents.map((document) => (
-              <tr key={document.id}>
-                <td>{document.tipoDocumento}</td>
-                <td>{document.nombreDocumento}</td>
-                <td>{document.numeroHojas}</td>
-                <td>
-                  <button onClick={handleSubmit} className="yellow-button">
-                    <FontAwesomeIcon icon={faDownload} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <br></br>
+        <Postulacion
+          postulacion={postulacion}
+          contratacion={contratacion}
+          actividad={actividad}
+          sedes={sedes}
+          departamento={departamento}
+          campoamplio={campoamplio}
+          campoespecifico={campoespecifico}
+        />
+        <Documentos />
         <div className="titulos-container">
           <h1>Ponderación</h1>
           <table>
@@ -320,7 +198,6 @@ const RecursosVerCandidato = () => {
                     type="text"
                     name="valorTipo"
                     value={tipoFormacion.valorTipo}
-                    
                     onChange={handlePonderacion}
                   />
                 </td>
@@ -337,7 +214,8 @@ const RecursosVerCandidato = () => {
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                 {parseFloat(tipoFormacion.puntuacionTitulo) + parseFloat(tipoFormacion.valorTipo)} 
+                  {parseFloat(tipoFormacion.puntuacionTitulo) +
+                    parseFloat(tipoFormacion.valorTipo)}
                 </td>
               </tr>
             </tbody>
@@ -373,7 +251,6 @@ const RecursosVerCandidato = () => {
                     onChange={handleDocencia}
                   />
                 </td>
-                
               </tr>
               <tr>
                 <td>Experiencia Profesional en docencia Universitaria</td>
@@ -398,7 +275,8 @@ const RecursosVerCandidato = () => {
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseFloat(docencia.puntuacionExamen)+parseFloat(docencia.puntuacionDocencia)}
+                  {parseFloat(docencia.puntuacionExamen) +
+                    parseFloat(docencia.puntuacionDocencia)}
                 </td>
               </tr>
             </tbody>
@@ -447,9 +325,7 @@ const RecursosVerCandidato = () => {
               <tr>
                 <td>Total de Puntuación</td>
                 <td></td>
-                <td>
-                  {parseFloat(produccion.puntuacionTitulo)}
-                </td>
+                <td>{parseFloat(produccion.puntuacionTitulo)}</td>
               </tr>
             </tbody>
           </table>
@@ -495,20 +371,20 @@ const RecursosVerCandidato = () => {
               <tr>
                 <td>Total de Puntuación</td>
                 <td></td>
-                <td>
-                  {parseFloat(experiencia.puntuacionTitulo)} 
-                </td>
+                <td>{parseFloat(experiencia.puntuacionTitulo)}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <table>
-        <tr>
-        <td>Valor del Nota Final : {calculateTotalPuntuacion()} </td>
-        </tr>
+          <tr>
+            <td>Valor del Nota Final : {calculateTotalPuntuacion()} </td>
+          </tr>
         </table>
         <br></br>
-        <button onClick={handleSubmitTotal} className="enviar-button">Enviar Puntuación</button>
+        <button onClick={handleSubmitTotal} className="enviar-button">
+          Enviar Puntuación
+        </button>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import "../../routes/RecursosVerCandidato.css";
 const InformacionPostulante= ({candidatosData}) => {
     
     const [applicantInfo, setApplicantInfo] = useState({
-        cedula: candidatosData.cand_num_identificacion,
+        cedula: (candidatosData.cand_num_identificacion),
         nombres: `${candidatosData.cand_nombre1} ${candidatosData.cand_nombre2}`,
         apellidos: `${candidatosData.cand_apellido1} ${candidatosData.cand_apellido2}`,
         titulo: candidatosData.cand_titulo,
