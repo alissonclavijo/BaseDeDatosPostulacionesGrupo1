@@ -39,6 +39,7 @@ const Recursosh = () => {
   const [campoespecifico, setCampoespecifico] = useState([]);
   const [departamento, setDepartamento] = useState([]);
   const navigate = useNavigate();
+  const [botonVerificado, setBotonVerificado] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -82,9 +83,9 @@ const Recursosh = () => {
   return (
     <>
       <NavpostAdmin />
-     
+
       <div className="offer-selector">
-      {/*
+        {/*
         <label htmlFor="offerSelect">Seleccione una oferta: </label>
         <select id="offerSelect">
           <option value="">Seleccione...</option>
@@ -99,8 +100,9 @@ const Recursosh = () => {
                 <th>Nombre y Apellido</th>
                 <th>Título</th>
                 <th>Puntuaciones</th>
-                <th>Opciones</th>
+                <th>Evaluar </th>
                 <th>Estado</th>
+                <th>Selección</th>
               </tr>
             </thead>
             <tbody>
@@ -131,12 +133,6 @@ const Recursosh = () => {
                     <td>{notaFinal}</td> {/* Mostrar la nota_final aquí */}
                     <td>
                       <div className="btn-container">
-                        <button onClick={handleSubmit} className="green-button">
-                          <FontAwesomeIcon icon={faCheck} />
-                        </button>
-                        <button onClick={handleSubmit} className="red-button">
-                          <FontAwesomeIcon icon={faTimes} />
-                        </button>
                         <button
                           onClick={() => handleContinue(candidato)}
                           className="yellow-button"
@@ -146,14 +142,21 @@ const Recursosh = () => {
                       </div>
                     </td>
                     <td>{estadoTexto}</td>{" "}
-                    {/* Mostrar el estado de verificación aquí */}
+                    <td>
+                    <button onClick={handleSubmit} className="green-button">
+                          <FontAwesomeIcon icon={faCheck} />
+                        </button>
+                        <button onClick={handleSubmit} className="red-button">
+                          <FontAwesomeIcon icon={faTimes} />
+                        </button>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
     </>
   );
 };
