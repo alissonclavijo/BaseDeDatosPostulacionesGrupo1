@@ -134,6 +134,21 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
       res.status(500).json({ error: 'Error reading PDF file' });
     });
 });
+
+app.get('/pdfs', async (req, res) => {
+  try {
+    const pdfDocs = await PDF.find({}, '-pdfPath'); // Excluimos el campo pdfPath
+
+    if (!pdfDocs || pdfDocs.length === 0) {
+      return res.status(404).json({ message: 'No PDFs found' });
+    }
+
+    res.status(200).json(pdfDocs);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching PDFs' });
+  }
+});
+
 app.get('/pdfs/cand_id/:cand_id', async (req, res) => {
   try {
     const { cand_id } = req.params;
