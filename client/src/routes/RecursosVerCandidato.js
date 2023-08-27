@@ -28,6 +28,7 @@ const RecursosVerCandidato = () => {
   const [horasCapacitacion, setHorasCapacitacion] = useState(0);
   const [puntExamen, setPuntExamen] = useState(0);
   const [mesesExpDocente, setMesesExpDocente] = useState(0);
+  const [cantArticulos, setCantArticulos] = useState(0);
   const [mesesExpProfesional, setMesesExpProfesional] = useState(0);
   const [puntTitulo, setPuntTitulo] = useState(0);
   const [puntAdicionales, setPuntAdicionales] = useState(0);
@@ -41,12 +42,12 @@ const RecursosVerCandidato = () => {
   const [totalProdAcademica, setTotalProdAcademica] = useState(0);
   const [puntExpProfesional, setPuntExpProfesional] = useState(0);
   const [totalExpProfesional, setTotalExpProfesional] = useState(0);
-  const [notaFinal , setNotaFinal] = useState(0);
+  const [notaFinal, setNotaFinal] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       setTituloExp(await getTituloExp());
-   
+
       const documentos = await getDocumentos();
       setDocument(documentos);
     }
@@ -68,7 +69,7 @@ const RecursosVerCandidato = () => {
       var resultado = numero * 0.5;
       setPuntAdicionales(resultado.toFixed(2));
     } else if (numero === 0) {
-      setPuntAdicionales(0.00); 
+      setPuntAdicionales(0.00);
     } else {
       setPuntAdicionales("Número fuera de rango");
     }
@@ -79,7 +80,7 @@ const RecursosVerCandidato = () => {
       setPuntIdiomas(resultado.toFixed(2));
     } else if (numero <= 0) {
       setPuntIdiomas(3.00);
-    } 
+    }
   }
   const calificarCapacitacion = (horas) => {
     if (horas >= 128 && horas <= 192) {
@@ -225,26 +226,6 @@ const RecursosVerCandidato = () => {
     calcuarNotaFinal();
   }, [totalFormacion, totalDocencia, totalProdAcademica, totalExpProfesional]);
 
-  const handleSubmitTotal = async (e) => {
-    e.preventDefault();
-    const totalPuntuacion = calculateTotalPuntuacion();
-    const dato = 1;
-    try {
-      const response = await ActualizarSolicitud(
-        candidatosData.cand_id,
-        dato,
-        totalPuntuacion
-      );
-      console.log("Solicitud actualizada:", response);
-      // Realiza las acciones que necesitas después de actualizar la solicitud
-    } catch (error) {
-      console.error("Error al actualizar la solicitud:", error);
-      // Manejo de errores si es necesario
-    }
-    swal("Se ha registrado con exito!", "Se hizo lo que se pudo", "success");
-    navigate("/recursosh");
-  };
-
   return (
     <div>
       <NavpostAdmin />
@@ -261,7 +242,7 @@ const RecursosVerCandidato = () => {
           campoamplio={campoamplio}
           campoespecifico={campoespecifico}
         />
-        <Documentos documentos={documentos}/>
+        <Documentos documentos={documentos} />
         <div className="titulos-container">
           <h1>Calificación</h1>
           <table>
@@ -315,7 +296,6 @@ const RecursosVerCandidato = () => {
                       calificarAdicional(e.target.value);
                     }}
                   />
-                  tiene afinidad
                 </td>
                 <td>
                   <input
@@ -338,7 +318,6 @@ const RecursosVerCandidato = () => {
                       calificarIdiomas(e.target.value);
                     }}
                   />
-                  registrado
                 </td>
                 <td>
                   <input
@@ -369,7 +348,6 @@ const RecursosVerCandidato = () => {
                     value={puntCapacitacion}
                     readonly
                   />
-                  horas
                 </td>
               </tr>
               <tr>
@@ -452,8 +430,6 @@ const RecursosVerCandidato = () => {
                     <br></br>
                     <select
                       id="tipoarticulo1"
-                      value={produccion.tipoarticulo}
-                      onChange={handleProduccion}
                     >
                       <option value="" selected disabled>Seleccione el tipo de publicación</option>
                       <option value="Opcion1arti">Artículo completo o DOI</option>
@@ -477,8 +453,6 @@ const RecursosVerCandidato = () => {
                     <br></br>
                     <select
                       id="tipoarticulo2"
-                      value={produccion.tipoarticulo}
-                      onChange={handleProduccion}
                     >
                       <option value="" selected disabled>Seleccione el tipo de publicación</option>
                       <option value="Opcion1arti">Artículo completo o DOI</option>
@@ -502,7 +476,7 @@ const RecursosVerCandidato = () => {
                     type="number"
                     id="articulos" min="1" max="4"
                     onChange={(e) => {
-                      setProduccion(e.target.value);
+                      setCantArticulos(e.target.value);
                       calificarPublicaciones(e.target.value);
                     }}
                   />
@@ -576,7 +550,7 @@ const RecursosVerCandidato = () => {
           </tr>
         </table>
         <br></br>
-        <button onClick={handleSubmitTotal} className="enviar-button">
+        <button className="enviar-button">
           Enviar Puntuación
         </button>
       </div>
