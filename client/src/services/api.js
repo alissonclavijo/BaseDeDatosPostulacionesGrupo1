@@ -152,6 +152,18 @@ export async function Solicitud() {
   }
 }
 
+export async function Documento({cand_id, id_documento}) {
+  try {
+    const result = await axios.get(`http://localhost:5000/pdfs/${cand_id}/${id_documento}`);
+    return result.data;
+  } catch (error) {
+    console.error("Error al obtener datos de postulacion:", error);
+    return [];
+  }
+}
+
+
+
 /* Post*/
 export async function SolicitudPost(postData){
   try {

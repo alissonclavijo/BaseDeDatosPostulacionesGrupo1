@@ -71,6 +71,7 @@ pool.connect((err) => {
   }
   console.log("Conexion a postgresdb exitosa!");
 });
+
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -80,6 +81,7 @@ const storage = multer.diskStorage({
   destination: uploadDir, // Destination folder to save the files
   filename: (req, file, cb) => {
     // Generate a unique filename using Date.now() and the original file's extension
+    
     const uniqueFilename = `${Date.now()}-${path.extname(file.originalname)}`;
     cb(null, uniqueFilename);
   },
@@ -97,8 +99,15 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
   const { cand_id, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
 
-  const serialNumber = await PDF.countDocuments({ cand_id }) + 1;
-  const id_documento = `serial${serialNumber}.pdf`;
+  // Extract the timestamp and extension from the unique filename
+  const uniqueFilename = req.file.filename;
+  const [timestamp, extension] = uniqueFilename.split('-');
+
+  // Generate serialNumber from the extracted timestamp
+  const serialNumber = parseInt(timestamp);
+
+  /*const serialNumber = await PDF.countDocuments({ cand_id }) + 1;*/
+  const id_documento = `${serialNumber}-.pdf`;
 
   const doc = new PDF({
     cand_id,
@@ -154,6 +163,7 @@ app.get('/pdfs/id_documento/:id_documento', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching PDF' });
   }
 });
+
 app.get('/pdfs/:cand_id/:id_documento', async (req, res) => {
   try {
     const { cand_id, id_documento } = req.params;
@@ -163,7 +173,11 @@ app.get('/pdfs/:cand_id/:id_documento', async (req, res) => {
       return res.status(404).json({ message: 'PDF not found' });
     }
 
-    res.status(200).json(pdfDoc);
+    const pdfPath = pdfDoc.pdfPath; // Ruta del archivo PDF guardado
+    const pdfStream = fs.createReadStream(pdfPath);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    pdfStream.pipe(res);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while fetching PDF' });
   }

@@ -85,12 +85,7 @@ const Recursosh = () => {
       <NavpostAdmin />
 
       <div className="offer-selector">
-        {/*
-        <label htmlFor="offerSelect">Seleccione una oferta: </label>
-        <select id="offerSelect">
-          <option value="">Seleccione...</option>
-          {personalName}
-        </select> */}
+       
         <h1>Seleccion de Postulantes</h1>
         <div className="table-container">
           <table>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavpostAdmin from "../components/NavpostAdmin";
 import "./RecursosVerCandidato.css";
 import { useLocation } from "react-router-dom";
-import { getTituloExp, ActualizarSolicitud } from "../services/api";
+import { getTituloExp, ActualizarSolicitud, Documento } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import InformacionPostulante from "../components/RecursosHumanos/InformacionPostulante";
@@ -21,10 +21,13 @@ const RecursosVerCandidato = () => {
   const departamento = location.state;
   const campoamplio = location.state;
   const campoespecifico = location.state;
+  const [documento, setDocumento] = useState({});
 
   useEffect(() => {
     async function fetchData() {
       setTituloExp(await getTituloExp());
+      const documento = await Documento();
+      setDocumento(documento);
     }
 
     fetchData();

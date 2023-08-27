@@ -4,7 +4,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import "../../routes/RecursosVerCandidato.css";
 
 
-const Documentos= ({}) => {
+const Documentos= ({cand_id, id_documento, tipoDocumento}) => {
     const [documents, setDocuments] = useState([
         {
           id: 1,
