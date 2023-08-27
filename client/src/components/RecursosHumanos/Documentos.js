@@ -1,95 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import "../../routes/RecursosVerCandidato.css";
 
+const Documentos = ({ documentos }) => {
+  const [documentosFiltrados, setDocumentosFiltrados] = useState([]);
 
-const Documentos= ({documentos}) => {
-    
-    const [documents, setDocuments] = useState([
-        {
-          id: 1,
-          tipoDocumento: "Hoja de vida formato ESPE",
-          nombreDocumento: "hojadevida.pdf",
-          numeroHojas: 5,
-        },
-        {
-          id: 2,
-          tipoDocumento: "Copia de cédula",
-          nombreDocumento: "CedulaPerez.docx",
-          numeroHojas: 3,
-        },
-        {
-          id: 3,
-          tipoDocumento: "Certificado de votación",
-          nombreDocumento: "CertificadoPerez.docx",
-          numeroHojas: 6,
-        },
-        {
-          id: 4,
-          tipoDocumento: "Certificado de registro de título",
-          nombreDocumento: "CertificadoRegistroPerez.docx",
-          numeroHojas: 1,
-        },
-        {
-          id: 5,
-          tipoDocumento: "Experiencia de docente",
-          nombreDocumento: "ExperienciaPerez.docx",
-          numeroHojas: 5,
-        },
-        {
-          id: 6,
-          tipoDocumento: "Certificado de no tener Impedimentos",
-          nombreDocumento: "CertifiacoImpedimentosPerez.docx",
-          numeroHojas: 4,
-        },
-        {
-          id: 7,
-          tipoDocumento:
-            "Certificado de no tener responsabilidades administrativas",
-          nombreDocumento: "CertifiacoImpedimentosPerez.docx",
-          numeroHojas: 4,
-        },
-        {
-          id: 8,
-          tipoDocumento: "Experiencia profesional",
-          nombreDocumento: "ExperienciaPerez.docx",
-          numeroHojas: 4,
-        },
-      ]);
-      
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-      };
+  useEffect(() => {
+    const tiposDocumentosMap = new Map();
+    const documentosArray = Object.values(documentos); // Convertir propiedades del objeto en un arreglo
+
+    const filtrarDocumentos = () => {
+      const documentosFiltrados = documentosArray.filter((documentos) => {
+        const tipoDocumento = documentos.tipoDocumento;
+        if (!tiposDocumentosMap.has(tipoDocumento)) {
+          tiposDocumentosMap.set(tipoDocumento, true);
+          return true;
+        }
+        return false;
+      });
+      setDocumentosFiltrados(documentosFiltrados);
+    };
+   
+    filtrarDocumentos();
+  }, [documentos]);
+  console.log("Documentos Filtrados:", documentosFiltrados);
+
+  const handleSubmit = async (cand_id, id_documento) => {
+    try {
+      const pdfUrl = `http://localhost:5000/pdfs/${cand_id}/${id_documento}`;
+  
+      // Abrir la URL en una nueva pestaña
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   return (
     <>
-       <h1>Documentos </h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Tipo de Documento</th>
-              <th>Documento</th>
-              <th>Número de Hojas</th>
-              <th>Descargar</th>
+      <h1>Documentos </h1>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de Documento</th>
+            <th>Documento</th>
+            <th>Número de Hojas</th>
+            <th>Ver Documento</th>
+          </tr>
+        </thead>
+        <tbody>
+          {documentosFiltrados.map((documento) => (
+            <tr key={documento.cand_id}>
+              <td>{documento.tipoDocumento}</td>
+              <td>{documento.id_documento}</td>
+              <td>{documento.numPages}</td>
+              <td>
+                <button
+                  onClick={() =>
+                    handleSubmit(documento.cand_id, documento.id_documento)
+                  }
+                  className="yellow-button"
+                >
+                  <FontAwesomeIcon icon={faDownload} />
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {documents.map((document) => (
-              <tr key={document.id}>
-                <td>{document.tipoDocumento}</td>
-                <td>{document.nombreDocumento}</td>
-                <td>{document.numeroHojas}</td>
-                <td>
-                  <button onClick={handleSubmit} className="yellow-button">
-                    <FontAwesomeIcon icon={faDownload} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <br></br>
-  </>
+          ))}
+        </tbody>
+      </table>
+      <br />
+    </>
   );
 };
 

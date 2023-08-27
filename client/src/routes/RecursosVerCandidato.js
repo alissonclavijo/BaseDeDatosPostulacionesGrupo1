@@ -26,6 +26,7 @@ const RecursosVerCandidato = () => {
   useEffect(() => {
     async function fetchData() {
       setTituloExp(await getTituloExp());
+   
       const documentos = await getDocumentos();
       setDocument(documentos);
     }
