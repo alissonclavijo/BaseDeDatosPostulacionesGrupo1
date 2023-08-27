@@ -9,6 +9,9 @@ import Login from './routes/Login';
 import HomePost from './routes/HomePost';
 import Contact from './routes/Contact';
 import Answer from './routes/Answer';
+import Accepted from './routes/Accepted';
+import Rejected from './routes/Rejected';
+import Norequest from './routes/Norequest';
 import AnswerRRHH from './routes/AnswerRRHH';
 import Postulacion from './routes/Postulacion';
 import Recursosh from './routes/Recursosh';
@@ -39,6 +42,9 @@ function App() {
           <Route exact path ="/homepost" element={<HomePost/>}/>
           <Route exact path ="/postulacion" element={<Postulacion/>}/>
           <Route exact path ="/answer" element={<Answer/>}/>                       
+          <Route exact path ="/accepted" element={<Accepted/>}/>                       
+          <Route exact path ="/rejected" element={<Rejected/>}/>                       
+          <Route exact path ="/norequest" element={<Norequest/>}/>                       
           </Route>
 
           {/*Rutas Recursos*/}
