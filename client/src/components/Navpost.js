@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { SidebarData } from "./SiderbarData";
 import "./Navpost.css";
 import { IconContext } from "react-icons";
+import { useLocation } from "react-router-dom";
 
 function Navpost({ handlesubmit }) {
   const [sidebar, setSidebar] = useState(false);
@@ -12,10 +13,10 @@ function Navpost({ handlesubmit }) {
   const handleSubmit = () => {
     localStorage.removeItem("tokenCandidatos");
   };
-
+  
   return (
     <>
-      <IconContext.Provider value={{ color: "#fff" }}>
+          <IconContext.Provider value={{ color: "#fff" }}>
         <div className="navbarpost">
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />

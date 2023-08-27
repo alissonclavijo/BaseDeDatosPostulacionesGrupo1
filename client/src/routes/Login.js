@@ -56,10 +56,12 @@ const Login = () => {
     );
     if (candidatos) {
       localStorage.setItem("tokenCandidatos", true);
+      localStorage.setItem("cand_nombre1", candidatos.cand_nombre1);
+      localStorage.setItem("cand_id", candidatos.cand_id);  
       navigate("/homepost");
     } else if (rechum) {
       localStorage.setItem("tokenRechum", "true");
-      navigate("/recursosh");
+      navigate("/recursosh") ;
     } else {
       swal("Sus credenciales son incorrectas");
     }

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navpost from '../components/Navpost';
 import './HomePost.css'
 import Vector1 from '../img/Vector1.png';
@@ -9,14 +10,16 @@ import Excel from '../img/excel.png'
 import { Link } from 'react-router-dom';
 
 
-function HomePost() {
+const HomePost = () => {
+  const candidatoNombre = localStorage.getItem("cand_nombre1");
+  
   return (
     <>
       <Navpost/>
       <div className='intro'>
         <div className='i-left'>
           <div className='i-name'>
-            <span className='welcome'> Bienvenido! </span>
+            <span className='welcome'> Bienvenido {candidatoNombre}</span>
             <span>Al Concurso de Mérito y Oposición! Esperamos que esta experiencia académica 
               sea enriquecedora para todos. ¡Éxito en su postulación!</span>
           </div>

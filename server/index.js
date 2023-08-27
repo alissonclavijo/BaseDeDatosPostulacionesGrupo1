@@ -94,11 +94,11 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
 
-  const { username, tipoDocumento } = req.body;
+  const { cand_id, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
 
   const doc = new PDF({
-    username,
+    cand_id,
     tipoDocumento,
     pdfPath: req.file.path
   });

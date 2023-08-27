@@ -5,6 +5,7 @@ import "../styles/InforPost.css";
 import ReactModal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
 import Navpost from '../components/Navpost';
+import { useLocation } from "react-router-dom";
 
 export function InforPost() {
   const documentLabels = [
@@ -22,6 +23,8 @@ export function InforPost() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const candidatoId = localStorage.getItem("cand_id");
 
   const handleModalAcceptClick = () => {
 
@@ -53,7 +56,7 @@ export function InforPost() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("username", "Usuario");
+      formData.append("cand_id", candidatoId);
       formData.append("tipoDocumento", documentLabels[index]);
 
       try {

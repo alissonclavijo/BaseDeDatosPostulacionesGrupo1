@@ -14,6 +14,7 @@ const pool = new Pool({
 console.log(db);
 module.exports = pool;
 
+/*
 mongoose.Promise = global.Promise;
 const uri = process.env.MONGO_URI;
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -21,4 +22,4 @@ mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
     console.log('Conexion a mongodb exitosa!');
 }).catch((error) => {
     console.log(error);
-});
+});*/
