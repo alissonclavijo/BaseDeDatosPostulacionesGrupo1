@@ -23,6 +23,7 @@ import {
   campoAmplio,
   campoEspecifico,
   Solicitud,
+  getDocumentos,
 } from "../services/api";
 
 const Recursosh = () => {
@@ -39,6 +40,7 @@ const Recursosh = () => {
   const [campoespecifico, setCampoespecifico] = useState([]);
   const [departamento, setDepartamento] = useState([]);
   const navigate = useNavigate();
+ 
   const [botonVerificado, setBotonVerificado] = useState(false);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const Recursosh = () => {
       setCampoespecifico(campoespecifico);
       const solicitud = await Solicitud();
       setSolicitud(solicitud);
+     
     }
 
     fetchData();
