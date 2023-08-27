@@ -22,6 +22,26 @@ const RecursosVerCandidato = () => {
   const campoamplio = location.state;
   const campoespecifico = location.state;
   const [documentos, setDocument] = useState({});
+  const [tipo, setTipo] = useState("");
+  const [cantAdicionales, setCantAdicionales] = useState(0);
+  const [cantIdiomas, setCantIdiomas] = useState(0);
+  const [horasCapacitacion, setHorasCapacitacion] = useState(0);
+  const [puntExamen, setPuntExamen] = useState(0);
+  const [mesesExpDocente, setMesesExpDocente] = useState(0);
+  const [mesesExpProfesional, setMesesExpProfesional] = useState(0);
+  const [puntTitulo, setPuntTitulo] = useState(0);
+  const [puntAdicionales, setPuntAdicionales] = useState(0);
+  const [puntIdiomas, setPuntIdiomas] = useState(0);
+  const [puntCapacitacion, setPuntCapacitacion] = useState(0);
+  const [totalFormacion, setTotalFormacion] = useState(0);
+  const [puntEvaluacion, setPuntEvaluacion] = useState(0);
+  const [puntExpDocente, setPuntExpDocente] = useState(0);
+  const [totalDocencia, setTotalDocencia] = useState(0);
+  const [puntArticulo, setPuntArticulo] = useState(0);
+  const [totalProdAcademica, setTotalProdAcademica] = useState(0);
+  const [puntExpProfesional, setPuntExpProfesional] = useState(0);
+  const [totalExpProfesional, setTotalExpProfesional] = useState(0);
+  const [notaFinal , setNotaFinal] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -30,103 +50,180 @@ const RecursosVerCandidato = () => {
       const documentos = await getDocumentos();
       setDocument(documentos);
     }
-
     fetchData();
   }, []);
 
-  const [tipoFormacion, setTipoFormacion] = useState({
-    puntuacionTitulo: "",
-    puntuacionAdicional: "",
-    valorTipo: "",
-    totalPuntuacion: "",
-  });
-
-  const [docencia, setDocencia] = useState({
-    ValorExamen: "",
-    puntuacionExamen: "",
-    ValorExperiencia: "",
-    puntuacionDocencia: "",
-    totalPuntuacion: "",
-  });
-
-  const [produccion, setProduccion] = useState({
-    puntuacionArticulo: "",
-  });
-
-  const [experiencia, setExperiencia] = useState({
-    puntuacionMeses: "",
-  });
-
-  const handlePonderacion = (event) => {
-    const { name, value } = event.target;
-    setTipoFormacion((prevFormacion) => ({
-      ...prevFormacion,
-      [name]: value,
-    }));
-  };
-
-  const handleDocencia = (event) => {
-    const { name, value } = event.target;
-
-    // Realiza las operaciones según el campo que se esté actualizando
-    if (name === "ValorExamen") {
-      const parsedValue = parseInt(value);
-      const puntuacionExamen = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
-
-      setDocencia((prevDocencia) => ({
-        ...prevDocencia,
-        [name]: value,
-        puntuacionExamen: puntuacionExamen,
-      }));
-    } else {
-      setDocencia((prevDocencia) => ({
-        ...prevDocencia,
-        [name]: value,
-      }));
+  const calificarTitulo = (titulo) => {
+    // Obtener el valor seleccionado
+    var seleccion = titulo;
+    // Actualizar el valor según la selección
+    if (seleccion === "maestria") {
+      setPuntTitulo(2);
+    } else if (seleccion === "doctorado") {
+      setPuntTitulo(3);
     }
-    if (name === "ValorExperiencia") {
-      const parsedValue = parseInt(value);
-      const puntuacionDocencia = !isNaN(parsedValue) ? parsedValue * 0.5 : 0;
-
-      setDocencia((prevDocencia) => ({
-        ...prevDocencia,
-        [name]: value,
-        puntuacionDocencia: puntuacionDocencia,
-      }));
+  }
+  const calificarAdicional = (numero) => {
+    if (numero >= 1 && numero <= 3) {
+      var resultado = numero * 0.5;
+      setPuntAdicionales(resultado.toFixed(2));
+    } else if (numero === 0) {
+      setPuntAdicionales(0.00); 
     } else {
-      setDocencia((prevDocencia) => ({
-        ...prevDocencia,
-        [name]: value,
-      }));
+      setPuntAdicionales("Número fuera de rango");
     }
-  };
+  }
+  const calificarIdiomas = (numero) => {
+    if (numero >= 1 && numero <= 2) {
+      var resultado = 3.00 + (numero * 0.25);
+      setPuntIdiomas(resultado.toFixed(2));
+    } else if (numero <= 0) {
+      setPuntIdiomas(3.00);
+    } 
+  }
+  const calificarCapacitacion = (horas) => {
+    if (horas >= 128 && horas <= 192) {
+      var resultado = 3.75 + ((horas - 128) * 0.005);
+      setPuntCapacitacion(resultado.toFixed(2));
+    } else if (horas === 0) {
+      setPuntCapacitacion(3.75);
+    } else {
+      setPuntCapacitacion("Número fuera de rango");
+    }
+  }
 
-  const handleProduccion = (event) => {
-    const { name, value } = event.target;
-    setProduccion((prevFormacion) => ({
-      ...prevFormacion,
-      [name]: value,
-    }));
-  };
-  const handleExperiencia = (event) => {
-    const { name, value } = event.target;
-    setExperiencia((prevFormacion) => ({
-      ...prevFormacion,
-      [name]: value,
-    }));
-  };
+  const finalFormacion = () => {
+    // Obtener los valores 
+    var formacion = parseFloat(puntTitulo);
+    var adicional = parseFloat(puntAdicionales);
+    var idiomas = parseFloat(puntIdiomas);
+    var capacitacion = parseFloat(puntCapacitacion);
+    var resultado = formacion + adicional + idiomas + capacitacion;
+    setTotalFormacion(resultado.toFixed(2));
+  }
+  useEffect(() => {
+    finalFormacion();
+  }, [cantAdicionales, puntTitulo, puntAdicionales, puntIdiomas, puntCapacitacion]);
+  const calificarExamen = (puntuacion) => {
+    if (isNaN(puntuacion) || puntuacion < 0) {
+      puntuacion = 0;
+    } else if (puntuacion > 100) {
+      puntuacion = 100;
+    }
+    var resultado;
+    if (puntuacion < 80) {
+      resultado = 2.75;
+    } else if (puntuacion >= 80 && puntuacion <= 100) {
+      resultado = 2.75 + ((puntuacion - 80) * 0.0125);
+      if (resultado > 3.0) {
+        resultado = 3.0;
+      }
+    }
+    setPuntEvaluacion(resultado.toFixed(2));
+  }
+  const calificarExpDocente = (meses) => {
+    var resultado;
+    if (isNaN(meses) || meses < 0) {
+      meses = 0;
+    } else if (meses > 48) {
+      meses = 48;
+    }
 
-  const calculateTotalPuntuacion = () => {
-    const total =
-      parseFloat(docencia.puntuacionExamen) +
-      parseFloat(docencia.puntuacionDocencia) +
-      parseFloat(tipoFormacion.puntuacionTitulo) +
-      parseFloat(tipoFormacion.valorTipo) +
-      parseFloat(experiencia.puntuacionTitulo) +
-      parseFloat(produccion.puntuacionTitulo);
+    if (meses === 0) {
+      resultado = 4.00;
+    } else if (meses >= 1 && meses <= 48) {
+      resultado = 4.00 + (meses * 0.0104);
+      if (resultado > 4.5) {
+        resultado = 4.5;
+      }
+    }
 
-    return total;
-  };
+    if (typeof resultado !== 'undefined') {
+      setPuntExpDocente(resultado.toFixed(2));
+    } else {
+      setPuntExpDocente(4.00);
+    }
+  }
+  const finalDocencia = () => {
+    var examen = parseFloat(puntEvaluacion);
+    var experiencia = parseFloat(puntExpDocente);
+    var resultado = examen + experiencia;
+    setTotalDocencia(resultado.toFixed(2));
+  }
+  useEffect(() => {
+    finalDocencia();
+  }, [puntEvaluacion, puntExpDocente]);
+  const calificarPublicaciones = (numero) => {
+    if (!numero || isNaN(numero) || numero < 0) {
+      numero = 0;
+    }
+    if (numero >= 0 && numero <= 4) {
+      var resultado = 4.00 + (numero * 0.25);
+      setPuntArticulo(resultado.toFixed(2)); // Mostrar con 2 decimales
+    } else {
+      setPuntArticulo("Número fuera de rango");
+    }
+  }
+  const finalProdAcademica = () => {
+    var articulo = parseFloat(puntArticulo);
+    var resultado;
+    if (articulo > 0) {
+      resultado = articulo;
+    } else {
+      resultado = 4.00;
+    }
+    setTotalProdAcademica(resultado.toFixed(2));
+  }
+  useEffect(() => {
+    finalProdAcademica();
+  }, [puntArticulo]);
+  const calificarExpProfesional = (meses) => {
+    var resultado;
+    if (isNaN(meses) || meses < 0) {
+      meses = 0;
+    } else if (meses > 36) {
+      meses = 36;
+    }
+
+    if (meses === 0) {
+      resultado = 3.00;
+    } else if (meses >= 1 && meses <= 36) {
+      resultado = 3.00 + (meses * 0.0138);
+      if (resultado > 3.5) {
+        resultado = 3.5;
+      }
+    }
+
+    if (typeof resultado !== 'undefined') {
+      setPuntExpProfesional(resultado.toFixed(2));
+    } else {
+      setPuntExpProfesional(3.00);
+    }
+  }
+  const finalExpProfesional = () => {
+    var experiencia = parseFloat(puntExpProfesional);
+    var resultado;
+    if (experiencia > 0) {
+      resultado = experiencia;
+    } else {
+      resultado = 3.00;
+    }
+    setTotalExpProfesional(resultado.toFixed(2));
+  }
+  useEffect(() => {
+    finalExpProfesional();
+  }, [puntExpProfesional]);
+  const calcuarNotaFinal = () => {
+    var formacion = parseFloat(totalFormacion);
+    var docencia = parseFloat(totalDocencia);
+    var prodAcademica = parseFloat(totalProdAcademica);
+    var expProfesional = parseFloat(totalExpProfesional);
+    var resultado = formacion + docencia + prodAcademica + expProfesional;
+    setNotaFinal(resultado.toFixed(2));
+  }
+  useEffect(() => {
+    calcuarNotaFinal();
+  }, [totalFormacion, totalDocencia, totalProdAcademica, totalExpProfesional]);
 
   const handleSubmitTotal = async (e) => {
     e.preventDefault();
@@ -166,93 +263,148 @@ const RecursosVerCandidato = () => {
         />
         <Documentos documentos={documentos}/>
         <div className="titulos-container">
-          <h1>Ponderación</h1>
+          <h1>Calificación</h1>
           <table>
             <thead>
               <tr>
-                <th>Formación</th>
-                <th>Tipo</th>
-                <th>Puntuación</th>
+                <th colSpan={3} style={{ textAlign: 'left' }}>1. Formación</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Títulos</td>
+                <td>
+                  <br></br>
+                  <input
+                    type="text"
+                    name="disciplina_titulo"
+                    placeholder="Ingrese la disciplina específica"
+                  />
+                </td>
                 <td>
                   <div className="centered-select">
-                    <select name="tipo">
-                      <option value="">Seleccione...</option>
-                      {titulo}
+                    <select id="nivelEstudio"
+                      onChange={(e) => {
+                        setTipo(e.target.value);
+                        calificarTitulo(e.target.value);
+                      }}>
+                      <option value="" selected disabled>Seleccione el grado académico</option>
+                      <option value="maestria">Maestría</option>
+                      <option value="doctorado">Doctorado, PhD o su equivalente</option>
+
                     </select>
                   </div>
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionTitulo"
-                    value={tipoFormacion.puntuacionTitulo}
-                    onChange={handlePonderacion}
+                    id="puntuacionTitulo"
+                    value={puntTitulo}
+                    disabled
                   />
                 </td>
               </tr>
               <tr>
                 <td>Títulos Adicionales</td>
                 <td>
+                  {/* Ingrese la cantidad de títulos adicionales */}
+                  <input
+                    type="number"
+                    id="titulosAdicionales" min="0" max="3"
+                    onChange={(e) => {
+                      setCantAdicionales(e.target.value);
+                      calificarAdicional(e.target.value);
+                    }}
+                  />
+                  tiene afinidad
+                </td>
+                <td>
                   <input
                     type="text"
-                    name="valorTipo"
-                    value={tipoFormacion.valorTipo}
-                    onChange={handlePonderacion}
+                    id="puntuacionAdicionales"
+                    value={puntAdicionales}
+                    readonly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Certificado de idiomas</td>
+                <td>
+                  {/* Ingrese la cantidad de títulos adicionales */}
+                  <input
+                    type="number"
+                    id="titulosAdicionales" min="0" max="2"
+                    onChange={(e) => {
+                      setCantIdiomas(e.target.value);
+                      calificarIdiomas(e.target.value);
+                    }}
+                  />
+                  registrado
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="puntuacionAdicionales"
+                    value={puntIdiomas}
+                    readonly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Horas de capacitación</td>
+                <td>
+                  {/* Ingrese la cantidad de títulos adicionales */}
+                  <input
+                    type="number"
+                    id="capacitacion" min="128" max="192"
+                    onChange={(e) => {
+                      setHorasCapacitacion(e.target.value);
+                      calificarCapacitacion(e.target.value);
+                    }}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionAdicional"
-                    value={tipoFormacion.valorTipo}
-                    onChange={handlePonderacion}
+                    id="puntuacionAdicionales"
+                    value={puntCapacitacion}
+                    readonly
                   />
+                  horas
                 </td>
               </tr>
               <tr>
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseFloat(tipoFormacion.puntuacionTitulo) +
-                    parseFloat(tipoFormacion.valorTipo)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <br></br>
-        <div className="docencia-container">
-          <h1>Docencia</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>Puntuacion Examen Docencia</th>
-                <th>Puntaje / Tiempo</th>
-                <th>Puntuación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Puntuacion Examen Docencia</td>
-                <td>
                   <input
                     type="text"
-                    name="ValorExamen"
-                    value={docencia.ValorExamen}
-                    onChange={handleDocencia}
+                    id="totalFormacion"
+                    value={totalFormacion}
+                    readonly
                   />
                 </td>
+              </tr>
+              <tr>
+                <th colSpan={3} style={{ textAlign: 'left' }}>2. Docencia</th>
+              </tr>
+              <tr>
+                <td>Puntuacion Evaluación Integral de Desempeño Docente</td>
+                <td>
+                  <input
+                    type="number" id="valorExamen" min="0" max="100"
+                    onChange={(e) => {
+                      setPuntExamen(e.target.value);
+                      calificarExamen(e.target.value);
+                    }}
+                  />
+                  puntos
+                </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionExamen"
-                    value={docencia.puntuacionExamen}
-                    onChange={handleDocencia}
+                    id="puntuacionEvaluacion"
+                    value={puntEvaluacion}
+                    readOnly
                   />
                 </td>
               </tr>
@@ -260,18 +412,20 @@ const RecursosVerCandidato = () => {
                 <td>Experiencia Profesional en docencia Universitaria</td>
                 <td>
                   <input
-                    type="text"
-                    name="ValorExperiencia"
-                    value={docencia.ValorExperiencia}
-                    onChange={handleDocencia}
+                    type="number"
+                    id="experienciaDocente" min="1" max="48"
+                    onChange={(e) => {
+                      setMesesExpDocente(e.target.value);
+                      calificarExpDocente(e.target.value);
+                    }}
                   />
+                  meses
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionDocencia"
-                    value={docencia.puntuacionDocencia}
-                    onChange={handleDocencia}
+                    id="puntuacionDocencia"
+                    value={puntExpDocente}
                   />
                 </td>
               </tr>
@@ -279,110 +433,146 @@ const RecursosVerCandidato = () => {
                 <td>Total de Puntuación</td>
                 <td></td>
                 <td>
-                  {parseFloat(docencia.puntuacionExamen) +
-                    parseFloat(docencia.puntuacionDocencia)}
+                  <input
+                    type="text"
+                    id="puntuacionEvaluacion"
+                    value={totalDocencia}
+                    readOnly
+                  />
                 </td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-        <br></br>
-        <div className="produccionAcademica-container">
-          <h1>Producción Académica</h1>
-          <table>
-            <thead>
               <tr>
-                <th>Produccion Academica</th>
-                <th>Articulos / Obras</th>
-                <th>Puntuación</th>
+                <th colSpan={3} style={{ textAlign: 'left' }}>3. Producción Académica</th>
               </tr>
-            </thead>
-            <tbody>
               <tr>
-                <td>Artículos Publicados</td>
+                <td rowSpan={2}>Artículos Publicados</td>
                 <td>
                   <div className="centered-selectarticulo">
+                    Publicación 1
+                    <br></br>
                     <select
-                      name="tipoarticulo"
+                      id="tipoarticulo1"
                       value={produccion.tipoarticulo}
                       onChange={handleProduccion}
                     >
-                      <option value="Opcion1arti">
-                        Artículo completo o DOI
-                      </option>
+                      <option value="" selected disabled>Seleccione el tipo de publicación</option>
+                      <option value="Opcion1arti">Artículo completo o DOI</option>
                       <option value="Opcion2obra">Obras de relevancia</option>
-                      <option value="Opcion3soli">
-                        Solicitud al Servicio Nacional de Derechos Intelectuales
-                      </option>
+                      <option value="Opcion3soli">Solicitud al Servicio Nacional de Derechos Intelectuales</option>
                     </select>
                   </div>
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionTitulo"
-                    value={produccion.puntuacionTitulo}
-                    onChange={handleProduccion}
+                    id="tituloPublicacion1"
+                    placeholder="Ingrese el título de la publicación"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div className="centered-selectarticulo">
+                    Publicación 2
+                    <br></br>
+                    <select
+                      id="tipoarticulo2"
+                      value={produccion.tipoarticulo}
+                      onChange={handleProduccion}
+                    >
+                      <option value="" selected disabled>Seleccione el tipo de publicación</option>
+                      <option value="Opcion1arti">Artículo completo o DOI</option>
+                      <option value="Opcion2obra">Obras de relevancia</option>
+                      <option value="Opcion3soli">Solicitud al Servicio Nacional de Derechos Intelectuales</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="tituloPublicacion2"
+                    placeholder="Ingrese el título de la publicación"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Artículos Adicionales</td>
+                <td>
+                  <input
+                    type="number"
+                    id="articulos" min="1" max="4"
+                    onChange={(e) => {
+                      setProduccion(e.target.value);
+                      calificarPublicaciones(e.target.value);
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="puntuacionArticulo"
+                    value={puntArticulo}
+                    readonly
                   />
                 </td>
               </tr>
               <tr>
                 <td>Total de Puntuación</td>
                 <td></td>
-                <td>{parseFloat(produccion.puntuacionTitulo)}</td>
+                <td>
+                  <input
+                    type="text"
+                    id="puntuacionEvaluacion"
+                    value={totalProdAcademica}
+                    readOnly
+                  />
+                </td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-        <br></br>
-        <div className="experienciaProfesional-container">
-          <h1>Experiencia Profesional</h1>
-          <table>
-            <thead>
               <tr>
-                <th>Experiencia Profesional</th>
-                <th>Detalle / Tiempo</th>
-                <th>Puntuación</th>
+                <th colSpan={3} style={{ textAlign: 'left' }}>4. Experiencia Profesional</th>
               </tr>
-            </thead>
-            <tbody>
               <tr>
                 <td>Experiencia del ejercicio de la profesion</td>
                 <td>
                   <div className="centered-selectmeses">
-                    <select
-                      name="tipomeses"
-                      value={experiencia.tipomeses}
-                      onChange={handleExperiencia}
-                    >
-                      <option value="Opcions1">12 - 16 meses</option>
-                      <option value="Opcions2">17 - 21 meses</option>
-                      <option value="Opcions3">22 - 26 meses</option>
-                      <option value="Opcions4">27 - 31 meses</option>
-                      <option value="Opcions5">32 - 36 meses</option>
-                    </select>
+                    <input
+                      type="number"
+                      id="articulos" min="1" max="36"
+                      onChange={(e) => {
+                        setMesesExpProfesional(e.target.value);
+                        calificarExpProfesional(e.target.value);
+                      }}
+                    />
                   </div>
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="puntuacionTitulo"
-                    value={experiencia.puntuacionTitulo}
-                    onChange={handleExperiencia}
+                    id="puntuacionExpProfesional"
+                    value={puntExpProfesional}
+                    readonly
                   />
                 </td>
               </tr>
               <tr>
                 <td>Total de Puntuación</td>
                 <td></td>
-                <td>{parseFloat(experiencia.puntuacionTitulo)}</td>
+                <td>
+                  <input
+                    type="text"
+                    id="puntuacionExpProfesional"
+                    value={totalExpProfesional}
+                    readonly
+                  />
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <h1>Nota Final</h1>
         <table>
           <tr>
-            <td>Valor del Nota Final : {calculateTotalPuntuacion()} </td>
+            <td>Valor del Nota Final : {notaFinal} puntos</td>
           </tr>
         </table>
         <br></br>
