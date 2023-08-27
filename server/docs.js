@@ -12,8 +12,12 @@ mongoose.connect(MONGO_URI, {
 });
 
 const pdfSchema = new mongoose.Schema({
-  
+
   cand_id: {
+    type: String,
+    required: true,
+  },
+  id_documento: {
     type: String,
     required: true,
   },

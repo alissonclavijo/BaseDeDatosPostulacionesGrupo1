@@ -25,6 +25,8 @@ export function InforPost() {
   const navigate = useNavigate();
   const location = useLocation();
   const candidatoId = localStorage.getItem("cand_id");
+  localStorage.setItem("cand_id", candidatoId);
+
 
   const handleModalAcceptClick = () => {
 
@@ -57,6 +59,7 @@ export function InforPost() {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("cand_id", candidatoId);
+      formData.append("id_documento", documentLabels[index]);
       formData.append("tipoDocumento", documentLabels[index]);
 
       try {

@@ -89,35 +89,86 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 
 // Endpoint for file upload
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post('/api/upload', upload.single('file'), async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
+    return res.status(400).json({ error: 'No file uploaded' });
   }
 
   const { cand_id, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
 
+  const serialNumber = await PDF.countDocuments({ cand_id }) + 1;
+  const id_documento = `serial${serialNumber}.pdf`;
+
   const doc = new PDF({
     cand_id,
+    id_documento,
     tipoDocumento,
-    pdfPath: req.file.path
+    pdfPath: req.file.path,
   });
 
-  doc.save();
-
-  const uniqueFileName = req.file.filename;
+  await doc.save();
 
   pdf(dataBuffer)
     .then(function (data) {
       const numPages = data.numpages;
-      console.log("Number of pages:", numPages);
-      res.json({ url: req.file.path, numPages }); // Return the URL of the PDF in the response
+      console.log('Number of pages:', numPages);
+      res.json({
+        url: req.file.path,
+        numPages,
+        extension: 'pdf',
+        id: doc._id,
+      });
     })
     .catch(function (error) {
-      console.error("Error reading PDF file:", error);
-      res.status(500).json({ error: "Error reading PDF file" });
+      console.error('Error reading PDF file:', error);
+      res.status(500).json({ error: 'Error reading PDF file' });
     });
 });
+app.get('/pdfs/cand_id/:cand_id', async (req, res) => {
+  try {
+    const { cand_id } = req.params;
+    const pdfDocs = await PDF.find({ cand_id });
+
+    if (pdfDocs.length === 0) {
+      return res.status(404).json({ message: 'No PDFs found for the specified cand_id' });
+    }
+
+    res.status(200).json(pdfDocs);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching PDFs' });
+  }
+});
+
+app.get('/pdfs/id_documento/:id_documento', async (req, res) => {
+  try {
+    const { id_documento } = req.params;
+    const pdfDoc = await PDF.findOne({ id_documento });
+
+    if (!pdfDoc) {
+      return res.status(404).json({ message: 'PDF not found for the specified id_documento' });
+    }
+
+    res.status(200).json(pdfDoc);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching PDF' });
+  }
+});
+app.get('/pdfs/:cand_id/:id_documento', async (req, res) => {
+  try {
+    const { cand_id, id_documento } = req.params;
+    const pdfDoc = await PDF.findOne({ cand_id, id_documento });
+
+    if (!pdfDoc) {
+      return res.status(404).json({ message: 'PDF not found' });
+    }
+
+    res.status(200).json(pdfDoc);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching PDF' });
+  }
+});
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //email
