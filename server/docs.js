@@ -27,7 +27,12 @@ const pdfSchema = new mongoose.Schema({
   pdfPath: {
     type: String,
     required: true,
-  }
+  },
+  numPages: {
+    type: String,
+    required: true,
+  },
+
 });
 
 const PDF = mongoose.model('PDF', pdfSchema);

@@ -151,8 +151,17 @@ export async function Solicitud() {
     return [];
   }
 }
+export async function getDocumentos() {
+  try {
+    const result = await axios.get("http://localhost:5000/pdfs");
+    return result.data;
+  } catch (error) {
+    console.error("Error al obtener datos de postulacion:", error);
+    return [];
+  }
+}
 
-export async function Documento({cand_id, id_documento}) {
+export async function DocumentoRecursos({cand_id, id_documento}) {
   try {
     const result = await axios.get(`http://localhost:5000/pdfs/${cand_id}/${id_documento}`);
     return result.data;
@@ -161,6 +170,7 @@ export async function Documento({cand_id, id_documento}) {
     return [];
   }
 }
+
 
 
 

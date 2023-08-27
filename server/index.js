@@ -99,29 +99,26 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
   const { cand_id, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
 
-  // Extract the timestamp and extension from the unique filename
-  const uniqueFilename = req.file.filename;
-  const [timestamp, extension] = uniqueFilename.split('-');
-
-  // Generate serialNumber from the extracted timestamp
-  const serialNumber = parseInt(timestamp);
-
-  /*const serialNumber = await PDF.countDocuments({ cand_id }) + 1;*/
-  const id_documento = `${serialNumber}-.pdf`;
-
-  const doc = new PDF({
-    cand_id,
-    id_documento,
-    tipoDocumento,
-    pdfPath: req.file.path,
-  });
-
-  await doc.save();
-
   pdf(dataBuffer)
-    .then(function (data) {
-      const numPages = data.numpages;
-      console.log('Number of pages:', numPages);
+    .then(async function (data) {
+      const numPages = data.numpages; // Obtiene el número de páginas
+
+      const uniqueFilename = req.file.filename;
+      const [timestamp, extension] = uniqueFilename.split('-');
+      const serialNumber = parseInt(timestamp);
+
+      const id_documento = `${serialNumber}-${numPages}.pdf`; // Agrega el número de páginas al ID
+
+      const doc = new PDF({
+        cand_id,
+        id_documento,
+        tipoDocumento,
+        pdfPath: req.file.path,
+        numPages, // Guarda el número de páginas en el modelo
+      });
+
+      await doc.save();
+
       res.json({
         url: req.file.path,
         numPages,
@@ -134,6 +131,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
       res.status(500).json({ error: 'Error reading PDF file' });
     });
 });
+
 
 app.get('/pdfs', async (req, res) => {
   try {
