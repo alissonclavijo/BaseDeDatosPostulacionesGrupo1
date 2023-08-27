@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import "../styles/InforPost.css";
 import ReactModal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
 import Navpost from '../components/Navpost';
 import { useLocation } from "react-router-dom";
+
 
 export function InforPost() {
   const documentLabels = [
@@ -19,7 +20,7 @@ export function InforPost() {
     "Experiencia profesional",
   ];
 
-
+  const fileInputs = useRef([]); 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
@@ -52,10 +53,19 @@ export function InforPost() {
 
   const [sheetsCount, setSheetsCount] = useState(Array(8).fill(0));
   const [linkPDF, setLinkPDF] = useState(Array(8).fill(0));
+  const [isContinueButtonDisabled, setIsContinueButtonDisabled] = useState(true);
 
   const handleFileChange = async (index, event) => {
     const file = event.target.files[0];
     if (file) {
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      if (fileExtension !== 'pdf'){
+        alert('Por favor seleccione un archivo PDF.');
+        setIsContinueButtonDisabled(true);
+        fileInputs.current[index].value = '';
+        return;
+      }
+      setIsContinueButtonDisabled(false);
       const formData = new FormData();
       formData.append("file", file);
       formData.append("cand_id", candidatoId);
@@ -103,6 +113,7 @@ export function InforPost() {
               id={`file${index + 1}`}
               onChange={(e) => handleFileChange(index, e)}
               style={{ width: "100%" }}
+              ref={(input) => (fileInputs.current[index] = input)} // Asignar la referencia al input
             />
           </div>
           <div>
@@ -172,7 +183,7 @@ export function InforPost() {
             <button className="mm-popup__btn mm-popup__btn--cancel" onClick={() => setShowConfirmModal(false)}>
               Cancelar
             </button>
-            <button className="mm-popup__btn mm-popup__btn--proceed" onClick={handleModalAcceptClick}>
+            <button className="mm-popup__btn mm-popup__btn--proceed" onClick={handleModalAcceptClick} disabled={isContinueButtonDisabled}>
               Continuar
             </button>
           </div>
