@@ -21,7 +21,13 @@ table {
   table-layout: fixed;
 }
 
-th,
+th{
+  background-color: #f2f2f2;
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
 td {
   border: 1px solid #ccc;
   padding: 8px;
@@ -32,6 +38,24 @@ td {
   white-space: nowrap;
   height: auto;
   /* Permitir que la altura se ajuste automáticamente */
+}
+
+.first-column {
+  width: 45%; /* Ajusta este valor según tus preferencias */
+  text-align: center; /* Alinea el texto a la izquierda */
+}
+
+.second-column {
+  width: 28%; /* Ajusta este valor según tus preferencias */
+  text-align: center; /* Alinea el texto a la izquierda */
+}
+
+.third-column {
+  text-align: center; /* Alinea el texto a la izquierda */
+}
+
+.fourd-column {
+  text-align: center; /* Alinea el texto a la izquierda */
 }
 
 .id1 td {
@@ -87,11 +111,12 @@ input[type=text] {
 .yellow-button {
   padding: 10px;
   border: none;
-  background-color: #82d0de;
-  /* Amarillo */
+  background-color: #82d0de; /* Amarillo */
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
+  display: block;
+  margin: 0 auto; /* Centra horizontalmente */
 }
 
 .applicant-details {
