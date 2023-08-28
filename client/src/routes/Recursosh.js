@@ -45,6 +45,14 @@ const Recursosh = () => {
   const navigate = useNavigate();
 
   const [botonVerificado, setBotonVerificado] = useState(false);
+  const [solAprobacionChanged, setSolAprobacionChanged] = useState(false);
+
+  useEffect(() => {
+    if (solAprobacionChanged) {
+      // Si sol_aprobacion ha cambiado, forzar una recarga de la página
+      window.location.reload();
+    }
+  }, [solAprobacionChanged]);
 
   useEffect(() => {
     async function fetchData() {
@@ -79,45 +87,53 @@ const Recursosh = () => {
 
   const handleSubmitAceptado = async (candId, notaFinal) => {
     try {
-      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: notaFinal, estado: true });
-      console.log('Solicitud actualizada:', response.data);
+      const response = await axios.put(
+        `http://localhost:5000/solicitudes/${candId}`,
+        { nota_final: notaFinal, estado: true }
+      );
+      console.log("Solicitud actualizada:", response.data);
       swal({
-        title: '',
+        title: "",
         content: {
           element: "div",
           attributes: {
             innerHTML: `Se ha cargado correctamente el estado Aceptado<br/>`,
           },
         },
-        icon: '',
+        icon: "",
         button: "Aceptar",
       }).then(() => {
-        navigate("/recursosh");
+        // Marcar que sol_aprobacion ha cambiado
+        setSolAprobacionChanged(true);
       });
     } catch (error) {
-      console.error('Error al actualizar la solicitud:', error);
+      console.error("Error al actualizar la solicitud:", error);
     }
   };
 
   const handleSubmitRechazado = async (candId, notaFinal) => {
     try {
-      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: notaFinal, estado: false });
-      console.log('Solicitud actualizada:', response.data);
+      const response = await axios.put(
+        `http://localhost:5000/solicitudes/${candId}`,
+        { nota_final: notaFinal, estado: false }
+      );
+      console.log("Solicitud actualizada:", response.data);
       swal({
-        title: '',
+        title: "",
         content: {
           element: "div",
           attributes: {
             innerHTML: `Se ha cargado correctamente el estado Rechazado<br/>`,
           },
         },
-        icon: '',
+        icon: "",
         button: "Aceptar",
       }).then(() => {
-        navigate("/recursosh");
+        // Marcar que sol_aprobacion ha cambiado
+        setSolAprobacionChanged(true);
       });
     } catch (error) {
-      console.error('Error al actualizar la solicitud:', error);
+      console.error("Error al actualizar la solicitud:", error);
     }
   };
 
@@ -147,62 +163,66 @@ const Recursosh = () => {
               </tr>
             </thead>
             <tbody>
-              {candidatosData.map((candidato) => {
-                // Buscar la solicitud correspondiente en la tabla de solicitudes
-                const solicitudCorrespondiente = solicitud.find(
-                  (solicitud) => solicitud.cand_id === candidato.cand_id
-                );
+  {candidatosData.map((candidato) => {
+    // Buscar la solicitud correspondiente en la tabla de solicitudes
+    const solicitudCorrespondiente = solicitud.find(
+      (solicitud) => solicitud.cand_id === candidato.cand_id
+    );
 
-                // Obtener la nota_final de la solicitud correspondiente
-                const notaFinal = solicitudCorrespondiente
-                  ? solicitudCorrespondiente.nota_final
-                  : "";
+    // Obtener la nota_final de la solicitud correspondiente
+    const notaFinal = solicitudCorrespondiente
+      ? solicitudCorrespondiente.nota_final
+      : "";
 
-                // Obtener el estado de verificación de la solicitud correspondiente
-                const estadoVerificacion = solicitudCorrespondiente
-                  ? solicitudCorrespondiente.sol_aprobacion
-                  : false;
-                const estadoTexto = estadoVerificacion
-                  ? "Aceptado"
-                  : solicitudCorrespondiente && !solicitudCorrespondiente.sol_aprobacion
-                    ? "Rechazado"
-                    : "Pendiente";
+    // Obtener el estado de verificación de la solicitud correspondiente
+    const estadoVerificacion = solicitudCorrespondiente
+      ? solicitudCorrespondiente.sol_aprobacion
+      : null;
 
-                return (
-                  <tr key={candidato.cand_num_identificacion}>
-                    <td>{candidato.cand_num_identificacion}</td>
-                    <td>{`${candidato.cand_nombre1} ${candidato.cand_apellido1}`}</td>
-                    <td>{candidato.cand_titulo}</td>
-                    <td>{notaFinal}</td> {/* Mostrar la nota_final aquí */}
-                    <td>
-                      <div className="btn-container">
-                        <button
-                          onClick={() => handleContinue(candidato)}
-                          className="buttonPostulacion"
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                        </button>
-                      </div>
-                    </td>
-                    <td>{estadoTexto}</td>{" "}
-                    <td>
-                      <button
-                        onClick={() => handleSubmitAceptado(candidato.cand_id, notaFinal)}
-                        className="green-button"
-                      >
-                        <FontAwesomeIcon icon={faCheck} />
-                      </button>
-                      <button
-                        onClick={() => handleSubmitRechazado(candidato.cand_id, notaFinal)}
-                        className="red-button"
-                      >
-                        <FontAwesomeIcon icon={faTimes} />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+    let estadoTexto = "Pendiente"; // Por defecto, estado es "Pendiente"
+    
+    if (estadoVerificacion === true) {
+      estadoTexto = "Aceptado";
+    } else if (estadoVerificacion === false) {
+      estadoTexto = "Rechazado";
+    }
+
+    return (
+      <tr key={candidato.cand_num_identificacion}>
+        <td>{candidato.cand_num_identificacion}</td>
+        <td>{`${candidato.cand_nombre1} ${candidato.cand_apellido1}`}</td>
+        <td>{candidato.cand_titulo}</td>
+        <td>{notaFinal}</td> {/* Mostrar la nota_final aquí */}
+        <td>
+          <div className="btn-container">
+            <button
+              onClick={() => handleContinue(candidato)}
+              className="buttonPostulacion"
+            >
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </button>
+          </div>
+        </td>
+        <td>{estadoTexto}</td>{" "}
+        <td>
+          <button
+            onClick={() => handleSubmitAceptado(candidato.cand_id, notaFinal)}
+            className="green-button"
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+          <button
+            onClick={() => handleSubmitRechazado(candidato.cand_id, notaFinal)}
+            className="red-button"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
           </table>
         </div>
       </div>
