@@ -3,3 +3,4 @@ node_modules
 #Variable de entorno
 .env
 db.js
+/uploads/*.pdf
