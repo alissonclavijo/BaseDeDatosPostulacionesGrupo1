@@ -9,6 +9,7 @@ import {
 import NavpostAdmin from "../components/NavpostAdmin";
 import "./Recursosh.css";
 import { useNavigate } from "react-router-dom";
+
 import {
   getSolicitud,
   getPersonalID,
@@ -74,18 +75,28 @@ const Recursosh = () => {
     fetchData();
   }, []);
 
-  const handleSubmitAceptado = () => {
-    // Lógica para enviar los resultados
-   
+  const handleSubmitAceptado = (candidatoId) => {
+    
+    const updatedSolicitud = solicitud.map((s) =>
+      s.cand_id === candidatoId
+        ? { ...s, sol_aprobacion: true } 
+        : s
+    );
+    setSolicitud(updatedSolicitud);
   };
 
-  const handleSubmitRechazado = () => {
-    // Lógica para enviar los resultados
-   
+  const handleSubmitRechazado = (candidatoId) => {
+    
+    const updatedSolicitud = solicitud.map((s) =>
+      s.cand_id === candidatoId
+        ? { ...s, sol_aprobacion: false } 
+        : s
+    );
+    setSolicitud(updatedSolicitud);
   };
 
   const handleContinue = (candidatosData) => {
-    // Lógica para enviar los resultados
+  
     navigate("/recursosvercandidato", { state: candidatosData });
   };
 
@@ -125,8 +136,10 @@ const Recursosh = () => {
                 const estadoVerificacion = solicitudCorrespondiente
                   ? solicitudCorrespondiente.sol_aprobacion
                   : false;
-                const estadoTexto = estadoVerificacion
-                  ? "Verificada"
+                  const estadoTexto = estadoVerificacion
+                  ? "Verificado"
+                  : solicitudCorrespondiente && !solicitudCorrespondiente.sol_aprobacion
+                  ? "Rechazado"
                   : "Pendiente";
 
                 return (
@@ -147,13 +160,19 @@ const Recursosh = () => {
                     </td>
                     <td>{estadoTexto}</td>{" "}
                     <td>
-                    <button onClick={handleSubmitAceptado} className="green-button">
-                          <FontAwesomeIcon icon={faCheck} />
-                        </button>
-                        <button onClick={handleSubmitRechazado} className="red-button">
-                          <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                    </td>
+  <button
+    onClick={() => handleSubmitAceptado(candidato.cand_id)}
+    className="green-button"
+  >
+    <FontAwesomeIcon icon={faCheck} />
+  </button>
+  <button
+    onClick={() => handleSubmitRechazado(candidato.cand_id)}
+    className="red-button"
+  >
+    <FontAwesomeIcon icon={faTimes} />
+  </button>
+</td>
                   </tr>
                 );
               })}
