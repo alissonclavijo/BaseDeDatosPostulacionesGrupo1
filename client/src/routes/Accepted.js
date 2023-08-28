@@ -1,4 +1,3 @@
-
 import './Answer.css'
 function Accepted (){
     return(

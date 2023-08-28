@@ -40,6 +40,7 @@ function Answer() {
                     <img className="gif1" src="https://cdn.dribbble.com/users/782531/screenshots/6159013/media/b85afc52ac8b8fbfd2188e23ad00c0dc.gif" alt="Imagen desde la web" />
                 </div>
             </div>
+            
             <div>
                 {solicitudEncontrada && solicitud.sol_aprobacion === true ?  <Rejected />: <Accepted /> }
             </div>

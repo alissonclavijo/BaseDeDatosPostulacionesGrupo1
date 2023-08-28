@@ -108,7 +108,7 @@ const Recursosh = () => {
                 <th className="textRecursos">Estado</th>
                 <th className="textRecursos">Selección</th>
               </tr>
-            </thead> 
+            </thead>
             <tbody>
               {candidatosData.map((candidato) => {
                 // Buscar la solicitud correspondiente en la tabla de solicitudes
