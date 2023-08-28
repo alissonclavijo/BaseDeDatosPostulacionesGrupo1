@@ -160,6 +160,10 @@ function Postulacion() {
       especifico !== ''
     );
   };
+  function eliminarDuplicados(arr) {
+    const uniqueSet = new Set(arr);
+    return [...uniqueSet];
+  }
   function obtenerDatos() {
     const datos = {};
   
@@ -221,15 +225,13 @@ function Postulacion() {
     }
 
     const segunPostulacion = opcionesOferta.filter((opcion) => opcion.post_id == postulacion);
-    console.log(segunPostulacion);
     const opciones = segunPostulacion.map((aa) => aa.con_id);
-    console.log(opciones);
-
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/contrataciones/${opcion}`);
     });
-
+    
     // Esperar a que todas las solicitudes se completen
     Promise.all(axiosPromises)
       .then((responses) => {
@@ -248,12 +250,11 @@ function Postulacion() {
     }
 
     const segunContratacion = opcionesOferta.filter((opcion) => opcion.con_id == contratacion);
-    console.log(segunContratacion);
     const opciones = segunContratacion.map((aa) => aa.pa_id);
-    console.log(opciones);
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/personal_academico/${opcion}`);
     });
 
@@ -284,9 +285,10 @@ function Postulacion() {
     console.log(segunAcademico);
     const opciones = segunAcademico.map((aa) => aa.sede_id);
     console.log(opciones);
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/sedes/${opcion}`);
     });
 
@@ -310,9 +312,10 @@ function Postulacion() {
     console.log(segunSede);
     const opciones = segunSede.map((aa) => aa.dept_id);
     console.log(opciones);
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/departamentos/${opcion}`);
     });
 
@@ -335,9 +338,10 @@ function Postulacion() {
     console.log(segunDepartamento);
     const opciones = segunDepartamento.map((aa) => aa.ca_id);
     console.log(opciones);
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/campo_amplio/${opcion}`);
     });
 
@@ -361,9 +365,10 @@ function Postulacion() {
     console.log(segunAmplio);
     const opciones = segunAmplio.map((aa) => aa.ce_id);
     console.log(opciones);
+    const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
-    const axiosPromises = opciones.map((opcion) => {
+    const axiosPromises = opcionesSinRepetir.map((opcion) => {
       return axios.get(`http://localhost:5000/campo_especifico/${opcion}`);
     });
 
