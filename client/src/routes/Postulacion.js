@@ -299,9 +299,7 @@ function Postulacion() {
     }
 
     const segunAcademico = opcionesOferta.filter((opcion) => opcion.pa_id == academico);
-    console.log(segunAcademico);
     const opciones = segunAcademico.map((aa) => aa.sede_id);
-    console.log(opciones);
     const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
@@ -326,9 +324,7 @@ function Postulacion() {
     }
 
     const segunSede = opcionesOferta.filter((opcion) => opcion.sede_id == sede);
-    console.log(segunSede);
     const opciones = segunSede.map((aa) => aa.dept_id);
-    console.log(opciones);
     const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
@@ -352,9 +348,7 @@ function Postulacion() {
       return; // No hagas nada si opcionesOferta aún no se ha actualizado
     }
     const segunDepartamento = opcionesOferta.filter((opcion) => opcion.dept_id == departamento);
-    console.log(segunDepartamento);
     const opciones = segunDepartamento.map((aa) => aa.ca_id);
-    console.log(opciones);
     const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
@@ -379,9 +373,7 @@ function Postulacion() {
     }
 
     const segunAmplio = opcionesOferta.filter((opcion) => opcion.ca_id == amplio);
-    console.log(segunAmplio);
     const opciones = segunAmplio.map((aa) => aa.ce_id);
-    console.log(opciones);
     const opcionesSinRepetir = eliminarDuplicados(opciones);
 
     // Crear un array de promesas para las solicitudes Axios
