@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { getTituloExp, ActualizarSolicitud, getDocumentos } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import axios from "axios";
 import InformacionPostulante from "../components/RecursosHumanos/InformacionPostulante";
 import Postulacion from "../components/RecursosHumanos/Postulacion";
 import Documentos from "../components/RecursosHumanos/Documentos";
@@ -47,13 +48,17 @@ const RecursosVerCandidato = () => {
   useEffect(() => {
     async function fetchData() {
       setTituloExp(await getTituloExp());
-
       const documentos = await getDocumentos();
       setDocument(documentos);
     }
     fetchData();
   }, []);
+  const handleClick = () => {
+    console.log(candidatosData.cand_id)
+    console.log(notaFinal)
 
+    actualizarNotaFinal(candidatosData.cand_id, notaFinal);
+  };
   const calificarTitulo = (titulo) => {
     // Obtener el valor seleccionado
     var seleccion = titulo;
@@ -201,6 +206,16 @@ const RecursosVerCandidato = () => {
       setPuntExpProfesional(3.00);
     }
   }
+  const actualizarNotaFinal = async (candId, nuevaNotaFinal) => {
+    console.log("asdfgh")
+    
+    try {
+      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: nuevaNotaFinal });
+      console.log('Solicitud actualizada:', response.data);
+    } catch (error) {
+      console.error('Error al actualizar la solicitud:', error);
+    }
+  };
   const finalExpProfesional = () => {
     var experiencia = parseFloat(puntExpProfesional);
     var resultado;
@@ -550,7 +565,7 @@ const RecursosVerCandidato = () => {
           </tr>
         </table>
         <br></br>
-        <button className="enviar-button">
+        <button onClick={handleClick} className="enviar-button">
           Enviar Puntuación
         </button>
       </div>

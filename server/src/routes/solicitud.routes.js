@@ -6,6 +6,7 @@ router.get('/solicitudes', solicitudController.getAllSolicitudes);
 router.post('/solicitudes', solicitudController.createSolicitud);
 router.get('/solicitudes/:cand_id/:sol_id', solicitudController.getSolicitudByIds);
 router.put('/solicitudes/:cand_id/:sol_id', solicitudController.updateSolicitud);
+router.put('/solicitudes/:cand_id', solicitudController.updateNotaFinalSolicitud);
 router.delete('/solicitudes/:cand_id/:sol_id', solicitudController.deleteSolicitud);
 
 module.exports = router;

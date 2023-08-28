@@ -79,7 +79,26 @@ const updateSolicitud = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar la solicitud' });
   }
 };
+const updateNotaFinalSolicitud = async (req, res) => {
+  const { cand_id } = req.params; 
+  const { nota_final } = req.body;
+  console.log(req.params);
+  console.log(req.body);
+  try {
+    const result = await pool.query(
+      'UPDATE public.solicitud SET nota_final = $1 WHERE cand_id = $2',[nota_final, cand_id]
+    );
 
+    if (result.rowCount === 0) { // Cambia result.rows.length a result.rowCount
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Solicitud actualizada correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar la solicitud' });
+  }
+};
 
 const deleteSolicitud = async (req, res) => {
   const { cand_id, sol_id } = req.params;
@@ -104,5 +123,6 @@ module.exports = {
   createSolicitud,
   getSolicitudByIds,
   updateSolicitud,
+  updateNotaFinalSolicitud,
   deleteSolicitud,
 };
