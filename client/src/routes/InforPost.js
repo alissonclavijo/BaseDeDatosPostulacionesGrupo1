@@ -6,7 +6,7 @@ import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import Navpost from '../components/Navpost';
 import { useLocation } from "react-router-dom";
-
+import swal from "sweetalert";
 
 
 export function InforPost() {
@@ -61,7 +61,17 @@ export function InforPost() {
     if (file) {
       const fileExtension = file.name.split('.').pop().toLowerCase();
       if (fileExtension !== 'pdf'){
-        alert('Por favor seleccione un archivo PDF.');
+        swal({
+          title: '',
+          content: {
+            element: "div",
+            attributes: {
+              innerHTML: "Por favor seleccione un archivo PDF <br/>",
+            },
+          },
+          icon: 'warning',
+          button: "Aceptar",
+        })
         setIsContinueButtonDisabled(true);
         fileInputs.current[index].value = '';
         return;
