@@ -27,6 +27,23 @@ function Postulacion() {
   const [detalles, setDetalles] = useState('');
 
 
+  // Filtrar opciones de departamento basadas en sede
+  const opcionesDepartamentosUnicos = opcionesDepartamentos.filter(
+    (opcion) => opcion.sede_id === sede
+  );
+
+  // Filtrar opciones de campo amplio basadas en departamento
+  const opcionesAmplioUnicas = opcionesAmplio.filter(
+    (opcion) => opcion.dept_id === departamento
+  );
+
+  // Filtrar opciones de campo específico basadas en campo amplio
+  const opcionesEspecificoUnicas = opcionesEspecifico.filter(
+    (opcion) => opcion.ca_id === amplio
+  );
+
+
+
   const mostrarDetalles = (vacantes, tiempo, ofe_id) => {
     const datosOferta = obtenerDatos();
     console.log(ofe_id)
@@ -524,8 +541,8 @@ function Postulacion() {
                     onChange={(e) => {
                       setDepartamento(e.target.value);
                       ocultarTabla();
-                      setAmplio('');
-                      setEspecifico('');
+                      setAmplio("");
+                      setEspecifico("");
                     }}
                     value={departamento}
                   >
