@@ -10,12 +10,12 @@ const getAllSolicitudes = async (req, res) => {
 };
 
 const createSolicitud = async (req, res) => {
-  const { cand_id, sol_id, rh_id, sol_aprobacion,ofe_id,nota_final  } = req.body;
+  const { cand_id, rh_id, ofe_id } = req.body;
 
   try {
     const result = await pool.query(
-      'INSERT INTO public.solicitud (cand_id, sol_id, rh_id, sol_aprobacion, ofe_id, nota_final) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [cand_id, sol_id, rh_id, sol_aprobacion,ofe_id,nota_final]
+      'INSERT INTO public.solicitud (cand_id, rh_id, ofe_id, nota_final, sol_aprobacion) VALUES ($1, $2, $3, $4, $5)',
+      [cand_id, rh_id, ofe_id, null, null]
     );
 
     res.status(201).json(result.rows[0]);

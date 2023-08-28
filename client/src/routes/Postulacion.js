@@ -45,6 +45,7 @@ function Postulacion() {
 
 
   const mostrarDetalles = (vacantes, tiempo, ofe_id) => {
+    const candId = localStorage.getItem("cand_id");
     const datosOferta = obtenerDatos();
     console.log(ofe_id)
     setDetalles(`Vacantes: ${vacantes}, Tiempo: ${tiempo}`);
@@ -61,17 +62,36 @@ function Postulacion() {
     }).then((value) => {
       console.log(value)
       if (value) {
-        postularOferta(ofe_id);
+        postularOferta(ofe_id, candId);
         postulacionExitosa();
         navigate("/postulacion"); // Navega a "/home" si se hace clic en "Postular"
       }
     });
 
   };
-  function postularOferta(ofertaId) {
-
-    console.log(`Postulación para oferta con ID: ${ofertaId}`);
-  };
+  async function postularOferta(ofe_id, candId) {
+    try {
+      const response = await axios.post(`http://localhost:5000/solicitudes`, { cand_id: candId, rh_id:1, ofe_id:ofe_id });
+      console.log('Solicitud actualizada:', response.data);
+      swal({
+        title: '',
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `Su postulación ha sigo guardada con éxito<br/>`,
+          },
+        },
+        icon: '',
+        button: "Aceptar",
+      }).then(() => {
+        navigate("/homepost");
+      });
+    } catch (error) {
+      console.error('Error al actualizar la solicitud:', error);
+    }
+  
+    console.log(`Postulación para oferta con ID: ${ofe_id}  y Candidato con ID: ${candId}`);
+  }
 
   function mostrar() {
     // Obtener el elemento con el id "tabla"
