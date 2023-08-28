@@ -1,35 +1,4 @@
 
-/* Estilo para la alerta */
-.pdf-alert {
-  display: flex;
-  align-items: center;
-  background-color: #f44336;
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s, transform 0.3s;
-  z-index: 1;
-}
-
-.pdf-alert.pdf-alert-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.pdf-alert-icon {
-  margin-right: 10px;
-}
-
-/* Estilo para el ícono */
-.pdf-alert-icon svg {
-  font-size: 24px;
-}
-
 /* Resto de tus estilos CSS */
 
 .mm-popup__close {
