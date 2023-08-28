@@ -23,6 +23,7 @@ export function InforPost() {
   const fileInputs = useRef([]); 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const candidatoId = localStorage.getItem("cand_id");
@@ -60,7 +61,7 @@ export function InforPost() {
     if (file) {
       const fileExtension = file.name.split('.').pop().toLowerCase();
       if (fileExtension !== 'pdf'){
-        alert('Por favor seleccione un archivo PDF.');
+        setShowErrorModal(true);
         setIsContinueButtonDisabled(true);
         fileInputs.current[index].value = '';
         return;
@@ -248,6 +249,41 @@ export function InforPost() {
               Salir
             </button>
           </div>
+        </div>
+      </ReactModal>
+
+      <ReactModal
+        isOpen={showErrorModal}
+        onRequestClose={() => setShowErrorModal(false)}
+        style={{
+          content: {
+            width: "25%",
+            top: "30%",
+            left: "37%",
+            bottom: "35%",
+            borderRadius: "10px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e0e0e0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center", // Centrar contenido horizontalmente
+            justifyContent: "center", // Centrar contenido verticalmente
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <p>Por favor seleccione un archivo PDF.</p>
+          <img
+            src="https://cdn.dribbble.com/users/251873/screenshots/9388228/error-img.gif"
+            alt="Imagen de advertencia"
+            style={{ width: "100px", height: "100px", marginBottom: "10px" }}
+          />
+          <br/>
+          <button onClick={() => setShowErrorModal(false)}>Cerrar</button>
         </div>
       </ReactModal>
     </Container>
