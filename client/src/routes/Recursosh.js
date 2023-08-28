@@ -26,6 +26,8 @@ import {
   Solicitud,
   getDocumentos,
 } from "../services/api";
+import axios from "axios";
+import swal from "sweetalert";
 
 const Recursosh = () => {
   const [solicitud, setSolicitud] = useState({});
@@ -41,7 +43,7 @@ const Recursosh = () => {
   const [campoespecifico, setCampoespecifico] = useState([]);
   const [departamento, setDepartamento] = useState([]);
   const navigate = useNavigate();
- 
+
   const [botonVerificado, setBotonVerificado] = useState(false);
 
   useEffect(() => {
@@ -69,34 +71,58 @@ const Recursosh = () => {
       setCampoespecifico(campoespecifico);
       const solicitud = await Solicitud();
       setSolicitud(solicitud);
-     
+
     }
 
     fetchData();
   }, []);
 
-  const handleSubmitAceptado = (candidatoId) => {
-    
-    const updatedSolicitud = solicitud.map((s) =>
-      s.cand_id === candidatoId
-        ? { ...s, sol_aprobacion: true } 
-        : s
-    );
-    setSolicitud(updatedSolicitud);
+  const handleSubmitAceptado = async (candId, notaFinal) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: notaFinal, estado: true });
+      console.log('Solicitud actualizada:', response.data);
+      swal({
+        title: '',
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `Se ha cargado correctamente el estado Aceptado<br/>`,
+          },
+        },
+        icon: '',
+        button: "Aceptar",
+      }).then(() => {
+        navigate("/recursosh");
+      });
+    } catch (error) {
+      console.error('Error al actualizar la solicitud:', error);
+    }
   };
 
-  const handleSubmitRechazado = (candidatoId) => {
-    
-    const updatedSolicitud = solicitud.map((s) =>
-      s.cand_id === candidatoId
-        ? { ...s, sol_aprobacion: false } 
-        : s
-    );
-    setSolicitud(updatedSolicitud);
+  const handleSubmitRechazado = async (candId, notaFinal) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: notaFinal, estado: false });
+      console.log('Solicitud actualizada:', response.data);
+      swal({
+        title: '',
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `Se ha cargado correctamente el estado Rechazado<br/>`,
+          },
+        },
+        icon: '',
+        button: "Aceptar",
+      }).then(() => {
+        navigate("/recursosh");
+      });
+    } catch (error) {
+      console.error('Error al actualizar la solicitud:', error);
+    }
   };
 
   const handleContinue = (candidatosData) => {
-  
+
     navigate("/recursosvercandidato", { state: candidatosData });
   };
 
@@ -105,7 +131,7 @@ const Recursosh = () => {
       <NavpostAdmin />
 
       <div className="offer-selector">
-       
+
         <h1>Seleccion de Postulantes</h1>
         <div className="table-containerRecursos">
           <table>
@@ -136,11 +162,11 @@ const Recursosh = () => {
                 const estadoVerificacion = solicitudCorrespondiente
                   ? solicitudCorrespondiente.sol_aprobacion
                   : false;
-                  const estadoTexto = estadoVerificacion
-                  ? "Verificado"
+                const estadoTexto = estadoVerificacion
+                  ? "Aceptado"
                   : solicitudCorrespondiente && !solicitudCorrespondiente.sol_aprobacion
-                  ? "Rechazado"
-                  : "Pendiente";
+                    ? "Rechazado"
+                    : "Pendiente";
 
                 return (
                   <tr key={candidato.cand_num_identificacion}>
@@ -160,19 +186,19 @@ const Recursosh = () => {
                     </td>
                     <td>{estadoTexto}</td>{" "}
                     <td>
-  <button
-    onClick={() => handleSubmitAceptado(candidato.cand_id)}
-    className="green-button"
-  >
-    <FontAwesomeIcon icon={faCheck} />
-  </button>
-  <button
-    onClick={() => handleSubmitRechazado(candidato.cand_id)}
-    className="red-button"
-  >
-    <FontAwesomeIcon icon={faTimes} />
-  </button>
-</td>
+                      <button
+                        onClick={() => handleSubmitAceptado(candidato.cand_id, notaFinal)}
+                        className="green-button"
+                      >
+                        <FontAwesomeIcon icon={faCheck} />
+                      </button>
+                      <button
+                        onClick={() => handleSubmitRechazado(candidato.cand_id, notaFinal)}
+                        className="red-button"
+                      >
+                        <FontAwesomeIcon icon={faTimes} />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

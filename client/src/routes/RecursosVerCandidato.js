@@ -207,7 +207,7 @@ const RecursosVerCandidato = () => {
   }
   const actualizarNotaFinal = async (candId, nuevaNotaFinal, nombre, apellido) => {
     try {
-      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: nuevaNotaFinal });
+      const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: nuevaNotaFinal, estado: null });
       console.log('Solicitud actualizada:', response.data);
       swal({
         title: '',
