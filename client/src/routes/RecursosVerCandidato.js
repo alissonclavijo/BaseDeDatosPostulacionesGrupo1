@@ -56,8 +56,7 @@ const RecursosVerCandidato = () => {
   const handleClick = () => {
     console.log(candidatosData.cand_id)
     console.log(notaFinal)
-
-    actualizarNotaFinal(candidatosData.cand_id, notaFinal);
+    actualizarNotaFinal(candidatosData.cand_id, notaFinal, candidatosData.cand_nombre1, candidatosData.cand_apellido1);
   };
   const calificarTitulo = (titulo) => {
     // Obtener el valor seleccionado
@@ -206,12 +205,25 @@ const RecursosVerCandidato = () => {
       setPuntExpProfesional(3.00);
     }
   }
-  const actualizarNotaFinal = async (candId, nuevaNotaFinal) => {
+  const actualizarNotaFinal = async (candId, nuevaNotaFinal, nombre, apellido) => {
     console.log("asdfgh")
-    
+
     try {
       const response = await axios.put(`http://localhost:5000/solicitudes/${candId}`, { nota_final: nuevaNotaFinal });
       console.log('Solicitud actualizada:', response.data);
+      swal({
+        title: '',
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `Se ha cargado correctamente la puntuación de ${nuevaNotaFinal} al candidato ${nombre} ${apellido}<br/>`,
+          },
+        },
+        icon: '',
+        button: "Aceptar",
+      }).then(() => {
+        navigate("/recursosh");
+      });
     } catch (error) {
       console.error('Error al actualizar la solicitud:', error);
     }
