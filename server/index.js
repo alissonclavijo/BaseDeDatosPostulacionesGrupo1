@@ -107,7 +107,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
       const [timestamp, extension] = uniqueFilename.split('-');
       const serialNumber = parseInt(timestamp);
 
-      const id_documento = `${serialNumber}-${numPages}.pdf`; // Agrega el número de páginas al ID
+      const id_documento = `${serialNumber}-.pdf`; // Agrega el número de páginas al ID
 
       const doc = new PDF({
         cand_id,
