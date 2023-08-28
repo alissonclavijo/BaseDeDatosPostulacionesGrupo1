@@ -24,7 +24,6 @@ export function InforPost() {
   const fileInputs = useRef([]); 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const candidatoId = localStorage.getItem("cand_id");
@@ -62,7 +61,7 @@ export function InforPost() {
     if (file) {
       const fileExtension = file.name.split('.').pop().toLowerCase();
       if (fileExtension !== 'pdf'){
-        setShowErrorModal(true);
+        alert('Por favor seleccione un archivo PDF.');
         setIsContinueButtonDisabled(true);
         fileInputs.current[index].value = '';
         return;
@@ -102,8 +101,7 @@ export function InforPost() {
       <Form>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ paddingLeft: "150px" }}><h2>Documentos que se debe enviar</h2></div>
-          <div style={{ paddingRight: "1px" }}><h2>Previsualizar</h2></div>
-          <div style={{ paddingRight: "30px" }}><h2>#</h2></div>
+          <div style={{ paddingRight: "70px" }}><h2>#</h2></div>
           
         </div>
         {documentLabels.map((label, index) => (
@@ -122,7 +120,7 @@ export function InforPost() {
           </div>
           <div>
             {/*<a href={linkPDF[index]} target="_blank" rel="noreferrer"><button onClick={(e) => e.preventDefault()}>📄 Previsualizar</button></a>*/}
-            {sheetsCount[index] > 0 && <p style={{ paddingRight: "1px" }}> {sheetsCount[index]} hojas</p>}
+            {sheetsCount[index] > 0 && <p style={{ paddingRight: "30px" }}> {sheetsCount[index]} hojas</p>}
           </div>
         </div>
         
@@ -252,41 +250,6 @@ export function InforPost() {
               Salir
             </button>
           </div>
-        </div>
-      </ReactModal>
-
-      <ReactModal
-        isOpen={showErrorModal}
-        onRequestClose={() => setShowErrorModal(false)}
-        style={{
-          content: {
-            width: "25%",
-            top: "30%",
-            left: "37%",
-            bottom: "35%",
-            borderRadius: "10px",
-            backgroundColor: "#ffffff",
-            border: "1px solid #e0e0e0",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center", // Centrar contenido horizontalmente
-            justifyContent: "center", // Centrar contenido verticalmente
-          },
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.15)",
-            zIndex: 1000,
-          },
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <p>Por favor seleccione un archivo PDF.</p>
-          <img
-            src="https://cdn.dribbble.com/users/251873/screenshots/9388228/error-img.gif"
-            alt="Imagen de advertencia"
-            style={{ width: "100px", height: "100px", marginBottom: "10px" }}
-          />
-          <br/>
-          <button onClick={() => setShowErrorModal(false)}>Cerrar</button>
         </div>
       </ReactModal>
     </Container>
