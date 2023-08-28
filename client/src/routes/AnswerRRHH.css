@@ -4,7 +4,7 @@
 
 .gif2{
     width: 50%;
-    height: 500px;
+    height: 448px;
 }
 
 .span2{
@@ -28,3 +28,11 @@
 @keyframes blinck{
     from {width:0}
 }
+
+.botonPostulantes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Espacio desde arriba */
+    margin-bottom: 20px; /* Espacio desde abajo */
+  }

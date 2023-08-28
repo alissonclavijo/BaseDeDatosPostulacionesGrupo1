@@ -61,7 +61,7 @@ const Login = () => {
       navigate("/homepost");
     } else if (rechum) {
       localStorage.setItem("tokenRechum", "true");
-      navigate("/recursosh") ;
+      navigate("/answerRRHH") ;
     } else {
       swal("Sus credenciales son incorrectas");
     }
