@@ -10,11 +10,12 @@ function Answer() {
     const [solicitud, setSolicitud] = useState({});
     const [solicitudEncontrada, setSolicitudEncontrada] = useState(true);
 
+   
     useEffect(() => {
         async function fetchData() {
             try {
                 const solicitudes = await Solicitud();
-                const solicitudParaCandidato = solicitudes.find(s => s.cand_id === cand_id);
+                const solicitudParaCandidato = solicitudes.find(s => s.cand_id === parseInt(cand_id));
                 if (solicitudParaCandidato) {
                     setSolicitud(solicitudParaCandidato);
                 } else {
@@ -42,7 +43,7 @@ function Answer() {
             </div>
             
             <div>
-                {solicitudEncontrada && solicitud.sol_aprobacion === true ?  <Rejected />: <Accepted /> }
+                {solicitudEncontrada && solicitud.sol_aprobacion === true ?   <Accepted /> : <Rejected />}
             </div>
         </>
     )
