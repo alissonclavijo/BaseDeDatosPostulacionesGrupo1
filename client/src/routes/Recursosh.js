@@ -96,19 +96,19 @@ const Recursosh = () => {
       <div className="offer-selector">
        
         <h1>Seleccion de Postulantes</h1>
-        <div className="table-container">
+        <div className="table-containerRecursos">
           <table>
             <thead>
               <tr>
-                <th>Cédula</th>
-                <th>Nombre y Apellido</th>
-                <th>Título</th>
-                <th>Puntuaciones</th>
-                <th>Evaluar </th>
-                <th>Estado</th>
-                <th>Selección</th>
+                <th className="textRecursos">Cédula</th>
+                <th className="textRecursos">Nombre y Apellido</th>
+                <th className="textRecursos">Título</th>
+                <th className="textRecursos">Puntuaciones</th>
+                <th className="textRecursos">Evaluar </th>
+                <th className="textRecursos">Estado</th>
+                <th className="textRecursos">Selección</th>
               </tr>
-            </thead>
+            </thead> 
             <tbody>
               {candidatosData.map((candidato) => {
                 // Buscar la solicitud correspondiente en la tabla de solicitudes
@@ -139,7 +139,7 @@ const Recursosh = () => {
                       <div className="btn-container">
                         <button
                           onClick={() => handleContinue(candidato)}
-                          className="yellow-button"
+                          className="buttonPostulacion"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />
                         </button>
