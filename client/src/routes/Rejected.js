@@ -1,9 +1,8 @@
-import Navpost from '../components/Navpost';
 import './Answer.css'
 function Rejected (){
     return(
         <>
-        <Navpost/>
+       
         <div>   
             <div className='answer1'>
                 <h1 className='span1'>Después de un proceso de evaluación minucioso y exhaustivo,</h1>

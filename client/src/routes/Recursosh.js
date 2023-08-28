@@ -74,10 +74,16 @@ const Recursosh = () => {
     fetchData();
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmitAceptado = () => {
     // Lógica para enviar los resultados
-    alert("Resultados enviados con éxito");
+   
   };
+
+  const handleSubmitRechazado = () => {
+    // Lógica para enviar los resultados
+   
+  };
+
   const handleContinue = (candidatosData) => {
     // Lógica para enviar los resultados
     navigate("/recursosvercandidato", { state: candidatosData });
@@ -90,17 +96,17 @@ const Recursosh = () => {
       <div className="offer-selector">
        
         <h1>Seleccion de Postulantes</h1>
-        <div className="table-container">
+        <div className="table-containerRecursos">
           <table>
             <thead>
               <tr>
-                <th>Cédula</th>
-                <th>Nombre y Apellido</th>
-                <th>Título</th>
-                <th>Puntuaciones</th>
-                <th>Evaluar </th>
-                <th>Estado</th>
-                <th>Selección</th>
+                <th className="textRecursos">Cédula</th>
+                <th className="textRecursos">Nombre y Apellido</th>
+                <th className="textRecursos">Título</th>
+                <th className="textRecursos">Puntuaciones</th>
+                <th className="textRecursos">Evaluar </th>
+                <th className="textRecursos">Estado</th>
+                <th className="textRecursos">Selección</th>
               </tr>
             </thead>
             <tbody>
@@ -133,7 +139,7 @@ const Recursosh = () => {
                       <div className="btn-container">
                         <button
                           onClick={() => handleContinue(candidato)}
-                          className="yellow-button"
+                          className="buttonPostulacion"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />
                         </button>
@@ -141,10 +147,10 @@ const Recursosh = () => {
                     </td>
                     <td>{estadoTexto}</td>{" "}
                     <td>
-                    <button onClick={handleSubmit} className="green-button">
+                    <button onClick={handleSubmitAceptado} className="green-button">
                           <FontAwesomeIcon icon={faCheck} />
                         </button>
-                        <button onClick={handleSubmit} className="red-button">
+                        <button onClick={handleSubmitRechazado} className="red-button">
                           <FontAwesomeIcon icon={faTimes} />
                         </button>
                     </td>

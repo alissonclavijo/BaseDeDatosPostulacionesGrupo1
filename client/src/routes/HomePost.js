@@ -19,7 +19,7 @@ const HomePost = () => {
       <div className='intro'>
         <div className='i-left'>
           <div className='i-name'>
-            <span className='welcome'> Bienvenido {candidatoNombre}</span>
+            <span className='welcome'> Bienvenid@ {candidatoNombre}</span>
             <span>Al Concurso de Mérito y Oposición! Esperamos que esta experiencia académica 
               sea enriquecedora para todos. ¡Éxito en su postulación!</span>
           </div>
@@ -29,22 +29,20 @@ const HomePost = () => {
           <div className='i-documents'>
             <h1>Formato De Documentos</h1>
             <span>Hoja de vida formato ESPE</span>
-            <img src={Excel} alt=""/>
+            <img src={Pdf} alt=""/>
           </div>
 
           <div className='i-documents'>
             <span>Certificados Experiencia Profesional Docente</span>
             <img src={Pdf} alt=""/>
-            <img src={Word} alt=""/>
           </div>
 
           <div className='i-documents'>
             <span>Certificados Experiencia Profesional</span>
             <img src={Pdf} alt=""/>
-            <img src={Word} alt=""/>
           </div>
 
-          <div className='i-documents'>
+          <div className='botonPostula'>
             <button ><Link to={"/InforPost"} className='link'>Postulacion</Link></button>
           </div>
 

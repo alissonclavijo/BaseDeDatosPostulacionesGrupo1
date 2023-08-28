@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../../routes/RecursosVerCandidato.css";
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const Documentos = ({ documentos }) => {
   const [documentosFiltrados, setDocumentosFiltrados] = useState([]);
@@ -46,10 +47,10 @@ const Documentos = ({ documentos }) => {
       <table>
         <thead>
           <tr>
-            <th>Tipo de Documento</th>
-            <th>Documento</th>
-            <th>Número de Hojas</th>
-            <th>Ver Documento</th>
+            <th className="first-column">Tipo de Documento</th>
+            <th className="second-column">Documento</th>
+            <th  className="third-column">Número de Hojas</th>
+            <th className="fourd-column">Ver Documento</th>
           </tr>
         </thead>
         <tbody>
@@ -65,7 +66,7 @@ const Documentos = ({ documentos }) => {
                   }
                   className="yellow-button"
                 >
-                  <FontAwesomeIcon icon={faDownload} />
+                  <FontAwesomeIcon icon={faEye} /> {/* Icono de ojo */}
                 </button>
               </td>
             </tr>

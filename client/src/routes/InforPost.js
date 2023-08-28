@@ -8,6 +8,7 @@ import Navpost from '../components/Navpost';
 import { useLocation } from "react-router-dom";
 
 
+
 export function InforPost() {
   const documentLabels = [
     "Hoja de vida formato ESPE",
@@ -100,8 +101,10 @@ export function InforPost() {
       <h1>Subir Documentos</h1>
       <Form>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ paddingLeft: "120px" }}><h2>Documentos que se debe enviar</h2></div>
-          <div style={{ paddingRight: "90px" }}><h2>#</h2></div>
+          <div style={{ paddingLeft: "150px" }}><h2>Documentos que se debe enviar</h2></div>
+          <div style={{ paddingRight: "1px" }}><h2>Previsualizar</h2></div>
+          <div style={{ paddingRight: "30px" }}><h2>#</h2></div>
+          
         </div>
         {documentLabels.map((label, index) => (
           
@@ -119,7 +122,7 @@ export function InforPost() {
           </div>
           <div>
             {/*<a href={linkPDF[index]} target="_blank" rel="noreferrer"><button onClick={(e) => e.preventDefault()}>📄 Previsualizar</button></a>*/}
-            {sheetsCount[index] > 0 && <p style={{ paddingRight: "70px" }}> {sheetsCount[index]} hojas</p>}
+            {sheetsCount[index] > 0 && <p style={{ paddingRight: "1px" }}> {sheetsCount[index]} hojas</p>}
           </div>
         </div>
         

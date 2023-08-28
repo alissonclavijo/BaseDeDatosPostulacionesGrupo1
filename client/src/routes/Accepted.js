@@ -1,9 +1,8 @@
-import Navpost from '../components/Navpost';
 import './Answer.css'
 function Accepted (){
     return(
         <>
-        <Navpost/>
+      
         <div>
             <div className='answer1'>
                 <h1 className='span1'>Nos complace enormemente informarte que has sido seleccionado/a  </h1>
@@ -18,6 +17,7 @@ function Accepted (){
 
         </div>
         
+
         </>
     )
 }

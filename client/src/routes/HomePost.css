@@ -1,82 +1,86 @@
-.intro{
-    padding-left: 250px;
+.intro {
+    padding-left: 245px;
     display: flex;
     height: 77vh;
-    margin-top: 6rem;
+    margin-top: 5rem;
 }
 
-.i-left{
+.i-left {
     display: flex;
     position: relative;
-    flex:1;
+    flex: 1;
     flex-direction: column;
     gap: 2rem;
 }
 
-.i-name{
+.i-name {
     display: flex;
     flex-direction: column;
     margin-top: -50px;
 }
 
-.i-name .welcome{
+.i-name .welcome {
     text-align: center;
+    margin-top: 0px;
 }
 
-.i-name>:nth-child(1){
+.i-name>:nth-child(1) {
     color: #30695F;
     font-weight: bold;
     font-size: 3rem;
 }
 
-.i-name>:nth-child(2){
+.i-name>:nth-child(2) {
     font-weight: 500;
     font-size: 14px;
     color: #000000;
     margin-top: 10px;
 }
 
-.i-documents{
+.i-documents {
     text-align: center;
+    margin-top: 0.1px;
 }
 
-.i-documents h1{
+.i-documents h1 {
     text-align: center;
     padding-bottom: 20px;
+    margin-top: 0.1px;
 }
 
 
-.i-documents img{
+.i-documents img {
     width: 30px;
     height: 30px;
     vertical-align: middle;
     margin-left: 20px;
+    margin-top: 0.1px;
 }
 
 
-.i-right{
+.i-right {
     flex: 1.5;
     position: relative;
 }
 
-.i-right>*{
+.i-right>* {
     position: absolute;
     z-index: 1;
 }
 
-.i-right>:nth-child(1){
+.i-right>:nth-child(1) {
     transform: scale(0.69);
     top: -9%;
     left: -10%;
 }
 
-.i-right>:nth-child(2){
+.i-right>:nth-child(2) {
     transform: scale(1.4);
     left: 28%;
     top: 10%;
 }
 
-.vector img{
+.vector img {
     width: 750px;
 }
 
@@ -93,3 +97,12 @@
     height: 30px;
     vertical-align: middle;
     margin-right: 10px;*/
+
+.botonPostula {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    /* Espacio desde arriba */
+    margin-bottom: 10px;
+}
